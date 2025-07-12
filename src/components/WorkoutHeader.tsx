@@ -8,24 +8,31 @@ interface WorkoutHeaderProps {
 
 export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive }: WorkoutHeaderProps) => {
   return (
-    <div className="bg-gradient-primary text-primary-foreground p-6 rounded-b-3xl shadow-workout">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-white/10 rounded-xl">
-            <Dumbbell className="h-6 w-6" />
+    <div className="bg-gradient-primary text-primary-foreground p-8 rounded-b-3xl shadow-workout relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-4 right-4 w-32 h-32 rounded-full bg-white/5" />
+        <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-white/5" />
+      </div>
+      
+      <div className="relative flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-white/15 rounded-2xl backdrop-blur-sm">
+            <Dumbbell className="h-7 w-7" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Sets&Reps</h1>
-            <p className="text-primary-foreground/80">Workout Tracker</p>
+            <h1 className="text-3xl font-bold tracking-tight">Sets&Reps</h1>
+            <p className="text-primary-foreground/90 text-lg font-medium">Workout Tracker</p>
           </div>
         </div>
         {!isWorkoutActive && (
           <Button
             onClick={onStartWorkout}
             variant="secondary"
-            className="bg-white/10 hover:bg-white/20 border-white/20 text-white shadow-accent"
+            size="lg"
+            className="bg-white/15 hover:bg-white/25 border-white/30 text-white shadow-accent backdrop-blur-sm font-semibold"
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-5 w-5 mr-2" />
             Start Workout
           </Button>
         )}
