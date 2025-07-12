@@ -68,7 +68,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
       });
       
       setNewReps("");
-      setShowRestTimer(true);
+      // Don't auto-start timer - user can manually start it
       // Keep weight for next set
     }
   };
