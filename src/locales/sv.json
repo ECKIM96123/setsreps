@@ -184,5 +184,11 @@
     "personalRecords": "Personliga rekord",
     "limited": "Begränsad",
     "moreRecordsInPremium": "fler rekord i Premium"
+  },
+  "validation": {
+    "repsRequired": "Reps krävs",
+    "repsRequiredDesc": "Vänligen ange ett giltigt antal reps (större än 0)",
+    "weightRequired": "Vikt krävs",
+    "weightRequiredDesc": "Vänligen ange en giltig vikt (större än 0)"
   }
 }

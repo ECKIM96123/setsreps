@@ -184,5 +184,11 @@
     "personalRecords": "Personal Records",
     "limited": "Limited",
     "moreRecordsInPremium": "more records in Premium"
+  },
+  "validation": {
+    "repsRequired": "Reps Required",
+    "repsRequiredDesc": "Please enter a valid number of reps (greater than 0)",
+    "weightRequired": "Weight Required", 
+    "weightRequiredDesc": "Please enter a valid weight (greater than 0)"
   }
 }

@@ -11,6 +11,7 @@ import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink, Crown, Trophy, Se
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
 import { usePremium } from "@/contexts/PremiumContext";
 import { PersonalRecord } from "@/hooks/usePersonalRecords";
+import { useToast } from "@/hooks/use-toast";
 
 export interface WorkoutSet {
   reps: number;
@@ -41,6 +42,7 @@ interface WorkoutExerciseProps {
 export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, onToggleSuperset, isInSuperset = false, supersetPosition = 'single', currentPR, onNewPR }: WorkoutExerciseProps) => {
   const { t } = useTranslation();
   const { isPremium, upgradeToPremium } = usePremium();
+  const { toast } = useToast();
   const [newWeight, setNewWeight] = useState("");
   const [newReps, setNewReps] = useState("");
   const [showRestTimer, setShowRestTimer] = useState(false);
@@ -57,34 +59,51 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
     const weight = parseFloat(newWeight) || 0;
     const reps = parseInt(newReps) || 0;
     
-    if (reps > 0) {
-      // Check for new PR - compare single set volume (weight × reps)
-      const setVolume = weight * reps;
-      const isNewPR = !currentPR || setVolume > currentPR.volume;
-      
-      if (isNewPR && weight > 0 && onNewPR) {
-        onNewPR(exercise.name, weight, reps);
-      }
-
-      const newSet: WorkoutSet = {
-        reps,
-        weight,
-        completed: true // Automatically mark as completed when added
-      };
-      
-      onUpdateExercise({
-        ...exercise,
-        sets: [...exercise.sets, newSet]
+    // Validation with notifications
+    if (!newReps || reps <= 0) {
+      toast({
+        title: t('validation.repsRequired'),
+        description: t('validation.repsRequiredDesc'),
+        variant: "destructive",
       });
-      
-      setNewReps("");
-      
-      // Auto-start timer if setting is enabled
-      if (autoStartTimer) {
-        setShowRestTimer(true);
-      }
-      // Keep weight for next set
+      return;
     }
+
+    if (!newWeight || weight <= 0) {
+      toast({
+        title: t('validation.weightRequired'),
+        description: t('validation.weightRequiredDesc'),
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Check for new PR - compare single set volume (weight × reps)
+    const setVolume = weight * reps;
+    const isNewPR = !currentPR || setVolume > currentPR.volume;
+    
+    if (isNewPR && weight > 0 && onNewPR) {
+      onNewPR(exercise.name, weight, reps);
+    }
+
+    const newSet: WorkoutSet = {
+      reps,
+      weight,
+      completed: true // Automatically mark as completed when added
+    };
+    
+    onUpdateExercise({
+      ...exercise,
+      sets: [...exercise.sets, newSet]
+    });
+    
+    setNewReps("");
+    
+    // Auto-start timer if setting is enabled
+    if (autoStartTimer) {
+      setShowRestTimer(true);
+    }
+    // Keep weight for next set
   };
 
   const toggleSetComplete = (index: number) => {
