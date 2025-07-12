@@ -203,10 +203,10 @@ export const WorkoutApp = () => {
     const programExercises: Exercise[] = program.exercises.map(ex => {
       // Parse reps to get number or handle ranges/special cases
       const parseReps = (repsString: string): number => {
-        // Handle ranges like "8-10", take the middle value
+        // Handle ranges like "8-10", take the minimum value
         if (repsString.includes('-')) {
-          const [min, max] = repsString.split('-').map(num => parseInt(num.trim()));
-          return Math.floor((min + max) / 2);
+          const [min] = repsString.split('-').map(num => parseInt(num.trim()));
+          return min; // Use minimum value from range
         }
         // Handle "each leg/arm" cases - extract the number
         if (repsString.includes('each')) {
