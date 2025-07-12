@@ -5,8 +5,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { RestTimer } from "./RestTimer";
-import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink } from "lucide-react";
+import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink, Crown } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
+import { usePremium } from "@/contexts/PremiumContext";
 
 export interface WorkoutSet {
   reps: number;
@@ -33,6 +34,7 @@ interface WorkoutExerciseProps {
 }
 
 export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, onToggleSuperset, isInSuperset = false, supersetPosition = 'single' }: WorkoutExerciseProps) => {
+  const { isPremium, upgradeToPremium } = usePremium();
   const [newWeight, setNewWeight] = useState("");
   const [newReps, setNewReps] = useState("");
   const [showRestTimer, setShowRestTimer] = useState(false);
@@ -188,14 +190,23 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
             <Button
               variant="ghost"
               size="sm"
-              onClick={onToggleSuperset}
-              className={`h-8 w-8 p-0 transition-colors ${
+              onClick={isPremium ? onToggleSuperset : upgradeToPremium}
+              className={`h-8 w-8 p-0 transition-colors relative ${
                 isInSuperset 
                   ? 'text-orange-600 hover:text-orange-700 bg-orange-100' 
-                  : 'text-muted-foreground hover:text-orange-600'
+                  : isPremium
+                    ? 'text-muted-foreground hover:text-orange-600'
+                    : 'text-muted-foreground hover:text-primary'
               }`}
-              title={isInSuperset ? 'Remove from superset' : 'Add to superset'}
+              title={
+                !isPremium 
+                  ? 'Upgrade to Premium for Supersets' 
+                  : isInSuperset 
+                    ? 'Remove from superset' 
+                    : 'Add to superset'
+              }
             >
+              {!isPremium && <Crown className="h-3 w-3 absolute -top-1 -right-1 text-primary" />}
               {isInSuperset ? <Unlink className="h-4 w-4" /> : <Link className="h-4 w-4" />}
             </Button>
           )}
