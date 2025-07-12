@@ -11,28 +11,42 @@ interface WorkoutHeaderProps {
 
 export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWorkout, onResumeWorkout }: WorkoutHeaderProps) => {
   return (
-    <header className="bg-card border-b border-border backdrop-blur-sm sticky top-0 z-50">
+    <div className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo and Title */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 bg-primary text-primary-foreground rounded-lg shadow-sm">
-              <Dumbbell className="h-5 w-5" />
+            <div className="flex items-center justify-center w-12 h-12 bg-gradient-primary rounded-xl shadow-workout">
+              <Dumbbell className="h-6 w-6 text-primary-foreground" />
             </div>
             <div className="flex flex-col">
-              <h1 className="text-xl font-bold tracking-tight text-foreground">Sets&Reps</h1>
-              <p className="text-sm text-muted-foreground hidden sm:block">Your workout companion</p>
+              <h1 className="text-2xl font-bold tracking-tight bg-gradient-primary bg-clip-text text-transparent">
+                Sets&Reps
+              </h1>
+              <p className="text-sm text-muted-foreground hidden sm:block">Your fitness journey starts here</p>
             </div>
           </div>
           
           {/* Actions */}
           <div className="flex items-center gap-3">
+            {!isWorkoutActive && !hasInProgressWorkout && (
+              <Button
+                onClick={onStartWorkout}
+                variant="workout"
+                size="sm"
+                className="hidden sm:flex shadow-workout"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Start Workout
+              </Button>
+            )}
+            
             {!isWorkoutActive && hasInProgressWorkout && (
               <Button
                 onClick={onResumeWorkout}
-                variant="workout"
+                variant="accent"
                 size="sm"
-                className="hidden sm:flex shadow-sm hover:shadow-workout"
+                className="hidden sm:flex shadow-accent"
               >
                 <Timer className="h-4 w-4 mr-2" />
                 Resume Workout
@@ -42,21 +56,33 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
           </div>
         </div>
         
-        {/* Mobile Resume Button */}
-        {!isWorkoutActive && hasInProgressWorkout && (
-          <div className="mt-3 sm:hidden">
+        {/* Mobile Action Buttons */}
+        <div className="mt-4 sm:hidden">
+          {!isWorkoutActive && !hasInProgressWorkout && (
             <Button
-              onClick={onResumeWorkout}
+              onClick={onStartWorkout}
               variant="workout"
               size="sm"
-              className="w-full shadow-sm"
+              className="w-full shadow-workout"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Start Workout
+            </Button>
+          )}
+          
+          {!isWorkoutActive && hasInProgressWorkout && (
+            <Button
+              onClick={onResumeWorkout}
+              variant="accent"
+              size="sm"
+              className="w-full shadow-accent"
             >
               <Timer className="h-4 w-4 mr-2" />
               Resume Workout
             </Button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </header>
+    </div>
   );
 };
