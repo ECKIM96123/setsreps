@@ -8,9 +8,10 @@ interface WorkoutLogProps {
   workouts: CompletedWorkout[];
   onStartWorkout: () => void;
   onViewHistory: () => void;
+  onViewStats: () => void;
 }
 
-export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory }: WorkoutLogProps) => {
+export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory, onViewStats }: WorkoutLogProps) => {
   const formatDate = (date: Date) => {
     const today = new Date();
     const yesterday = new Date(today);
@@ -67,7 +68,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory }: WorkoutL
       <div className="p-4 border-b">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Workout Log</h1>
-          <Button variant="ghost" size="sm" onClick={onViewHistory}>
+          <Button variant="ghost" size="sm" onClick={onViewStats}>
             <BarChart3 className="h-4 w-4" />
           </Button>
         </div>
@@ -165,7 +166,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory }: WorkoutL
             <Target className="h-5 w-5 mb-1" />
             <span className="text-xs">Workout</span>
           </Button>
-          <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onViewHistory}>
+          <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onViewStats}>
             <BarChart3 className="h-5 w-5 mb-1" />
             <span className="text-xs">Stats</span>
           </Button>

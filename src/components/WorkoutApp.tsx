@@ -7,11 +7,12 @@ import { WorkoutExercise, Exercise } from "./WorkoutExercise";
 import { WorkoutSummary } from "./WorkoutSummary";
 import { WorkoutHistory } from "./WorkoutHistory";
 import { WorkoutLog } from "./WorkoutLog";
+import { WorkoutStats } from "./WorkoutStats";
 import { useWorkoutStorage } from "@/hooks/useWorkoutStorage";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Timer, Target } from "lucide-react";
 
-type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'history';
+type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'history' | 'stats';
 
 export const WorkoutApp = () => {
   const [appState, setAppState] = useState<AppState>('idle');
@@ -133,12 +134,22 @@ export const WorkoutApp = () => {
     );
   }
 
+  if (appState === 'stats') {
+    return (
+      <WorkoutStats
+        workouts={workoutHistory}
+        onBack={() => setAppState('idle')}
+      />
+    );
+  }
+
   if (appState === 'idle') {
     return (
       <WorkoutLog 
         workouts={workoutHistory}
         onStartWorkout={startWorkout}
         onViewHistory={() => setAppState('history')}
+        onViewStats={() => setAppState('stats')}
       />
     );
   }
@@ -205,6 +216,14 @@ export const WorkoutApp = () => {
                   Finish Workout
                 </Button>
               )}
+              
+              <Button
+                onClick={cancelWorkout}
+                variant="outline"
+                className="px-4"
+              >
+                End
+              </Button>
             </div>
 
             {currentExercises.length === 0 && (
