@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { RestTimer } from "./RestTimer";
-import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink, Crown, Trophy } from "lucide-react";
+import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink, Crown, Trophy, Settings } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
 import { usePremium } from "@/contexts/PremiumContext";
 import { PersonalRecord } from "@/hooks/usePersonalRecords";
@@ -41,6 +42,14 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
   const [newWeight, setNewWeight] = useState("");
   const [newReps, setNewReps] = useState("");
   const [showRestTimer, setShowRestTimer] = useState(false);
+  const [autoStartTimer, setAutoStartTimer] = useState(() => {
+    const saved = localStorage.getItem('autoStartTimer');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('autoStartTimer', JSON.stringify(autoStartTimer));
+  }, [autoStartTimer]);
 
   const addSet = () => {
     const weight = parseFloat(newWeight) || 0;
@@ -68,7 +77,11 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
       });
       
       setNewReps("");
-      // Don't auto-start timer - user can manually start it
+      
+      // Auto-start timer if setting is enabled
+      if (autoStartTimer) {
+        setShowRestTimer(true);
+      }
       // Keep weight for next set
     }
   };
@@ -207,6 +220,39 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
           )}
         </div>
         <div className="flex items-center gap-2">
+          {/* Timer Settings */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 text-muted-foreground hover:text-primary"
+                title="Timer Settings"
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-sm">
+              <DialogHeader>
+                <DialogTitle>Timer Settings</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-medium">Auto-start timer</div>
+                    <div className="text-xs text-muted-foreground">
+                      Start rest timer when set is completed
+                    </div>
+                  </div>
+                  <Switch
+                    checked={autoStartTimer}
+                    onCheckedChange={setAutoStartTimer}
+                  />
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+          
           {onToggleSuperset && (
             <Button
               variant="ghost"
