@@ -77,25 +77,17 @@ export const WorkoutApp = () => {
   };
 
   const endWorkout = () => {
-    console.log('End workout clicked');
-    console.log('Current exercises:', currentExercises);
-    
     const completedSets = currentExercises.reduce((sum, ex) => 
       sum + ex.sets.filter(set => set.completed).length, 0
     );
     
-    console.log('Completed sets count:', completedSets);
-    
     if (completedSets > 0) {
-      console.log('Saving workout...');
       const workout = saveWorkout(currentExercises, workoutStartTime);
-      console.log('Saved workout:', workout);
       toast({
         title: "Workout Saved!",
         description: `Workout ended and saved with ${workout.totalSets} completed sets.`,
       });
     } else {
-      console.log('No completed sets, not saving');
       toast({
         title: "Workout Ended",
         description: "No sets were completed, so workout was not saved.",

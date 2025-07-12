@@ -38,7 +38,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
       const newSet: WorkoutSet = {
         reps,
         weight,
-        completed: false
+        completed: true // Automatically mark as completed when added
       };
       
       onUpdateExercise({
@@ -48,6 +48,9 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
       
       setNewReps("");
       // Keep weight for next set
+      
+      // Show rest timer after adding a set
+      setShowRestTimer(true);
     }
   };
 
@@ -65,6 +68,18 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
     if (!exercise.sets[index].completed) {
       setShowRestTimer(true);
     }
+  };
+
+  const editSet = (index: number, field: 'reps' | 'weight', value: string) => {
+    const numValue = field === 'reps' ? parseInt(value) || 0 : parseFloat(value) || 0;
+    const updatedSets = exercise.sets.map((set, i) => 
+      i === index ? { ...set, [field]: numValue } : set
+    );
+    
+    onUpdateExercise({
+      ...exercise,
+      sets: updatedSets
+    });
   };
 
   const deleteSet = (index: number) => {
@@ -111,71 +126,68 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
         </Button>
       </div>
 
-      {exercise.sets.length > 0 && (
-        <div className="space-y-2">
-          <div className="grid grid-cols-12 gap-2 text-xs font-medium text-muted-foreground px-2">
-            <div className="col-span-2">Set</div>
-            <div className="col-span-3">Weight</div>
-            <div className="col-span-3">Reps</div>
-            <div className="col-span-2">Done</div>
-            <div className="col-span-2"></div>
-          </div>
+        {exercise.sets.length > 0 && (
+          <div className="space-y-2">
+            <div className="grid grid-cols-12 gap-2 text-xs font-medium text-muted-foreground px-2">
+              <div className="col-span-2">Set</div>
+              <div className="col-span-4">Weight</div>
+              <div className="col-span-4">Reps</div>
+              <div className="col-span-2"></div>
+            </div>
           
-          {exercise.sets.map((set, index) => (
-            <div key={index} className={`grid grid-cols-12 gap-2 items-center p-2 rounded-lg transition-colors ${
-              set.completed ? 'bg-success/10' : 'bg-muted/30'
-            }`}>
-              <div className="col-span-2 text-sm font-medium">
-                {index + 1}
-              </div>
-              <div className="col-span-3 text-sm">
-                {set.weight > 0 ? `${set.weight} kg` : '—'}
-              </div>
-              <div className="col-span-3 text-sm font-medium">
-                {set.reps} reps
-              </div>
-              <div className="col-span-2">
-                <Button
-                  variant={set.completed ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => toggleSetComplete(index)}
-                  className={set.completed ? "bg-green-500 hover:bg-green-600 text-white" : ""}
-                >
-                  <Check className={`h-3 w-3 ${set.completed ? 'text-white' : ''}`} />
-                </Button>
-              </div>
-              <div className="col-span-2 flex justify-end gap-1">
-                {set.completed && (
+            {exercise.sets.map((set, index) => (
+              <div key={index} className="grid grid-cols-12 gap-2 items-center p-2 rounded-lg bg-green-50 border border-green-200">
+                <div className="col-span-2 text-sm font-medium">
+                  {index + 1}
+                </div>
+                <div className="col-span-4">
+                  <input
+                    type="number"
+                    value={set.weight}
+                    onChange={(e) => editSet(index, 'weight', e.target.value)}
+                    className="w-full h-8 px-2 text-sm border rounded bg-white"
+                    placeholder="kg"
+                  />
+                </div>
+                <div className="col-span-4">
+                  <input
+                    type="number"
+                    value={set.reps}
+                    onChange={(e) => editSet(index, 'reps', e.target.value)}
+                    className="w-full h-8 px-2 text-sm border rounded bg-white"
+                    placeholder="reps"
+                  />
+                </div>
+                <div className="col-span-2 flex justify-end gap-1">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowRestTimer(true)}
-                    className="text-primary hover:text-primary"
+                    className="text-primary hover:text-primary p-1"
                   >
                     <Timer className="h-3 w-3" />
                   </Button>
-                )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => deleteSet(index)}
-                  className="text-muted-foreground hover:text-destructive"
-                >
-                  <Trash2 className="h-3 w-3" />
-                </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => deleteSet(index)}
+                    className="text-muted-foreground hover:text-destructive p-1"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
 
-      <div className="grid grid-cols-12 gap-2 pt-2 border-t border-workout-border">
-        <div className="col-span-2 flex items-center">
-          <span className="text-sm font-medium text-muted-foreground">
-            {exercise.sets.length + 1}
-          </span>
-        </div>
-        <div className="col-span-3">
+        <div className="grid grid-cols-12 gap-2 pt-2 border-t border-workout-border">
+          <div className="col-span-2 flex items-center">
+            <span className="text-sm font-medium text-muted-foreground">
+              {exercise.sets.length + 1}
+            </span>
+          </div>
+          <div className="col-span-4">
           <Input
             type="number"
             placeholder="kg"
@@ -183,18 +195,18 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
             onChange={(e) => setNewWeight(e.target.value)}
             className="h-8 text-sm"
           />
-        </div>
-        <div className="col-span-3">
-          <Input
-            type="number"
-            placeholder="reps"
-            value={newReps}
-            onChange={(e) => setNewReps(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && addSet()}
-            className="h-8 text-sm"
-          />
-        </div>
-        <div className="col-span-4 flex gap-1">
+          </div>
+          <div className="col-span-4">
+            <Input
+              type="number"
+              placeholder="reps"
+              value={newReps}
+              onChange={(e) => setNewReps(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addSet()}
+              className="h-8 text-sm"
+            />
+          </div>
+          <div className="col-span-2 flex gap-1">
           <Button
             onClick={addSet}
             size="sm"
