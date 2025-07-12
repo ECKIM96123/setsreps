@@ -164,7 +164,7 @@ export const WorkoutJournal = ({ workouts, onStartWorkout, onViewHistory }: Work
           
           <div className="space-y-3">
             {workouts.slice(0, 3).map((workout) => (
-              <div key={workout.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div key={workout.id} className="flex items-center justify-between p-3 bg-muted/30">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium text-sm">{formatDate(workout.date)}</span>
@@ -233,7 +233,7 @@ export const WorkoutJournal = ({ workouts, onStartWorkout, onViewHistory }: Work
                   <div className="text-xs text-muted-foreground mb-1">
                     {date.toLocaleDateString('en-US', { weekday: 'narrow' })}
                   </div>
-                  <div className={`h-8 w-8 rounded-full mx-auto flex items-center justify-center text-xs ${
+                  <div className={`h-8 w-8 mx-auto flex items-center justify-center text-xs ${
                     hasWorkout 
                       ? 'bg-primary text-primary-foreground' 
                       : 'bg-muted'

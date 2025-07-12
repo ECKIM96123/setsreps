@@ -136,7 +136,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
             </div>
           
             {exercise.sets.map((set, index) => (
-              <div key={index} className="grid grid-cols-12 gap-2 items-center p-2 rounded-lg bg-green-50 border border-green-200">
+              <div key={index} className="grid grid-cols-12 gap-2 items-center p-2 bg-green-50 border border-green-200">
                 <div className="col-span-2 text-sm font-medium">
                   {index + 1}
                 </div>
@@ -145,7 +145,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                     type="number"
                     value={set.weight}
                     onChange={(e) => editSet(index, 'weight', e.target.value)}
-                    className="w-full h-8 px-2 text-sm border rounded bg-white"
+                    className="w-full h-8 px-2 text-sm border bg-white"
                     placeholder="kg"
                   />
                 </div>
@@ -154,7 +154,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                     type="number"
                     value={set.reps}
                     onChange={(e) => editSet(index, 'reps', e.target.value)}
-                    className="w-full h-8 px-2 text-sm border rounded bg-white"
+                    className="w-full h-8 px-2 text-sm border bg-white"
                     placeholder="reps"
                   />
                 </div>

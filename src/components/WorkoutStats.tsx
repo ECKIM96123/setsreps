@@ -237,7 +237,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
             </h3>
             <div className="space-y-3">
               {topPRs.map(([exercise, pr]) => (
-                <div key={exercise} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                <div key={exercise} className="flex items-center justify-between p-3 bg-muted/30">
                   <div>
                     <div className="font-medium text-sm">{exercise}</div>
                     <div className="text-xs text-muted-foreground">{formatDate(pr.date)}</div>
@@ -262,7 +262,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
             {topExercises.map(([exercise, count], index) => (
               <div key={exercise} className="flex items-center justify-between p-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold">
+                  <div className="w-6 h-6 bg-primary/10 flex items-center justify-center text-xs font-bold">
                     {index + 1}
                   </div>
                   <span className="font-medium text-sm">{exercise}</span>
@@ -280,11 +280,11 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
             Averages
           </h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-3 bg-muted/30 rounded-lg">
+            <div className="text-center p-3 bg-muted/30">
               <div className="text-xl font-bold">{stats.averageDuration}</div>
               <div className="text-xs text-muted-foreground">Minutes per Workout</div>
             </div>
-            <div className="text-center p-3 bg-muted/30 rounded-lg">
+            <div className="text-center p-3 bg-muted/30">
               <div className="text-xl font-bold">{stats.averageSetsPerWorkout}</div>
               <div className="text-xs text-muted-foreground">Sets per Workout</div>
             </div>

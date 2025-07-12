@@ -32,7 +32,7 @@ export const WorkoutHistory = ({ workouts, onClose }: WorkoutHistoryProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-end z-50 animate-slide-up">
-      <Card className="w-full max-h-[85vh] rounded-t-3xl bg-card border-0 shadow-workout overflow-hidden">
+      <Card className="w-full max-h-[85vh] bg-card border-0 shadow-workout overflow-hidden">
         <div className="p-6 border-b border-workout-border">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold flex items-center gap-2">
@@ -65,7 +65,7 @@ export const WorkoutHistory = ({ workouts, onClose }: WorkoutHistoryProps) => {
                   </div>
 
                   <div className="grid grid-cols-3 gap-3 mb-3">
-                    <div className="text-center p-2 bg-muted/30 rounded-lg">
+                    <div className="text-center p-2 bg-muted/30">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Clock className="h-3 w-3 text-accent" />
                         <span className="text-sm font-semibold">{workout.duration}</span>
@@ -73,7 +73,7 @@ export const WorkoutHistory = ({ workouts, onClose }: WorkoutHistoryProps) => {
                       <p className="text-xs text-muted-foreground">min</p>
                     </div>
                     
-                    <div className="text-center p-2 bg-muted/30 rounded-lg">
+                    <div className="text-center p-2 bg-muted/30">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Target className="h-3 w-3 text-primary" />
                         <span className="text-sm font-semibold">{workout.totalSets}</span>
@@ -81,7 +81,7 @@ export const WorkoutHistory = ({ workouts, onClose }: WorkoutHistoryProps) => {
                       <p className="text-xs text-muted-foreground">sets</p>
                     </div>
                     
-                    <div className="text-center p-2 bg-muted/30 rounded-lg">
+                    <div className="text-center p-2 bg-muted/30">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <TrendingUp className="h-3 w-3 text-success" />
                         <span className="text-sm font-semibold">{workout.totalVolume.toLocaleString()}</span>

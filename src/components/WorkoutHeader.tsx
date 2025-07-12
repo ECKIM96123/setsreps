@@ -10,16 +10,16 @@ interface WorkoutHeaderProps {
 
 export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWorkout, onResumeWorkout }: WorkoutHeaderProps) => {
   return (
-    <div className="bg-gradient-primary text-primary-foreground p-8 rounded-b-3xl shadow-workout relative overflow-hidden">
+    <div className="bg-gradient-primary text-primary-foreground p-8 shadow-workout relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-4 right-4 w-32 h-32 rounded-full bg-white/5" />
-        <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-white/5" />
+        <div className="absolute top-4 right-4 w-32 h-32 bg-white/5" />
+        <div className="absolute -top-8 -right-8 w-24 h-24 bg-white/5" />
       </div>
       
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-white/15 rounded-2xl backdrop-blur-sm">
+          <div className="p-3 bg-white/15 backdrop-blur-sm">
             <Dumbbell className="h-7 w-7" />
           </div>
           <div>
