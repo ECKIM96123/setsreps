@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Brain, Loader2, Sparkles, Target, Clock, Dumbbell } from "lucide-react";
 import { WorkoutProgram } from "./WorkoutPrograms";
-import { generateWorkoutProgram } from "@/lib/api";
+
 
 interface WorkoutPreferences {
   workoutDays: string;
@@ -74,11 +74,11 @@ export const AIWorkoutGenerator = ({ onGeneratedProgram, onBack }: AIWorkoutGene
   const generateWorkout = async () => {
     setIsGenerating(true);
     try {
-      const generatedProgram: WorkoutProgram = await generateWorkoutProgram(preferences);
-      onGeneratedProgram(generatedProgram);
+      // Show a message that AI generation requires Supabase setup
       toast({
-        title: "Workout Generated! 🎉",
-        description: "Your personalized workout program is ready!",
+        title: "Feature Coming Soon!",
+        description: "AI workout generation requires Supabase setup. Please configure your environment variables.",
+        variant: "destructive",
       });
     } catch (error) {
       console.error('Error generating workout:', error);
