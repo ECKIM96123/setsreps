@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { RestTimer } from "./RestTimer";
-import { Trash2, Plus, Check, Timer, Copy, Info } from "lucide-react";
+import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
 
 export interface WorkoutSet {
@@ -19,15 +19,20 @@ export interface Exercise {
   category: string;
   muscle: string;
   sets: WorkoutSet[];
+  supersetWith?: string; // ID of the next exercise in the superset
+  supersetGroup?: number; // Group number for visual grouping
 }
 
 interface WorkoutExerciseProps {
   exercise: Exercise;
   onUpdateExercise: (exercise: Exercise) => void;
   onDeleteExercise: () => void;
+  onToggleSuperset?: () => void;
+  isInSuperset?: boolean;
+  supersetPosition?: 'first' | 'middle' | 'last' | 'single';
 }
 
-export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }: WorkoutExerciseProps) => {
+export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, onToggleSuperset, isInSuperset = false, supersetPosition = 'single' }: WorkoutExerciseProps) => {
   const [newWeight, setNewWeight] = useState("");
   const [newReps, setNewReps] = useState("");
   const [showRestTimer, setShowRestTimer] = useState(false);
@@ -102,6 +107,26 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
 
   const completedSets = exercise.sets.filter(set => set.completed).length;
 
+  // Superset visual styling
+  const getCardClassName = () => {
+    let baseClass = "p-4 space-y-4 shadow-workout border-workout-border";
+    
+    if (isInSuperset) {
+      switch (supersetPosition) {
+        case 'first':
+          return `${baseClass} border-l-4 border-l-orange-500 bg-orange-50/50`;
+        case 'middle':
+          return `${baseClass} border-l-4 border-l-orange-500 bg-orange-50/50 border-t-0 rounded-t-none`;
+        case 'last':
+          return `${baseClass} border-l-4 border-l-orange-500 bg-orange-50/50 border-t-0 rounded-t-none`;
+        default:
+          return `${baseClass} border-l-4 border-l-orange-500 bg-orange-50/50`;
+      }
+    }
+    
+    return baseClass;
+  };
+
   return (
     <>
       <RestTimer 
@@ -110,7 +135,16 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
         defaultTime={90}
       />
       
-      <Card className="p-4 space-y-4 shadow-workout border-workout-border">
+      <Card className={getCardClassName()}>
+        {isInSuperset && supersetPosition === 'first' && (
+          <div className="flex items-center gap-2 -mt-2 mb-2">
+            <Badge variant="secondary" className="text-xs bg-orange-100 text-orange-800">
+              <Link className="h-3 w-3 mr-1" />
+              Superset
+            </Badge>
+          </div>
+        )}
+        
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
@@ -149,14 +183,31 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
             </p>
           )}
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onDeleteExercise}
-          className="text-destructive hover:text-destructive"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+        <div className="flex items-center gap-2">
+          {onToggleSuperset && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onToggleSuperset}
+              className={`h-8 w-8 p-0 transition-colors ${
+                isInSuperset 
+                  ? 'text-orange-600 hover:text-orange-700 bg-orange-100' 
+                  : 'text-muted-foreground hover:text-orange-600'
+              }`}
+              title={isInSuperset ? 'Remove from superset' : 'Add to superset'}
+            >
+              {isInSuperset ? <Unlink className="h-4 w-4" /> : <Link className="h-4 w-4" />}
+            </Button>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onDeleteExercise}
+            className="text-destructive hover:text-destructive h-8 w-8 p-0"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
         {exercise.sets.length > 0 && (
