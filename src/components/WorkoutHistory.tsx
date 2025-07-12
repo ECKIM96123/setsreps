@@ -1,15 +1,16 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Target, TrendingUp, ChevronRight } from "lucide-react";
+import { Calendar, Clock, Target, TrendingUp, Edit } from "lucide-react";
 import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 
 interface WorkoutHistoryProps {
   workouts: CompletedWorkout[];
   onClose: () => void;
+  onEditWorkout: (workout: CompletedWorkout) => void;
 }
 
-export const WorkoutHistory = ({ workouts, onClose }: WorkoutHistoryProps) => {
+export const WorkoutHistory = ({ workouts, onClose, onEditWorkout }: WorkoutHistoryProps) => {
   const formatDate = (date: Date) => {
     const now = new Date();
     const diffTime = now.getTime() - date.getTime();
@@ -61,7 +62,17 @@ export const WorkoutHistory = ({ workouts, onClose }: WorkoutHistoryProps) => {
                       <div className="text-sm font-medium">{formatDate(workout.date)}</div>
                       <div className="text-xs text-muted-foreground">at {formatTime(workout.date)}</div>
                     </div>
-                    <Badge variant="outline">{workout.exercises.length} exercises</Badge>
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => onEditWorkout(workout)}
+                        className="text-muted-foreground hover:text-primary p-1"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Badge variant="outline">{workout.exercises.length} exercises</Badge>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-3 mb-3">

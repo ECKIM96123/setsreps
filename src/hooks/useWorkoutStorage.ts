@@ -61,6 +61,35 @@ export const useWorkoutStorage = () => {
     return workout;
   };
 
+  const updateWorkout = (workoutId: string, exercises: Exercise[]) => {
+    const totalSets = exercises.reduce((sum, ex) => sum + ex.sets.filter(set => set.completed).length, 0);
+    const totalVolume = exercises.reduce((sum, ex) => 
+      sum + ex.sets.filter(set => set.completed).reduce((vol, set) => vol + (set.weight * set.reps), 0), 0
+    );
+
+    const updated = workoutHistory.map(workout => 
+      workout.id === workoutId 
+        ? {
+            ...workout,
+            exercises: exercises.map(ex => ({
+              ...ex,
+              sets: ex.sets.filter(set => set.completed)
+            })).filter(ex => ex.sets.length > 0),
+            totalSets,
+            totalVolume
+          }
+        : workout
+    );
+    
+    setWorkoutHistory(updated);
+    
+    try {
+      localStorage.setItem('setsreps-workouts', JSON.stringify(updated));
+    } catch (error) {
+      console.error('Error updating workout:', error);
+    }
+  };
+
   const clearHistory = () => {
     setWorkoutHistory([]);
     localStorage.removeItem('setsreps-workouts');
@@ -69,6 +98,7 @@ export const useWorkoutStorage = () => {
   return {
     workoutHistory,
     saveWorkout,
+    updateWorkout,
     clearHistory
   };
 };
