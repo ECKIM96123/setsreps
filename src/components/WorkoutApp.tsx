@@ -24,7 +24,7 @@ export const WorkoutApp = () => {
   const [currentExercises, setCurrentExercises] = useState<Exercise[]>([]);
   const [workoutStartTime, setWorkoutStartTime] = useState<Date>(new Date());
   const [editingWorkout, setEditingWorkout] = useState<CompletedWorkout | null>(null);
-  const { workoutHistory, saveWorkout, updateWorkout } = useWorkoutStorage();
+  const { workoutHistory, saveWorkout, updateWorkout, deleteWorkout } = useWorkoutStorage();
   const { personalRecords, getExercisePR } = usePersonalRecords(workoutHistory);
   const { toast } = useToast();
 
@@ -421,6 +421,7 @@ export const WorkoutApp = () => {
           onViewStats={() => setAppState('stats')}
           onViewPrograms={() => setAppState('programs')}
           onEditWorkout={editWorkout}
+          onDeleteWorkout={deleteWorkout}
         />
       </div>
     );

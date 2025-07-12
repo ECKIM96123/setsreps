@@ -1,9 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, BarChart3, History, Target, Edit } from "lucide-react";
+import { Plus, BarChart3, History, Target, Edit, Trash2, MoreVertical } from "lucide-react";
 import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 import { OfflineStatus } from "./OfflineStatus";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { 
+  AlertDialog, 
+  AlertDialogAction, 
+  AlertDialogCancel, 
+  AlertDialogContent, 
+  AlertDialogDescription, 
+  AlertDialogFooter, 
+  AlertDialogHeader, 
+  AlertDialogTitle, 
+  AlertDialogTrigger 
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 interface WorkoutLogProps {
   workouts: CompletedWorkout[];
@@ -11,9 +29,11 @@ interface WorkoutLogProps {
   onViewStats: () => void;
   onViewPrograms: () => void;
   onEditWorkout: (workout: CompletedWorkout) => void;
+  onDeleteWorkout: (workoutId: string) => void;
 }
 
-export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewPrograms, onEditWorkout }: WorkoutLogProps) => {
+export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewPrograms, onEditWorkout, onDeleteWorkout }: WorkoutLogProps) => {
+  const [deletingWorkout, setDeletingWorkout] = useState<string | null>(null);
   const formatDate = (date: Date) => {
     const today = new Date();
     const yesterday = new Date(today);
@@ -129,14 +149,30 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
                     </Badge>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm"
-                      onClick={() => onEditWorkout(workout)}
-                      className="text-muted-foreground hover:text-primary p-1"
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          className="text-muted-foreground hover:text-primary p-1"
+                        >
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => onEditWorkout(workout)}>
+                          <Edit className="h-4 w-4 mr-2" />
+                          Edit Workout
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          onClick={() => setDeletingWorkout(workout.id)}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          Delete Workout
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                     <div className="text-sm text-muted-foreground">
                       {workout.duration} min
                     </div>
@@ -198,6 +234,32 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
           </Button>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={!!deletingWorkout} onOpenChange={() => setDeletingWorkout(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Workout</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this workout? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => {
+                if (deletingWorkout) {
+                  onDeleteWorkout(deletingWorkout);
+                  setDeletingWorkout(null);
+                }
+              }}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

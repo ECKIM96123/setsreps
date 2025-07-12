@@ -101,6 +101,17 @@ export const useWorkoutStorage = () => {
     }
   };
 
+  const deleteWorkout = (workoutId: string) => {
+    const updated = workoutHistory.filter(workout => workout.id !== workoutId);
+    setWorkoutHistory(updated);
+    
+    try {
+      localStorage.setItem('setsreps-workouts', JSON.stringify(updated));
+    } catch (error) {
+      console.error('Error deleting workout:', error);
+    }
+  };
+
   const clearHistory = () => {
     setWorkoutHistory([]);
     localStorage.removeItem('setsreps-workouts');
@@ -110,6 +121,7 @@ export const useWorkoutStorage = () => {
     workoutHistory,
     saveWorkout,
     updateWorkout,
+    deleteWorkout,
     clearHistory
   };
 };
