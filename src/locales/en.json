@@ -21,7 +21,7 @@
     "workout": "Workout",
     "workouts": "Workouts",
     "exercise": "Exercise",
-    "exercises": "Exercises",
+    "exercises": "exercises",
     "sets": "Sets",
     "reps": "Reps",
     "weight": "Weight",
@@ -36,11 +36,16 @@
     "deleteWorkout": "Delete Workout",
     "editWorkout": "Edit Workout",
     "deleteWorkoutConfirm": "Are you sure you want to delete this workout? This action cannot be undone.",
-    "totalVolume": "total",
+    "totalVolume": "Total Volume",
     "selectExercise": "Select Exercise",
     "searchExercises": "Search exercises...",
     "addCustomExercise": "Add Your Own Exercise",
-    "enterExerciseName": "Enter exercise name (e.g., Bulgarian Split Squats)..."
+    "enterExerciseName": "Enter exercise name (e.g., Bulgarian Split Squats)...",
+    "saveChanges": "Save Changes",
+    "activeWorkout": "Active Workout",
+    "setsCompleted": "sets completed",
+    "cancelWorkout": "Cancel Workout",
+    "continueWorkout": "Continue Workout"
   },
   "exercises": {
     "chest": "Chest",
@@ -92,7 +97,22 @@
     "plank": "Plank",
     "crunch": "Crunch",
     "running": "Running",
-    "cycling": "Cycling"
+    "cycling": "Cycling",
+    "target": "Target",
+    "howToPerform": "How to perform",
+    "instructionsNotAvailable": "Exercise instructions not available.",
+    "pr": "PR",
+    "reps": "reps",
+    "set": "Set",
+    "weight": "Weight",
+    "actions": "Actions",
+    "superset": "Superset",
+    "removeFromSuperset": "Remove from superset",
+    "addToSuperset": "Add to superset",
+    "upgradeForSupersets": "Upgrade to Premium for Supersets",
+    "timerSettings": "Timer Settings",
+    "autoStartTimer": "Auto-start timer",
+    "autoStartTimerDescription": "Start rest timer when set is completed"
   },
   "navigation": {
     "log": "Log",
@@ -131,5 +151,34 @@
     "language": "Language",
     "english": "English",
     "swedish": "Svenska"
+  },
+  "timer": {
+    "restTimer": "Rest Timer",
+    "ready": "Ready!",
+    "pause": "Pause",
+    "start": "Start"
+  },
+  "summary": {
+    "workoutSummary": "Workout Summary",
+    "greatJob": "Great job! Here's what you accomplished:",
+    "setsCompleted": "Sets Completed",
+    "totalSets": "of {{total}} total",
+    "minutes": "Minutes",
+    "exercisesCompleted": "Exercises Completed",
+    "completed": "Completed",
+    "skipped": "Skipped"
+  },
+  "stats": {
+    "noDataYet": "No Data Yet",
+    "completeWorkouts": "Complete some workouts to see your statistics!",
+    "totalWorkouts": "Total Workouts",
+    "totalSets": "Total Sets",
+    "totalHours": "Total Hours",
+    "fitnessOverview": "Fitness Overview",
+    "fitnessLevel": "Fitness Level",
+    "currentStreak": "Current Streak",
+    "personalRecords": "Personal Records",
+    "limited": "Limited",
+    "moreRecordsInPremium": "more records in Premium"
   }
 }

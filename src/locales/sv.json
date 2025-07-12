@@ -21,7 +21,7 @@
     "workout": "Träning",
     "workouts": "Träningar",
     "exercise": "Övning",
-    "exercises": "Övningar",
+    "exercises": "övningar",
     "sets": "Set",
     "reps": "Reps",
     "weight": "Vikt",
@@ -36,11 +36,16 @@
     "deleteWorkout": "Ta bort träning",
     "editWorkout": "Redigera träning",
     "deleteWorkoutConfirm": "Är du säker på att du vill ta bort denna träning? Denna åtgärd kan inte ångras.",
-    "totalVolume": "totalt",
+    "totalVolume": "Total volym",
     "selectExercise": "Välj övning",
     "searchExercises": "Sök övningar...",
     "addCustomExercise": "Lägg till din egen övning",
-    "enterExerciseName": "Ange övningsnamn (t.ex. Bulgariska split squats)..."
+    "enterExerciseName": "Ange övningsnamn (t.ex. Bulgariska split squats)...",
+    "saveChanges": "Spara ändringar",
+    "activeWorkout": "Aktivt träningspass",
+    "setsCompleted": "set utförda",
+    "cancelWorkout": "Avbryt träningspass",
+    "continueWorkout": "Fortsätt träningspass"
   },
   "exercises": {
     "chest": "Bröst",
@@ -92,7 +97,22 @@
     "plank": "Plankan",
     "crunch": "Situps",
     "running": "Löpning",
-    "cycling": "Cykling"
+    "cycling": "Cykling",
+    "target": "Mål",
+    "howToPerform": "Hur man utför",
+    "instructionsNotAvailable": "Övningsinstruktioner är inte tillgängliga.",
+    "pr": "PR",
+    "reps": "reps",
+    "set": "Set",
+    "weight": "Vikt",
+    "actions": "Åtgärder",
+    "superset": "Supersett",
+    "removeFromSuperset": "Ta bort från supersett",
+    "addToSuperset": "Lägg till supersett",
+    "upgradeForSupersets": "Uppgradera till Premium för supersett",
+    "timerSettings": "Timer-inställningar",
+    "autoStartTimer": "Starta timer automatiskt",
+    "autoStartTimerDescription": "Starta vilotimer när set är klart"
   },
   "navigation": {
     "log": "Logg",
@@ -131,5 +151,34 @@
     "language": "Språk",
     "english": "English",
     "swedish": "Svenska"
+  },
+  "timer": {
+    "restTimer": "Vilotimer",
+    "ready": "Redo!",
+    "pause": "Pausa",
+    "start": "Starta"
+  },
+  "summary": {
+    "workoutSummary": "Träningssammanfattning",
+    "greatJob": "Bra jobbat! Här är vad du åstadkom:",
+    "setsCompleted": "Set utförda",
+    "totalSets": "av {{total}} totalt",
+    "minutes": "Minuter",
+    "exercisesCompleted": "Övningar utförda",
+    "completed": "Utförd",
+    "skipped": "Överhoppad"
+  },
+  "stats": {
+    "noDataYet": "Ingen data än",
+    "completeWorkouts": "Slutför några träningspass för att se din statistik!",
+    "totalWorkouts": "Totala träningspass",
+    "totalSets": "Totala set",
+    "totalHours": "Totala timmar",
+    "fitnessOverview": "Träningsöversikt",
+    "fitnessLevel": "Träningsnivå",
+    "currentStreak": "Nuvarande streak",
+    "personalRecords": "Personliga rekord",
+    "limited": "Begränsad",
+    "moreRecordsInPremium": "fler rekord i Premium"
   }
 }

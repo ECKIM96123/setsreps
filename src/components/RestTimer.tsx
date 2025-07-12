@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Play, Pause, RotateCcw, X } from "lucide-react";
@@ -11,6 +12,7 @@ interface RestTimerProps {
 }
 
 export const RestTimer = ({ isVisible, onClose, defaultTime = 90 }: RestTimerProps) => {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(defaultTime);
   const [isRunning, setIsRunning] = useState(false);
   const [initialTime, setInitialTime] = useState(defaultTime);
@@ -78,7 +80,7 @@ export const RestTimer = ({ isVisible, onClose, defaultTime = 90 }: RestTimerPro
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <Card className="w-full max-w-sm p-6 text-center space-y-6 shadow-workout animate-scale-in">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">Rest Timer</h3>
+          <h3 className="text-lg font-semibold">{t('timer.restTimer')}</h3>
           <Button variant="ghost" size="sm" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
@@ -118,7 +120,7 @@ export const RestTimer = ({ isVisible, onClose, defaultTime = 90 }: RestTimerPro
               </div>
               {timeLeft === 0 && (
                 <div className="text-sm text-green-500 font-medium animate-pulse">
-                  Ready!
+                  {t('timer.ready')}
                 </div>
               )}
             </div>
@@ -155,7 +157,7 @@ export const RestTimer = ({ isVisible, onClose, defaultTime = 90 }: RestTimerPro
             disabled={timeLeft === 0}
           >
             {isRunning ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
-            {isRunning ? 'Pause' : 'Start'}
+            {isRunning ? t('timer.pause') : t('timer.start')}
           </Button>
         </div>
 
@@ -164,7 +166,7 @@ export const RestTimer = ({ isVisible, onClose, defaultTime = 90 }: RestTimerPro
             onClick={onClose}
             className="w-full bg-green-500 hover:bg-green-600 text-white"
           >
-            Continue Workout
+            {t('workout.continueWorkout')}
           </Button>
         )}
       </Card>

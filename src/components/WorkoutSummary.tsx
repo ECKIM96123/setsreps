@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useTranslation } from 'react-i18next';
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Clock, Target, TrendingUp } from "lucide-react";
@@ -12,6 +13,7 @@ interface WorkoutSummaryProps {
 }
 
 export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, startTime }: WorkoutSummaryProps) => {
+  const { t } = useTranslation();
   const totalSets = exercises.reduce((sum, ex) => sum + ex.sets.length, 0);
   const completedSets = exercises.reduce((sum, ex) => sum + ex.sets.filter(set => set.completed).length, 0);
   const totalVolume = exercises.reduce((sum, ex) => 
@@ -25,9 +27,9 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
       <div className="text-center">
         <div className="flex items-center justify-center gap-2 mb-2">
           <CheckCircle className="h-6 w-6 text-success" />
-          <h2 className="text-xl font-semibold">Workout Summary</h2>
+          <h2 className="text-xl font-semibold">{t('summary.workoutSummary')}</h2>
         </div>
-        <p className="text-muted-foreground">Great job! Here's what you accomplished:</p>
+        <p className="text-muted-foreground">{t('summary.greatJob')}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -36,8 +38,8 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
             <Target className="h-4 w-4 text-primary" />
             <span className="text-2xl font-bold text-primary">{completedSets}</span>
           </div>
-          <p className="text-xs text-muted-foreground">Sets Completed</p>
-          <p className="text-xs text-muted-foreground">of {totalSets} total</p>
+          <p className="text-xs text-muted-foreground">{t('summary.setsCompleted')}</p>
+          <p className="text-xs text-muted-foreground">{t('summary.totalSets', { total: totalSets })}</p>
         </div>
         
         <div className="text-center p-4 bg-card rounded-xl border border-workout-border">
@@ -45,8 +47,8 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
             <Clock className="h-4 w-4 text-accent" />
             <span className="text-2xl font-bold text-accent">{workoutDuration}</span>
           </div>
-          <p className="text-xs text-muted-foreground">Minutes</p>
-          <p className="text-xs text-muted-foreground">Duration</p>
+          <p className="text-xs text-muted-foreground">{t('summary.minutes')}</p>
+          <p className="text-xs text-muted-foreground">{t('workout.duration')}</p>
         </div>
       </div>
 
@@ -56,12 +58,12 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
             <TrendingUp className="h-4 w-4 text-success" />
             <span className="text-2xl font-bold text-success">{totalVolume.toLocaleString()}</span>
           </div>
-          <p className="text-xs text-muted-foreground">Total Volume (kg × reps)</p>
+          <p className="text-xs text-muted-foreground">{t('workout.totalVolume')} (kg × reps)</p>
         </div>
       )}
 
       <div className="space-y-2">
-        <h3 className="font-medium text-sm text-muted-foreground">Exercises Completed</h3>
+        <h3 className="font-medium text-sm text-muted-foreground">{t('summary.exercisesCompleted')}</h3>
         <div className="space-y-2">
           {exercises.map((exercise, index) => {
             const exerciseCompletedSets = exercise.sets.filter(set => set.completed).length;
@@ -74,7 +76,7 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
                   </p>
                 </div>
                 <Badge variant={exerciseCompletedSets > 0 ? "default" : "secondary"} className="text-xs">
-                  {exerciseCompletedSets > 0 ? "Completed" : "Skipped"}
+                  {exerciseCompletedSets > 0 ? t('summary.completed') : t('summary.skipped')}
                 </Badge>
               </div>
             );
@@ -88,13 +90,13 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
           onClick={onCancelWorkout}
           className="flex-1"
         >
-          Cancel Workout
+          {t('workout.cancelWorkout')}
         </Button>
         <Button
           onClick={onFinishWorkout}
           className="flex-1 bg-gradient-primary shadow-accent"
         >
-          Finish Workout
+          {t('workout.finishWorkout')}
         </Button>
       </div>
     </Card>

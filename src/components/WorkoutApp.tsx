@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { WorkoutHeader } from "./WorkoutHeader";
@@ -20,6 +21,7 @@ import { Plus, Timer, Target } from "lucide-react";
 type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'stats' | 'edit-workout' | 'programs' | 'ai-generator';
 
 export const WorkoutApp = () => {
+  const { t } = useTranslation();
   const [appState, setAppState] = useState<AppState>('idle');
   const [currentExercises, setCurrentExercises] = useState<Exercise[]>([]);
   const [workoutStartTime, setWorkoutStartTime] = useState<Date>(new Date());
@@ -347,7 +349,7 @@ export const WorkoutApp = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <Timer className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium">Edit Workout</span>
+                <span className="text-sm font-medium">{t('workout.editWorkout')}</span>
               </div>
               {editingWorkout && (
                 <div className="text-sm text-muted-foreground">
@@ -357,11 +359,11 @@ export const WorkoutApp = () => {
             </div>
             <div className="flex items-center gap-4 text-sm">
               <span className="text-muted-foreground">
-                {currentExercises.length} exercises
+                {currentExercises.length} {t('workout.exercises')}
               </span>
               <span className="text-muted-foreground">•</span>
               <span className="text-primary font-medium">
-                {totalCompletedSets} sets completed
+                {totalCompletedSets} {t('workout.setsCompleted')}
               </span>
             </div>
           </Card>
@@ -391,14 +393,14 @@ export const WorkoutApp = () => {
               className="flex-1"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add Exercise
+              {t('workout.addExercise')}
             </Button>
             
             <Button
               onClick={saveEditedWorkout}
               className="flex-1 bg-primary"
             >
-              Save Changes
+              {t('workout.saveChanges')}
             </Button>
           </div>
         </div>
@@ -445,7 +447,7 @@ export const WorkoutApp = () => {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Timer className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium">Active Workout</span>
+                  <span className="text-sm font-medium">{t('workout.activeWorkout')}</span>
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {workoutDuration} min
@@ -453,11 +455,11 @@ export const WorkoutApp = () => {
               </div>
               <div className="flex items-center gap-4 text-sm">
                 <span className="text-muted-foreground">
-                  {currentExercises.length} exercises
+                  {currentExercises.length} {t('workout.exercises')}
                 </span>
                 <span className="text-muted-foreground">•</span>
                 <span className="text-primary font-medium">
-                  {totalCompletedSets} sets completed
+                  {totalCompletedSets} {t('workout.setsCompleted')}
                 </span>
               </div>
             </Card>
@@ -486,7 +488,7 @@ export const WorkoutApp = () => {
                 className="flex-1 bg-primary"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Add Exercise
+                {t('workout.addExercise')}
               </Button>
               
               {totalCompletedSets > 0 && (
@@ -495,7 +497,7 @@ export const WorkoutApp = () => {
                   variant="workout"
                   className="flex-1"
                 >
-                  Finish Workout
+                  {t('workout.finishWorkout')}
                 </Button>
               )}
               

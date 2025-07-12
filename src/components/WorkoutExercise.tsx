@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -38,6 +39,7 @@ interface WorkoutExerciseProps {
 }
 
 export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, onToggleSuperset, isInSuperset = false, supersetPosition = 'single', currentPR, onNewPR }: WorkoutExerciseProps) => {
+  const { t } = useTranslation();
   const { isPremium, upgradeToPremium } = usePremium();
   const [newWeight, setNewWeight] = useState("");
   const [newReps, setNewReps] = useState("");
@@ -167,7 +169,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
           <div className="flex items-center gap-2 -mt-2 mb-2">
             <Badge variant="secondary" className="text-xs bg-orange-100 text-orange-800">
               <Link className="h-3 w-3 mr-1" />
-              Superset
+              {t('exercises.superset')}
             </Badge>
           </div>
         )}
@@ -188,12 +190,12 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
                 </DialogHeader>
                 <div className="space-y-3">
                   <div className="text-sm text-muted-foreground">
-                    <strong>Target:</strong> {exercise.muscle} ({exercise.category})
+                    <strong>{t('exercises.target')}:</strong> {exercise.muscle} ({exercise.category})
                   </div>
                   <div className="text-sm">
-                    <strong>How to perform:</strong>
+                    <strong>{t('exercises.howToPerform')}:</strong>
                     <p className="mt-1 text-muted-foreground">
-                      {exerciseInstructions[exercise.name] || 'Exercise instructions not available.'}
+                      {exerciseInstructions[exercise.name] || t('exercises.instructionsNotAvailable')}
                     </p>
                   </div>
                 </div>
@@ -206,14 +208,14 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
           <p className="text-sm text-muted-foreground">{exercise.muscle}</p>
           {exercise.sets.length > 0 && (
             <p className="text-xs text-primary font-medium mt-1">
-              {completedSets}/{exercise.sets.length} sets completed
+              {completedSets}/{exercise.sets.length} {t('workout.setsCompleted')}
             </p>
           )}
           {currentPR && (
             <div className="flex items-center gap-1 mt-1">
               <Trophy className="h-3 w-3 text-yellow-500" />
               <span className="text-xs text-muted-foreground">
-                PR: {currentPR.weight}kg × {currentPR.reps} reps
+                {t('exercises.pr')}: {currentPR.weight}kg × {currentPR.reps} {t('exercises.reps')}
               </span>
             </div>
           )}
@@ -226,21 +228,21 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
                 variant="ghost"
                 size="sm"
                 className="h-8 w-8 p-0 text-muted-foreground hover:text-primary"
-                title="Timer Settings"
+                title={t('exercises.timerSettings')}
               >
                 <Settings className="h-4 w-4" />
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-sm">
               <DialogHeader>
-                <DialogTitle>Timer Settings</DialogTitle>
+                <DialogTitle>{t('exercises.timerSettings')}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <div className="text-sm font-medium">Auto-start timer</div>
+                    <div className="text-sm font-medium">{t('exercises.autoStartTimer')}</div>
                     <div className="text-xs text-muted-foreground">
-                      Start rest timer when set is completed
+                      {t('exercises.autoStartTimerDescription')}
                     </div>
                   </div>
                   <Switch
@@ -266,10 +268,10 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
               }`}
               title={
                 !isPremium 
-                  ? 'Upgrade to Premium for Supersets' 
+                  ? t('exercises.upgradeForSupersets')
                   : isInSuperset 
-                    ? 'Remove from superset' 
-                    : 'Add to superset'
+                    ? t('exercises.removeFromSuperset')
+                    : t('exercises.addToSuperset')
               }
             >
               {!isPremium && <Crown className="h-3 w-3 absolute -top-1 -right-1 text-primary" />}
@@ -290,10 +292,10 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
         {exercise.sets.length > 0 && (
           <div className="space-y-2">
             <div className="grid grid-cols-12 gap-2 text-xs font-medium text-muted-foreground px-2">
-              <div className="col-span-2">Set</div>
-              <div className="col-span-4">Weight</div>
-              <div className="col-span-3">Reps</div>
-              <div className="col-span-3 text-right">Actions</div>
+              <div className="col-span-2">{t('exercises.set')}</div>
+              <div className="col-span-4">{t('exercises.weight')}</div>
+              <div className="col-span-3">{t('exercises.reps')}</div>
+              <div className="col-span-3 text-right">{t('exercises.actions')}</div>
             </div>
           
             {exercise.sets.map((set, index) => (
@@ -307,7 +309,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
                     value={set.weight}
                     onChange={(e) => editSet(index, 'weight', e.target.value)}
                     className="w-full h-8 px-2 text-sm border rounded bg-white"
-                    placeholder="kg"
+              placeholder={t('workout.kg')}
                   />
                 </div>
                 <div className="col-span-3">
@@ -316,7 +318,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
                     value={set.reps}
                     onChange={(e) => editSet(index, 'reps', e.target.value)}
                     className="w-full h-8 px-2 text-sm border rounded bg-white"
-                    placeholder="reps"
+              placeholder={t('exercises.reps')}
                   />
                 </div>
                 <div className="col-span-3 flex items-center justify-end gap-1">
@@ -359,7 +361,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
           <div className="col-span-4">
           <Input
             type="number"
-            placeholder="kg"
+            placeholder={t('workout.kg')}
             value={newWeight}
             onChange={(e) => setNewWeight(e.target.value)}
             className="h-8 text-sm"
@@ -368,7 +370,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
           <div className="col-span-3">
             <Input
               type="number"
-              placeholder="reps"
+              placeholder={t('exercises.reps')}
               value={newReps}
               onChange={(e) => setNewReps(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && addSet()}
