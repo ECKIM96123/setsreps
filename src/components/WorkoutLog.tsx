@@ -80,7 +80,27 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
             </Button>
           </div>
         ) : (
-          workouts.map((workout) => (
+          <>
+            {/* Quick Start New Workout Card */}
+            <Card className="p-4 bg-primary/5 border-primary/20">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold">Start New Workout</h3>
+                  <p className="text-sm text-muted-foreground">Begin a fresh workout session</p>
+                </div>
+                <Button 
+                  onClick={onStartWorkout}
+                  variant="outline"
+                  size="sm"
+                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Start
+                </Button>
+              </div>
+            </Card>
+            
+            {workouts.map((workout) => (
             <div key={workout.id} className="flex gap-4">
               {/* Date Column */}
               <div className="w-16 flex-shrink-0 text-center">
@@ -141,7 +161,8 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
                 </div>
               </Card>
             </div>
-          ))
+            ))}
+          </>
         )}
       </div>
 
