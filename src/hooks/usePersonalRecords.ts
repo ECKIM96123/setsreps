@@ -7,7 +7,7 @@ export interface PersonalRecord {
   weight: number;
   reps: number;
   date: Date;
-  volume: number; // weight * reps
+  volume: number; // weight * reps for single best set
 }
 
 export const usePersonalRecords = (workoutHistory: CompletedWorkout[]) => {
@@ -21,19 +21,17 @@ export const usePersonalRecords = (workoutHistory: CompletedWorkout[]) => {
         workout.exercises.forEach(exercise => {
           exercise.sets.forEach(set => {
             if (set.completed && set.weight > 0 && set.reps > 0) {
-              const volume = set.weight * set.reps;
+              const setVolume = set.weight * set.reps;
               const currentPR = prMap.get(exercise.name);
               
-              // Check if this is a new PR (by weight first, then by volume)
-              if (!currentPR || 
-                  set.weight > currentPR.weight || 
-                  (set.weight === currentPR.weight && volume > currentPR.volume)) {
+              // Update PR if this single set has higher volume (weight × reps)
+              if (!currentPR || setVolume > currentPR.volume) {
                 prMap.set(exercise.name, {
                   exerciseName: exercise.name,
                   weight: set.weight,
                   reps: set.reps,
                   date: workout.date,
-                  volume
+                  volume: setVolume
                 });
               }
             }

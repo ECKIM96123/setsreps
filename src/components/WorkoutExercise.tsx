@@ -56,12 +56,11 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
     const reps = parseInt(newReps) || 0;
     
     if (reps > 0) {
-      // Check for new PR
-      const isNewPR = !currentPR || 
-                      weight > currentPR.weight || 
-                      (weight === currentPR.weight && weight * reps > currentPR.volume);
+      // Check for new PR - compare single set volume (weight × reps)
+      const setVolume = weight * reps;
+      const isNewPR = !currentPR || setVolume > currentPR.volume;
       
-      if (isNewPR && onNewPR) {
+      if (isNewPR && weight > 0 && onNewPR) {
         onNewPR(exercise.name, weight, reps);
       }
 
@@ -214,7 +213,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
             <div className="flex items-center gap-1 mt-1">
               <Trophy className="h-3 w-3 text-yellow-500" />
               <span className="text-xs text-muted-foreground">
-                PR: {currentPR.weight}kg × {currentPR.reps}
+                PR: {currentPR.weight}kg × {currentPR.reps} reps
               </span>
             </div>
           )}
