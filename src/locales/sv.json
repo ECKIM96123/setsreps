@@ -47,7 +47,9 @@
     "cancelWorkout": "Avbryt träningspass",
     "continueWorkout": "Fortsätt träningspass",
     "saveAndExit": "Spara & Avsluta",
-    "end": "Avsluta"
+    "end": "Avsluta",
+    "noExercisesAdded": "Inga övningar tillagda",
+    "addFirstExercise": "Lägg till din första övning för att börja logga set och reps"
   },
   "exercises": {
     "chest": "Bröst",

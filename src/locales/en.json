@@ -47,7 +47,9 @@
     "cancelWorkout": "Cancel Workout",
     "continueWorkout": "Continue Workout",
     "saveAndExit": "Save & Exit",
-    "end": "End"
+    "end": "End",
+    "noExercisesAdded": "No Exercises Added",
+    "addFirstExercise": "Add your first exercise to start logging sets and reps"
   },
   "exercises": {
     "chest": "Chest",

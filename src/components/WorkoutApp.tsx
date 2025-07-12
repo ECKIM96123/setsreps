@@ -521,16 +521,16 @@ export const WorkoutApp = () => {
             {currentExercises.length === 0 && (
               <Card className="p-8 text-center border">
                 <Target className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-lg font-medium mb-2">No Exercises Added</h3>
+                <h3 className="text-lg font-medium mb-2">{t('workout.noExercisesAdded')}</h3>
                 <p className="text-muted-foreground mb-4">
-                  Add your first exercise to start logging sets and reps
+                  {t('workout.addFirstExercise')}
                 </p>
                 <Button
                   onClick={() => setAppState('exercise-selector')}
                   className="bg-primary"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Exercise
+                  {t('workout.addExercise')}
                 </Button>
               </Card>
             )}
