@@ -6,7 +6,7 @@ import { BackButton } from "./BackButton";
 import { ExerciseSelector } from "./ExerciseSelector";
 import { WorkoutExercise, Exercise } from "./WorkoutExercise";
 import { WorkoutSummary } from "./WorkoutSummary";
-import { WorkoutHistory } from "./WorkoutHistory";
+
 import { WorkoutLog } from "./WorkoutLog";
 import { WorkoutStats } from "./WorkoutStats";
 import { useWorkoutStorage, CompletedWorkout } from "@/hooks/useWorkoutStorage";
@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
 import { Plus, Timer, Target } from "lucide-react";
 
-type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'history' | 'stats' | 'edit-workout';
+type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'stats' | 'edit-workout';
 
 export const WorkoutApp = () => {
   const [appState, setAppState] = useState<AppState>('idle');
@@ -33,12 +33,11 @@ export const WorkoutApp = () => {
       case 'summary':
         setAppState('workout');
         break;
-      case 'history':
       case 'stats':
         setAppState('idle');
         break;
       case 'edit-workout':
-        setAppState('history');
+        setAppState('idle');
         setEditingWorkout(null);
         setCurrentExercises([]);
         break;
@@ -141,7 +140,7 @@ export const WorkoutApp = () => {
       });
       setEditingWorkout(null);
       setCurrentExercises([]);
-      setAppState('history');
+      setAppState('idle');
     }
   };
 
@@ -194,26 +193,6 @@ export const WorkoutApp = () => {
     );
   }
 
-  if (appState === 'history') {
-    return (
-      <div ref={swipeRef} className="min-h-screen bg-background">
-        <WorkoutHeader 
-          onStartWorkout={startWorkout}
-          isWorkoutActive={false}
-          hasInProgressWorkout={currentExercises.length > 0}
-          onResumeWorkout={() => setAppState('workout')}
-        />
-        <div className="p-4 pb-2">
-          <BackButton onBack={goBack} />
-        </div>
-        <WorkoutHistory
-          workouts={workoutHistory}
-          onClose={() => setAppState('idle')}
-          onEditWorkout={editWorkout}
-        />
-      </div>
-    );
-  }
 
   if (appState === 'stats') {
     return (
@@ -319,7 +298,6 @@ export const WorkoutApp = () => {
         <WorkoutLog 
           workouts={workoutHistory}
           onStartWorkout={startWorkout}
-          onViewHistory={() => setAppState('history')}
           onViewStats={() => setAppState('stats')}
           onEditWorkout={editWorkout}
         />

@@ -7,12 +7,11 @@ import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 interface WorkoutLogProps {
   workouts: CompletedWorkout[];
   onStartWorkout: () => void;
-  onViewHistory: () => void;
   onViewStats: () => void;
   onEditWorkout: (workout: CompletedWorkout) => void;
 }
 
-export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory, onViewStats, onEditWorkout }: WorkoutLogProps) => {
+export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onEditWorkout }: WorkoutLogProps) => {
   const formatDate = (date: Date) => {
     const today = new Date();
     const yesterday = new Date(today);
