@@ -325,7 +325,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
                 <div className="col-span-4">
                   <input
                     type="number"
-                    value={set.weight}
+                    value={set.weight === 0 ? '' : set.weight}
                     onChange={(e) => editSet(index, 'weight', e.target.value)}
                     className="w-full h-8 px-2 text-sm border rounded bg-white"
               placeholder={t('workout.kg')}
