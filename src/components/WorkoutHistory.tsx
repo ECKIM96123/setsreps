@@ -54,69 +54,74 @@ export const WorkoutHistory = ({ workouts, onClose, onEditWorkout }: WorkoutHist
               <p className="text-muted-foreground">Start your first workout to see it here!</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {workouts.map((workout) => (
-                <Card key={workout.id} className="p-4 border-workout-border hover:shadow-workout transition-shadow">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="text-sm font-medium">{formatDate(workout.date)}</div>
-                      <div className="text-xs text-muted-foreground">at {formatTime(workout.date)}</div>
+            <>
+              <div className="text-xs text-muted-foreground mb-4">
+                {workouts.length} workout{workouts.length !== 1 ? 's' : ''} found
+              </div>
+              <div className="space-y-4">
+                {workouts.map((workout) => (
+                  <Card key={workout.id} className="p-4 border-workout-border hover:shadow-workout transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <div className="text-sm font-medium">{formatDate(workout.date)}</div>
+                        <div className="text-xs text-muted-foreground">at {formatTime(workout.date)}</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => onEditWorkout(workout)}
+                          className="text-muted-foreground hover:text-primary p-1"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Badge variant="outline">{workout.exercises.length} exercises</Badge>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button 
-                        variant="ghost" 
-                        size="sm"
-                        onClick={() => onEditWorkout(workout)}
-                        className="text-muted-foreground hover:text-primary p-1"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Badge variant="outline">{workout.exercises.length} exercises</Badge>
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-3 gap-3 mb-3">
-                    <div className="text-center p-2 bg-muted/30 rounded-lg">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Clock className="h-3 w-3 text-accent" />
-                        <span className="text-sm font-semibold">{workout.duration}</span>
+                    <div className="grid grid-cols-3 gap-3 mb-3">
+                      <div className="text-center p-2 bg-muted/30 rounded-lg">
+                        <div className="flex items-center justify-center gap-1 mb-1">
+                          <Clock className="h-3 w-3 text-accent" />
+                          <span className="text-sm font-semibold">{workout.duration}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">min</p>
                       </div>
-                      <p className="text-xs text-muted-foreground">min</p>
-                    </div>
-                    
-                    <div className="text-center p-2 bg-muted/30 rounded-lg">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Target className="h-3 w-3 text-primary" />
-                        <span className="text-sm font-semibold">{workout.totalSets}</span>
+                      
+                      <div className="text-center p-2 bg-muted/30 rounded-lg">
+                        <div className="flex items-center justify-center gap-1 mb-1">
+                          <Target className="h-3 w-3 text-primary" />
+                          <span className="text-sm font-semibold">{workout.totalSets}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">sets</p>
                       </div>
-                      <p className="text-xs text-muted-foreground">sets</p>
-                    </div>
-                    
-                    <div className="text-center p-2 bg-muted/30 rounded-lg">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <TrendingUp className="h-3 w-3 text-success" />
-                        <span className="text-sm font-semibold">{workout.totalVolume.toLocaleString()}</span>
+                      
+                      <div className="text-center p-2 bg-muted/30 rounded-lg">
+                        <div className="flex items-center justify-center gap-1 mb-1">
+                          <TrendingUp className="h-3 w-3 text-success" />
+                          <span className="text-sm font-semibold">{workout.totalVolume.toLocaleString()}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">kg</p>
                       </div>
-                      <p className="text-xs text-muted-foreground">kg</p>
                     </div>
-                  </div>
 
-                  <div className="space-y-1">
-                    {workout.exercises.slice(0, 3).map((exercise, index) => (
-                      <div key={index} className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">{exercise.name}</span>
-                        <span className="font-medium">{exercise.sets.length} sets</span>
-                      </div>
-                    ))}
-                    {workout.exercises.length > 3 && (
-                      <p className="text-xs text-muted-foreground text-center pt-1">
-                        +{workout.exercises.length - 3} more exercises
-                      </p>
-                    )}
-                  </div>
-                </Card>
-              ))}
-            </div>
+                    <div className="space-y-1">
+                      {workout.exercises.slice(0, 3).map((exercise, index) => (
+                        <div key={index} className="flex items-center justify-between text-sm">
+                          <span className="text-muted-foreground">{exercise.name}</span>
+                          <span className="font-medium">{exercise.sets.length} sets</span>
+                        </div>
+                      ))}
+                      {workout.exercises.length > 3 && (
+                        <p className="text-xs text-muted-foreground text-center pt-1">
+                          +{workout.exercises.length - 3} more exercises
+                        </p>
+                      )}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </Card>
