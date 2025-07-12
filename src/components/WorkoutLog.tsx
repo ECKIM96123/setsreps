@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, BarChart3, History, Target } from "lucide-react";
+import { Plus, BarChart3, History, Target, Edit } from "lucide-react";
 import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 
 interface WorkoutLogProps {
@@ -9,9 +9,10 @@ interface WorkoutLogProps {
   onStartWorkout: () => void;
   onViewHistory: () => void;
   onViewStats: () => void;
+  onEditWorkout: (workout: CompletedWorkout) => void;
 }
 
-export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory, onViewStats }: WorkoutLogProps) => {
+export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory, onViewStats, onEditWorkout }: WorkoutLogProps) => {
   const formatDate = (date: Date) => {
     const today = new Date();
     const yesterday = new Date(today);
@@ -103,8 +104,18 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory, onViewStat
                       {workout.exercises.length} exercises
                     </Badge>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    {workout.duration} min
+                  <div className="flex items-center gap-2">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => onEditWorkout(workout)}
+                      className="text-muted-foreground hover:text-primary p-1"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <div className="text-sm text-muted-foreground">
+                      {workout.duration} min
+                    </div>
                   </div>
                 </div>
 

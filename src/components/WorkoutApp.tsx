@@ -321,6 +321,7 @@ export const WorkoutApp = () => {
           onStartWorkout={startWorkout}
           onViewHistory={() => setAppState('history')}
           onViewStats={() => setAppState('stats')}
+          onEditWorkout={editWorkout}
         />
       </div>
     );
