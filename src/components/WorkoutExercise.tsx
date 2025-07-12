@@ -139,7 +139,8 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
             <div className="grid grid-cols-12 gap-2 text-xs font-medium text-muted-foreground px-2">
               <div className="col-span-2">Set</div>
               <div className="col-span-4">Weight</div>
-              <div className="col-span-4">Reps</div>
+              <div className="col-span-3">Reps</div>
+              <div className="col-span-1"></div>
               <div className="col-span-2"></div>
             </div>
           
@@ -157,7 +158,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                     placeholder="kg"
                   />
                 </div>
-                <div className="col-span-4">
+                <div className="col-span-3">
                   <input
                     type="number"
                     value={set.reps}
@@ -166,20 +167,22 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                     placeholder="reps"
                   />
                 </div>
+                <div className="col-span-1 flex justify-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => duplicateSet(index)}
+                    className="text-muted-foreground hover:text-primary p-1"
+                  >
+                    <Copy className="h-3 w-3" />
+                  </Button>
+                </div>
                  <div className="col-span-2 flex justify-end gap-2">
                    <Button
                      variant="ghost"
                      size="sm"
-                     onClick={() => duplicateSet(index)}
-                     className="text-muted-foreground hover:text-primary p-1"
-                   >
-                     <Copy className="h-3 w-3" />
-                   </Button>
-                   <Button
-                     variant="ghost"
-                     size="sm"
                      onClick={() => setShowRestTimer(true)}
-                     className="text-primary hover:text-primary p-1 ml-2"
+                     className="text-primary hover:text-primary p-1"
                    >
                      <Timer className="h-3 w-3" />
                    </Button>
@@ -212,7 +215,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
             className="h-8 text-sm"
           />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-3">
             <Input
               type="number"
               placeholder="reps"
@@ -222,7 +225,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
               className="h-8 text-sm"
             />
           </div>
-          <div className="col-span-2 flex gap-1">
+          <div className="col-span-3 flex gap-1">
           <Button
             onClick={addSet}
             size="sm"
