@@ -197,9 +197,6 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
                 {/* Quick Stats */}
                 <div className="flex gap-4 mt-3 pt-3 border-t text-xs text-muted-foreground">
                   <span>{workout.totalSets} {t('workout.sets').toLowerCase()}</span>
-                  {workout.totalVolume > 0 && (
-                    <span>{workout.totalVolume.toLocaleString()}{t('workout.kg')} {t('workout.totalVolume')}</span>
-                  )}
                 </div>
               </Card>
             </div>

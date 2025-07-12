@@ -45,12 +45,30 @@ export const PremiumPaywall = ({ feature, children }: PremiumPaywallProps) => {
           </div>
         </div>
         
+        <div className="space-y-3 mb-6">
+          <div className="text-sm text-muted-foreground">Choose your plan:</div>
+          <div className="grid gap-2 text-xs">
+            <div className="flex justify-between items-center p-2 border rounded">
+              <span>Monthly</span>
+              <span className="font-semibold">$4.49/month</span>
+            </div>
+            <div className="flex justify-between items-center p-2 border rounded">
+              <span>3 Months</span>
+              <span className="font-semibold">$12.99</span>
+            </div>
+            <div className="flex justify-between items-center p-2 border rounded bg-primary/5 border-primary">
+              <span>Yearly <Badge variant="secondary" className="ml-1 text-xs">Best Value</Badge></span>
+              <span className="font-semibold">$29/year</span>
+            </div>
+          </div>
+        </div>
+        
         <Button 
           onClick={upgradeToPremium} 
           className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
         >
           <Zap className="w-4 h-4 mr-2" />
-          Upgrade to Premium - $9.99/month
+          Upgrade to Premium
         </Button>
         
         {children && (
