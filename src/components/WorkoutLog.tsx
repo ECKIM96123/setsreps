@@ -164,7 +164,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onEditWorkou
           </Button>
           <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onStartWorkout}>
             <Target className="h-5 w-5 mb-1" />
-            <span className="text-xs">Workout</span>
+            <span className="text-xs">Program</span>
           </Button>
           <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onViewStats}>
             <BarChart3 className="h-5 w-5 mb-1" />
