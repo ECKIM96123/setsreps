@@ -13,6 +13,7 @@ import { WorkoutStats } from "./WorkoutStats";
 import { useWorkoutStorage, CompletedWorkout } from "@/hooks/useWorkoutStorage";
 import { useToast } from "@/hooks/use-toast";
 import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
+import { usePersonalRecords } from "@/hooks/usePersonalRecords";
 import { Plus, Timer, Target } from "lucide-react";
 
 type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'stats' | 'edit-workout' | 'programs';
@@ -23,6 +24,7 @@ export const WorkoutApp = () => {
   const [workoutStartTime, setWorkoutStartTime] = useState<Date>(new Date());
   const [editingWorkout, setEditingWorkout] = useState<CompletedWorkout | null>(null);
   const { workoutHistory, saveWorkout, updateWorkout } = useWorkoutStorage();
+  const { personalRecords, getExercisePR } = usePersonalRecords(workoutHistory);
   const { toast } = useToast();
 
   // Navigation functions
@@ -212,6 +214,13 @@ export const WorkoutApp = () => {
     });
   };
 
+  const handleNewPR = (exerciseName: string, weight: number, reps: number) => {
+    toast({
+      title: "🎉 New Personal Record!",
+      description: `${exerciseName}: ${weight}kg × ${reps} reps`,
+    });
+  };
+
   const totalCompletedSets = currentExercises.reduce((sum, ex) => 
     sum + ex.sets.filter(set => set.completed).length, 0
   );
@@ -339,15 +348,17 @@ export const WorkoutApp = () => {
           {/* Exercise List */}
           <div className="space-y-4">
             {currentExercises.map((exercise, index) => (
-              <WorkoutExercise
-                key={index}
-                exercise={exercise}
-                onUpdateExercise={(updated) => updateExercise(index, updated)}
-                onDeleteExercise={() => deleteExercise(index)}
-                onToggleSuperset={() => toggleSuperset(index)}
-                isInSuperset={exercise.supersetGroup !== undefined}
-                supersetPosition={getSupersetPosition(index)}
-              />
+                <WorkoutExercise
+                  key={index}
+                  exercise={exercise}
+                  onUpdateExercise={(updated) => updateExercise(index, updated)}
+                  onDeleteExercise={() => deleteExercise(index)}
+                  onToggleSuperset={() => toggleSuperset(index)}
+                  isInSuperset={exercise.supersetGroup !== undefined}
+                  supersetPosition={getSupersetPosition(index)}
+                  currentPR={getExercisePR(exercise.name)}
+                  onNewPR={handleNewPR}
+                />
             ))}
           </div>
 
@@ -440,6 +451,8 @@ export const WorkoutApp = () => {
                   onToggleSuperset={() => toggleSuperset(index)}
                   isInSuperset={exercise.supersetGroup !== undefined}
                   supersetPosition={getSupersetPosition(index)}
+                  currentPR={getExercisePR(exercise.name)}
+                  onNewPR={handleNewPR}
                 />
               ))}
             </div>

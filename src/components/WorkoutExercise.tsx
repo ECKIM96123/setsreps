@@ -5,9 +5,10 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { RestTimer } from "./RestTimer";
-import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink, Crown } from "lucide-react";
+import { Trash2, Plus, Check, Timer, Copy, Info, Link, Unlink, Crown, Trophy } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
 import { usePremium } from "@/contexts/PremiumContext";
+import { PersonalRecord } from "@/hooks/usePersonalRecords";
 
 export interface WorkoutSet {
   reps: number;
@@ -31,9 +32,11 @@ interface WorkoutExerciseProps {
   onToggleSuperset?: () => void;
   isInSuperset?: boolean;
   supersetPosition?: 'first' | 'middle' | 'last' | 'single';
+  currentPR?: PersonalRecord;
+  onNewPR?: (exerciseName: string, weight: number, reps: number) => void;
 }
 
-export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, onToggleSuperset, isInSuperset = false, supersetPosition = 'single' }: WorkoutExerciseProps) => {
+export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, onToggleSuperset, isInSuperset = false, supersetPosition = 'single', currentPR, onNewPR }: WorkoutExerciseProps) => {
   const { isPremium, upgradeToPremium } = usePremium();
   const [newWeight, setNewWeight] = useState("");
   const [newReps, setNewReps] = useState("");
@@ -44,6 +47,15 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
     const reps = parseInt(newReps) || 0;
     
     if (reps > 0) {
+      // Check for new PR
+      const isNewPR = !currentPR || 
+                      weight > currentPR.weight || 
+                      (weight === currentPR.weight && weight * reps > currentPR.volume);
+      
+      if (isNewPR && onNewPR) {
+        onNewPR(exercise.name, weight, reps);
+      }
+
       const newSet: WorkoutSet = {
         reps,
         weight,
@@ -56,6 +68,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
       });
       
       setNewReps("");
+      setShowRestTimer(true);
       // Keep weight for next set
     }
   };
@@ -183,6 +196,14 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
             <p className="text-xs text-primary font-medium mt-1">
               {completedSets}/{exercise.sets.length} sets completed
             </p>
+          )}
+          {currentPR && (
+            <div className="flex items-center gap-1 mt-1">
+              <Trophy className="h-3 w-3 text-yellow-500" />
+              <span className="text-xs text-muted-foreground">
+                PR: {currentPR.weight}kg × {currentPR.reps}
+              </span>
+            </div>
           )}
         </div>
         <div className="flex items-center gap-2">

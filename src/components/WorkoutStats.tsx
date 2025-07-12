@@ -29,6 +29,7 @@ import {
 import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 import { usePremium } from "@/contexts/PremiumContext";
 import { PremiumPaywall } from "./PremiumPaywall";
+import { usePersonalRecords } from "@/hooks/usePersonalRecords";
 
 interface WorkoutStatsProps {
   workouts: CompletedWorkout[];
@@ -37,6 +38,7 @@ interface WorkoutStatsProps {
 
 export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
   const { isPremium } = usePremium();
+  const { personalRecords, getExercisePR } = usePersonalRecords(workouts);
 
   // Calculate comprehensive statistics
   const calculateStats = () => {
@@ -408,29 +410,30 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
         </div>
       </Card>
 
-      {/* Basic Personal Records - Always visible but limited */}
-      {topPRs.length > 0 && (
+      {/* Personal Records Section - Enhanced with new hook */}
+      {personalRecords.length > 0 && (
         <Card className="p-4">
           <h3 className="font-semibold mb-4 flex items-center gap-2">
             <Trophy className="h-5 w-5 text-yellow-500" />
             Personal Records {!isPremium && <Badge variant="outline" className="ml-2">Limited</Badge>}
           </h3>
           <div className="space-y-3">
-            {topPRs.slice(0, isPremium ? 5 : 2).map(([exercise, pr]) => (
-              <div key={exercise} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+            {personalRecords.slice(0, isPremium ? 8 : 3).map((pr) => (
+              <div key={pr.exerciseName} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border-l-4 border-yellow-500">
                 <div>
-                  <div className="font-medium text-sm">{exercise}</div>
+                  <div className="font-medium text-sm">{pr.exerciseName}</div>
                   <div className="text-xs text-muted-foreground">{formatDate(pr.date)}</div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-yellow-600">{pr.weight}kg</div>
-                  <div className="text-xs text-muted-foreground">{pr.reps} reps</div>
+                  <div className="font-bold text-yellow-600">{pr.weight}kg × {pr.reps}</div>
+                  <div className="text-xs text-muted-foreground">{pr.volume}kg total</div>
                 </div>
               </div>
             ))}
-            {!isPremium && topPRs.length > 2 && (
+            {!isPremium && personalRecords.length > 3 && (
               <div className="text-center py-3 text-sm text-muted-foreground border-t border-dashed">
-                +{topPRs.length - 2} more records in Premium
+                <Crown className="h-4 w-4 inline mr-1" />
+                +{personalRecords.length - 3} more records in Premium
               </div>
             )}
           </div>
@@ -609,7 +612,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-muted-foreground">
-                        PR: {stats.personalRecords[exercise]?.weight || 0}kg
+                        PR: {getExercisePR(exercise)?.weight || 0}kg × {getExercisePR(exercise)?.reps || 0}
                       </span>
                       <span className={recentProgress >= 0 ? 'text-green-500' : 'text-red-500'}>
                         {recentProgress > 0 ? '+' : ''}{recentProgress.toFixed(1)}% strength

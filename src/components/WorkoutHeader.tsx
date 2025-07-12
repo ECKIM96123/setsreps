@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Plus, Timer } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface WorkoutHeaderProps {
   onStartWorkout: () => void;
@@ -27,17 +28,21 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
             <p className="text-primary-foreground/90 text-lg font-medium">Workout Tracker</p>
           </div>
         </div>
-        {!isWorkoutActive && hasInProgressWorkout && (
-          <Button
-            onClick={onResumeWorkout}
-            variant="secondary"
-            size="lg"
-            className="bg-white/10 hover:bg-white/20 border border-white/20 text-white shadow-lg backdrop-blur-sm font-semibold transition-all duration-300 hover:scale-105"
-          >
-            <Timer className="h-5 w-5 mr-2" />
-            Resume Workout
-          </Button>
-        )}
+        
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+        </div>
+          {!isWorkoutActive && hasInProgressWorkout && (
+            <Button
+              onClick={onResumeWorkout}
+              variant="secondary"
+              size="lg"
+              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white shadow-lg backdrop-blur-sm font-semibold transition-all duration-300 hover:scale-105"
+            >
+              <Timer className="h-5 w-5 mr-2" />
+              Resume Workout
+            </Button>
+          )}
       </div>
     </div>
   );
