@@ -6,6 +6,7 @@ import { BackButton } from "./BackButton";
 import { ExerciseSelector } from "./ExerciseSelector";
 import { WorkoutExercise, Exercise } from "./WorkoutExercise";
 import { WorkoutPrograms, WorkoutProgram } from "./WorkoutPrograms";
+import { AIWorkoutGenerator } from "./AIWorkoutGenerator";
 import { WorkoutSummary } from "./WorkoutSummary";
 
 import { WorkoutLog } from "./WorkoutLog";
@@ -16,7 +17,7 @@ import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
 import { usePersonalRecords } from "@/hooks/usePersonalRecords";
 import { Plus, Timer, Target } from "lucide-react";
 
-type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'stats' | 'edit-workout' | 'programs';
+type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'stats' | 'edit-workout' | 'programs' | 'ai-generator';
 
 export const WorkoutApp = () => {
   const [appState, setAppState] = useState<AppState>('idle');
@@ -303,7 +304,27 @@ export const WorkoutApp = () => {
         <div className="p-4 pb-2">
           <BackButton onBack={goBack} />
         </div>
-        <WorkoutPrograms onSelectProgram={selectProgram} />
+        <WorkoutPrograms 
+          onSelectProgram={selectProgram} 
+          onOpenAIGenerator={() => setAppState('ai-generator')}
+        />
+      </div>
+    );
+  }
+
+  if (appState === 'ai-generator') {
+    return (
+      <div ref={swipeRef} className="min-h-screen bg-background">
+        <WorkoutHeader 
+          onStartWorkout={startWorkout}
+          isWorkoutActive={false}
+          hasInProgressWorkout={currentExercises.length > 0}
+          onResumeWorkout={() => setAppState('workout')}
+        />
+        <AIWorkoutGenerator 
+          onGeneratedProgram={selectProgram}
+          onBack={() => setAppState('programs')}
+        />
       </div>
     );
   }

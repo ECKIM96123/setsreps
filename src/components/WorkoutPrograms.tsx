@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Target, Clock, Dumbbell, Play, Info } from "lucide-react";
+import { Target, Clock, Dumbbell, Play, Info, Brain, Sparkles } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
 
 interface WorkoutProgram {
@@ -22,6 +22,7 @@ interface WorkoutProgram {
 
 interface WorkoutProgramsProps {
   onSelectProgram: (program: WorkoutProgram) => void;
+  onOpenAIGenerator?: () => void;
 }
 
 const workoutPrograms: WorkoutProgram[] = [
@@ -126,7 +127,7 @@ const getDifficultyColor = (difficulty: string) => {
   }
 };
 
-export const WorkoutPrograms = ({ onSelectProgram }: WorkoutProgramsProps) => {
+export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutProgramsProps) => {
   return (
     <div className="min-h-screen bg-background">
       <div className="p-4 space-y-4 pb-24">
@@ -134,6 +135,38 @@ export const WorkoutPrograms = ({ onSelectProgram }: WorkoutProgramsProps) => {
           <Target className="h-12 w-12 mx-auto mb-4 text-primary" />
           <h1 className="text-2xl font-bold mb-2">Workout Programs</h1>
           <p className="text-muted-foreground">Choose a program to start your workout</p>
+        </div>
+
+        {onOpenAIGenerator && (
+          <Card className="p-6 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10">
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center gap-2">
+                <Brain className="h-8 w-8 text-primary" />
+                <Sparkles className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">AI Workout Generator</h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Let AI create a personalized workout program just for you based on your goals, 
+                  equipment, and preferences.
+                </p>
+              </div>
+              <Button 
+                onClick={onOpenAIGenerator}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                size="lg"
+              >
+                <Brain className="h-5 w-5 mr-2" />
+                Create My Workout
+                <Sparkles className="h-4 w-4 ml-2" />
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        <div className="space-y-1 mb-4">
+          <h2 className="text-lg font-semibold">Pre-built Programs</h2>
+          <p className="text-sm text-muted-foreground">Ready-to-use workout routines</p>
         </div>
 
         <div className="space-y-4">
