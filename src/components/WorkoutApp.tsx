@@ -6,7 +6,7 @@ import { ExerciseSelector } from "./ExerciseSelector";
 import { WorkoutExercise, Exercise } from "./WorkoutExercise";
 import { WorkoutSummary } from "./WorkoutSummary";
 import { WorkoutHistory } from "./WorkoutHistory";
-import { WorkoutJournal } from "./WorkoutJournal";
+import { WorkoutLog } from "./WorkoutLog";
 import { useWorkoutStorage } from "@/hooks/useWorkoutStorage";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Timer, Target } from "lucide-react";
@@ -113,7 +113,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'summary') {
     return (
-      <div className="min-h-screen bg-gradient-subtle p-4">
+      <div className="min-h-screen bg-background p-4">
         <WorkoutSummary
           exercises={currentExercises}
           onFinishWorkout={finishWorkout}
@@ -133,26 +133,28 @@ export const WorkoutApp = () => {
     );
   }
 
+  if (appState === 'idle') {
+    return (
+      <WorkoutLog 
+        workouts={workoutHistory}
+        onStartWorkout={startWorkout}
+        onViewHistory={() => setAppState('history')}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <div className="min-h-screen bg-background">
       <WorkoutHeader 
         onStartWorkout={startWorkout}
         isWorkoutActive={appState === 'workout'}
       />
 
       <div className="p-4 space-y-4">
-        {appState === 'idle' && (
-          <WorkoutJournal 
-            workouts={workoutHistory}
-            onStartWorkout={startWorkout}
-            onViewHistory={() => setAppState('history')}
-          />
-        )}
-
         {appState === 'workout' && (
           <>
             {/* Workout Progress Bar */}
-            <Card className="p-4 bg-workout-card border-workout-border">
+            <Card className="p-4 bg-card border">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Timer className="h-4 w-4 text-primary" />
@@ -189,8 +191,7 @@ export const WorkoutApp = () => {
             <div className="flex gap-2 pt-2">
               <Button
                 onClick={() => setAppState('exercise-selector')}
-                variant="workout"
-                className="flex-1"
+                className="flex-1 bg-primary"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Exercise
@@ -199,8 +200,7 @@ export const WorkoutApp = () => {
               {totalCompletedSets > 0 && (
                 <Button
                   onClick={showSummary}
-                  variant="accent"
-                  className="flex-1"
+                  className="flex-1 bg-green-600 hover:bg-green-700"
                 >
                   Finish Workout
                 </Button>
@@ -208,7 +208,7 @@ export const WorkoutApp = () => {
             </div>
 
             {currentExercises.length === 0 && (
-              <Card className="p-8 text-center border-workout-border">
+              <Card className="p-8 text-center border">
                 <Target className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                 <h3 className="text-lg font-medium mb-2">No Exercises Added</h3>
                 <p className="text-muted-foreground mb-4">
@@ -216,7 +216,7 @@ export const WorkoutApp = () => {
                 </p>
                 <Button
                   onClick={() => setAppState('exercise-selector')}
-                  variant="workout"
+                  className="bg-primary"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Exercise
