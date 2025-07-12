@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RestTimer } from "./RestTimer";
-import { Trash2, Plus, Check, Timer } from "lucide-react";
+import { Trash2, Plus, Check, Timer, Copy } from "lucide-react";
 
 export interface WorkoutSet {
   reps: number;
@@ -82,6 +82,22 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
     });
   };
 
+  const duplicateSet = (index: number) => {
+    const setToDuplicate = exercise.sets[index];
+    const newSet: WorkoutSet = {
+      ...setToDuplicate,
+      completed: true
+    };
+    
+    const updatedSets = [...exercise.sets];
+    updatedSets.splice(index + 1, 0, newSet);
+    
+    onUpdateExercise({
+      ...exercise,
+      sets: updatedSets
+    });
+  };
+
   const completedSets = exercise.sets.filter(set => set.completed).length;
 
   return (
@@ -150,24 +166,32 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                     placeholder="reps"
                   />
                 </div>
-                <div className="col-span-2 flex justify-end gap-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowRestTimer(true)}
-                    className="text-primary hover:text-primary p-1"
-                  >
-                    <Timer className="h-3 w-3" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => deleteSet(index)}
-                    className="text-muted-foreground hover:text-destructive p-1"
-                  >
-                    <Trash2 className="h-3 w-3" />
-                  </Button>
-                </div>
+                 <div className="col-span-2 flex justify-end gap-2">
+                   <Button
+                     variant="ghost"
+                     size="sm"
+                     onClick={() => duplicateSet(index)}
+                     className="text-muted-foreground hover:text-primary p-1"
+                   >
+                     <Copy className="h-3 w-3" />
+                   </Button>
+                   <Button
+                     variant="ghost"
+                     size="sm"
+                     onClick={() => setShowRestTimer(true)}
+                     className="text-primary hover:text-primary p-1 ml-2"
+                   >
+                     <Timer className="h-3 w-3" />
+                   </Button>
+                   <Button
+                     variant="ghost"
+                     size="sm"
+                     onClick={() => deleteSet(index)}
+                     className="text-muted-foreground hover:text-destructive p-1"
+                   >
+                     <Trash2 className="h-3 w-3" />
+                   </Button>
+                 </div>
               </div>
             ))}
         </div>
