@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { WorkoutHeader } from "./WorkoutHeader";
+import { BackButton } from "./BackButton";
 import { ExerciseSelector } from "./ExerciseSelector";
 import { WorkoutExercise, Exercise } from "./WorkoutExercise";
 import { WorkoutSummary } from "./WorkoutSummary";
@@ -10,6 +11,7 @@ import { WorkoutLog } from "./WorkoutLog";
 import { WorkoutStats } from "./WorkoutStats";
 import { useWorkoutStorage } from "@/hooks/useWorkoutStorage";
 import { useToast } from "@/hooks/use-toast";
+import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
 import { Plus, Timer, Target } from "lucide-react";
 
 type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'history' | 'stats';
@@ -20,6 +22,36 @@ export const WorkoutApp = () => {
   const [workoutStartTime, setWorkoutStartTime] = useState<Date>(new Date());
   const { workoutHistory, saveWorkout } = useWorkoutStorage();
   const { toast } = useToast();
+
+  // Navigation functions
+  const goBack = () => {
+    switch (appState) {
+      case 'exercise-selector':
+        setAppState('workout');
+        break;
+      case 'summary':
+        setAppState('workout');
+        break;
+      case 'history':
+      case 'stats':
+        setAppState('idle');
+        break;
+      case 'workout':
+        if (currentExercises.length > 0) {
+          saveAndExit();
+        } else {
+          setAppState('idle');
+        }
+        break;
+      default:
+        setAppState('idle');
+    }
+  };
+
+  // Swipe navigation setup
+  const swipeRef = useSwipeNavigation({
+    onSwipeBack: appState !== 'idle' ? goBack : undefined
+  });
 
   const startWorkout = () => {
     setCurrentExercises([]);
@@ -136,13 +168,16 @@ export const WorkoutApp = () => {
 
   if (appState === 'exercise-selector') {
     return (
-      <div className="min-h-screen bg-background">
+      <div ref={swipeRef} className="min-h-screen bg-background">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
           hasInProgressWorkout={currentExercises.length > 0}
           onResumeWorkout={() => setAppState('workout')}
         />
+        <div className="p-4 pb-2">
+          <BackButton onBack={goBack} />
+        </div>
         <ExerciseSelector
           onSelectExercise={addExercise}
           onClose={() => setAppState('workout')}
@@ -153,7 +188,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'summary') {
     return (
-      <div className="min-h-screen bg-background">
+      <div ref={swipeRef} className="min-h-screen bg-background">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -161,6 +196,7 @@ export const WorkoutApp = () => {
           onResumeWorkout={() => setAppState('workout')}
         />
         <div className="p-4">
+          <BackButton onBack={goBack} className="mb-4" />
           <WorkoutSummary
             exercises={currentExercises}
             onFinishWorkout={finishWorkout}
@@ -174,13 +210,16 @@ export const WorkoutApp = () => {
 
   if (appState === 'history') {
     return (
-      <div className="min-h-screen bg-background">
+      <div ref={swipeRef} className="min-h-screen bg-background">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
           hasInProgressWorkout={currentExercises.length > 0}
           onResumeWorkout={() => setAppState('workout')}
         />
+        <div className="p-4 pb-2">
+          <BackButton onBack={goBack} />
+        </div>
         <WorkoutHistory
           workouts={workoutHistory}
           onClose={() => setAppState('idle')}
@@ -191,13 +230,16 @@ export const WorkoutApp = () => {
 
   if (appState === 'stats') {
     return (
-      <div className="min-h-screen bg-background">
+      <div ref={swipeRef} className="min-h-screen bg-background">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
           hasInProgressWorkout={currentExercises.length > 0}
           onResumeWorkout={() => setAppState('workout')}
         />
+        <div className="p-4 pb-2">
+          <BackButton onBack={goBack} />
+        </div>
         <WorkoutStats
           workouts={workoutHistory}
           onBack={() => setAppState('idle')}
@@ -226,7 +268,7 @@ export const WorkoutApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div ref={swipeRef} className="min-h-screen bg-background">
       <WorkoutHeader 
         onStartWorkout={startWorkout}
         isWorkoutActive={appState === 'workout'}
@@ -237,6 +279,7 @@ export const WorkoutApp = () => {
       <div className="p-4 space-y-4">
         {appState === 'workout' && (
           <>
+            <BackButton onBack={goBack} />
             {/* Workout Progress Bar */}
             <Card className="p-4 bg-card border">
               <div className="flex items-center justify-between mb-2">
