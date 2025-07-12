@@ -14,7 +14,7 @@ export const useWorkoutStorage = () => {
   const [workoutHistory, setWorkoutHistory] = useState<CompletedWorkout[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('fittracker-workouts');
+    const saved = localStorage.getItem('setsreps-workouts');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -53,7 +53,7 @@ export const useWorkoutStorage = () => {
     setWorkoutHistory(updated);
     
     try {
-      localStorage.setItem('fittracker-workouts', JSON.stringify(updated));
+      localStorage.setItem('setsreps-workouts', JSON.stringify(updated));
     } catch (error) {
       console.error('Error saving workout:', error);
     }
@@ -63,7 +63,7 @@ export const useWorkoutStorage = () => {
 
   const clearHistory = () => {
     setWorkoutHistory([]);
-    localStorage.removeItem('fittracker-workouts');
+    localStorage.removeItem('setsreps-workouts');
   };
 
   return {

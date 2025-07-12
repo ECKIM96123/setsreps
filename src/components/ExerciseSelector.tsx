@@ -72,44 +72,71 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* Add Custom Exercise - More Prominent */}
           <div className="space-y-3">
-            <h3 className="font-medium text-muted-foreground">Popular Exercises</h3>
-            {filteredExercises.map((exercise, index) => (
-              <Card 
-                key={index}
-                className="p-4 cursor-pointer hover:shadow-workout transition-all duration-200 border-workout-border"
-                onClick={() => onSelectExercise(exercise)}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <Activity className="h-4 w-4 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium">{exercise.name}</h4>
-                      <p className="text-sm text-muted-foreground">{exercise.muscle}</p>
-                    </div>
-                  </div>
-                  <Badge variant="secondary">{exercise.category}</Badge>
-                </div>
-              </Card>
-            ))}
-          </div>
-
-          <div className="space-y-3 pt-4 border-t border-workout-border">
-            <h3 className="font-medium text-muted-foreground">Add Custom Exercise</h3>
+            <h3 className="font-medium text-muted-foreground flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Add Your Own Exercise
+            </h3>
             <div className="flex gap-2">
               <Input
-                placeholder="Enter exercise name..."
+                placeholder="Enter exercise name (e.g., Bulgarian Split Squats)..."
                 value={customExercise}
                 onChange={(e) => setCustomExercise(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddCustom()}
+                className="flex-1"
               />
-              <Button onClick={handleAddCustom} className="bg-gradient-accent">
+              <Button 
+                onClick={handleAddCustom} 
+                className="bg-gradient-primary"
+                disabled={!customExercise.trim()}
+              >
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
+            <p className="text-xs text-muted-foreground">
+              Create custom exercises for movements not in our library
+            </p>
+          </div>
+          <div className="space-y-3">
+            <h3 className="font-medium text-muted-foreground">Popular Exercises</h3>
+            {filteredExercises.length === 0 && searchTerm ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground mb-4">No exercises found for "{searchTerm}"</p>
+                <Button 
+                  onClick={() => {
+                    setCustomExercise(searchTerm);
+                    handleAddCustom();
+                  }}
+                  className="bg-gradient-primary"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add "{searchTerm}" as Custom Exercise
+                </Button>
+              </div>
+            ) : (
+              filteredExercises.map((exercise, index) => (
+                <Card 
+                  key={index}
+                  className="p-4 cursor-pointer hover:shadow-workout transition-all duration-200 border-workout-border"
+                  onClick={() => onSelectExercise(exercise)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-primary/10 rounded-lg">
+                        <Activity className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium">{exercise.name}</h4>
+                        <p className="text-sm text-muted-foreground">{exercise.muscle}</p>
+                      </div>
+                    </div>
+                    <Badge variant="secondary">{exercise.category}</Badge>
+                  </div>
+                </Card>
+              ))
+            )}
           </div>
         </div>
       </Card>

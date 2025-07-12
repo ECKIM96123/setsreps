@@ -15,8 +15,8 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive }: WorkoutHeader
             <Dumbbell className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">FitTracker</h1>
-            <p className="text-primary-foreground/80">Workout Journal</p>
+            <h1 className="text-2xl font-bold">Sets&Reps</h1>
+            <p className="text-primary-foreground/80">Workout Tracker</p>
           </div>
         </div>
         {!isWorkoutActive && (

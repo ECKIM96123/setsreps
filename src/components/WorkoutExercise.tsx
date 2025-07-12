@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Plus, Check, MoreVertical } from "lucide-react";
+import { RestTimer } from "./RestTimer";
+import { Trash2, Plus, Check, Timer } from "lucide-react";
 
 export interface WorkoutSet {
   reps: number;
@@ -27,6 +28,7 @@ interface WorkoutExerciseProps {
 export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }: WorkoutExerciseProps) => {
   const [newWeight, setNewWeight] = useState("");
   const [newReps, setNewReps] = useState("");
+  const [showRestTimer, setShowRestTimer] = useState(false);
 
   const addSet = () => {
     const weight = parseFloat(newWeight) || 0;
@@ -58,6 +60,11 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
       ...exercise,
       sets: updatedSets
     });
+
+    // Show rest timer when completing a set (not uncompleting)
+    if (!exercise.sets[index].completed) {
+      setShowRestTimer(true);
+    }
   };
 
   const deleteSet = (index: number) => {
@@ -71,7 +78,14 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
   const completedSets = exercise.sets.filter(set => set.completed).length;
 
   return (
-    <Card className="p-4 space-y-4 shadow-workout border-workout-border">
+    <>
+      <RestTimer 
+        isVisible={showRestTimer}
+        onClose={() => setShowRestTimer(false)}
+        defaultTime={90}
+      />
+      
+      <Card className="p-4 space-y-4 shadow-workout border-workout-border">
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
@@ -125,12 +139,22 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                   variant={set.completed ? "default" : "outline"}
                   size="sm"
                   onClick={() => toggleSetComplete(index)}
-                  className={set.completed ? "bg-success hover:bg-success/90" : ""}
+                  className={set.completed ? "bg-green-500 hover:bg-green-600 text-white" : ""}
                 >
                   <Check className={`h-3 w-3 ${set.completed ? 'text-white' : ''}`} />
                 </Button>
               </div>
-              <div className="col-span-2 flex justify-end">
+              <div className="col-span-2 flex justify-end gap-1">
+                {set.completed && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowRestTimer(true)}
+                    className="text-primary hover:text-primary"
+                  >
+                    <Timer className="h-3 w-3" />
+                  </Button>
+                )}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -180,7 +204,8 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
             <Plus className="h-3 w-3" />
           </Button>
         </div>
-      </div>
-    </Card>
+        </div>
+      </Card>
+    </>
   );
 };
