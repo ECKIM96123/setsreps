@@ -6,9 +6,10 @@ import { ExerciseSelector } from "./ExerciseSelector";
 import { WorkoutExercise, Exercise } from "./WorkoutExercise";
 import { WorkoutSummary } from "./WorkoutSummary";
 import { WorkoutHistory } from "./WorkoutHistory";
+import { WorkoutJournal } from "./WorkoutJournal";
 import { useWorkoutStorage } from "@/hooks/useWorkoutStorage";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, History, Timer, Target } from "lucide-react";
+import { Plus, Timer, Target } from "lucide-react";
 
 type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'history';
 
@@ -141,42 +142,11 @@ export const WorkoutApp = () => {
 
       <div className="p-4 space-y-4">
         {appState === 'idle' && (
-          <>
-            <div className="grid grid-cols-1 gap-4 mt-6">
-              <Card className="p-6 text-center bg-gradient-primary text-primary-foreground shadow-workout">
-                <Target className="h-12 w-12 mx-auto mb-4 opacity-90" />
-                <h2 className="text-xl font-semibold mb-2">Ready to Train?</h2>
-                <p className="text-primary-foreground/80 mb-4">
-                  Start a new workout and track your progress
-                </p>
-                <Button 
-                  onClick={startWorkout}
-                  variant="secondary"
-                  className="bg-white/10 hover:bg-white/20 border-white/20 text-white"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Start New Workout
-                </Button>
-              </Card>
-              
-              {workoutHistory.length > 0 && (
-                <Card className="p-6 text-center border-workout-border">
-                  <History className="h-12 w-12 mx-auto mb-4 text-primary" />
-                  <h3 className="text-lg font-semibold mb-2">Workout History</h3>
-                  <p className="text-muted-foreground mb-4">
-                    You've completed {workoutHistory.length} workouts
-                  </p>
-                  <Button 
-                    onClick={() => setAppState('history')}
-                    variant="outline"
-                  >
-                    <History className="h-4 w-4 mr-2" />
-                    View History
-                  </Button>
-                </Card>
-              )}
-            </div>
-          </>
+          <WorkoutJournal 
+            workouts={workoutHistory}
+            onStartWorkout={startWorkout}
+            onViewHistory={() => setAppState('history')}
+          />
         )}
 
         {appState === 'workout' && (
