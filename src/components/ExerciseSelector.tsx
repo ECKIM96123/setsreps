@@ -6,48 +6,53 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Search, Plus, Target, Activity, Info } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
+import { useTranslation } from 'react-i18next';
+import { EXERCISE_KEYS, MUSCLE_KEYS } from "@/lib/exerciseTranslations";
 
+// Use translation keys for exercises
 const EXERCISES_BY_MUSCLE = {
   "Chest": [
-    { name: "Bench Press", category: "Chest", muscle: "Chest" },
-    { name: "Incline Bench Press", category: "Chest", muscle: "Upper Chest" },
-    { name: "Dips", category: "Chest", muscle: "Lower Chest" },
-    { name: "Push-ups", category: "Chest", muscle: "Chest" },
-    { name: "Chest Flyes", category: "Chest", muscle: "Chest" }
+    { name: "Bench Press", key: "benchPress", category: "Chest", muscle: "Chest", muscleKey: "chest" },
+    { name: "Incline Bench Press", key: "inclineBenchPress", category: "Chest", muscle: "Upper Chest", muscleKey: "upperChest" },
+    { name: "Dips", key: "dip", category: "Chest", muscle: "Lower Chest", muscleKey: "lowerChest" },
+    { name: "Push-ups", key: "pushUps", category: "Chest", muscle: "Chest", muscleKey: "chest" },
+    { name: "Chest Flyes", key: "chestFlyes", category: "Chest", muscle: "Chest", muscleKey: "chest" }
   ],
   "Back": [
-    { name: "Deadlift", category: "Back", muscle: "Back" },
-    { name: "Pull-ups", category: "Back", muscle: "Lats" },
-    { name: "Barbell Row", category: "Back", muscle: "Back" },
-    { name: "Lat Pulldown", category: "Back", muscle: "Lats" },
-    { name: "T-Bar Row", category: "Back", muscle: "Mid Back" }
+    { name: "Deadlift", key: "deadlift", category: "Back", muscle: "Back", muscleKey: "back" },
+    { name: "Pull-ups", key: "pullUp", category: "Back", muscle: "Lats", muscleKey: "lats" },
+    { name: "Barbell Row", key: "barbellRow", category: "Back", muscle: "Back", muscleKey: "back" },
+    { name: "Lat Pulldown", key: "latPulldown", category: "Back", muscle: "Lats", muscleKey: "lats" },
+    { name: "T-Bar Row", key: "tBarRow", category: "Back", muscle: "Mid Back", muscleKey: "midBack" }
   ],
   "Legs": [
-    { name: "Squat", category: "Legs", muscle: "Quadriceps" },
-    { name: "Romanian Deadlift", category: "Legs", muscle: "Hamstrings" },
-    { name: "Leg Press", category: "Legs", muscle: "Quadriceps" },
-    { name: "Lunges", category: "Legs", muscle: "Quadriceps" },
-    { name: "Calf Raises", category: "Legs", muscle: "Calves" }
+    { name: "Squat", key: "squat", category: "Legs", muscle: "Quadriceps", muscleKey: "quadriceps" },
+    { name: "Romanian Deadlift", key: "romanianDeadlift", category: "Legs", muscle: "Hamstrings", muscleKey: "hamstrings" },
+    { name: "Leg Press", key: "legPress", category: "Legs", muscle: "Quadriceps", muscleKey: "quadriceps" },
+    { name: "Lunges", key: "lunges", category: "Legs", muscle: "Quadriceps", muscleKey: "quadriceps" },
+    { name: "Calf Raises", key: "calfRaise", category: "Legs", muscle: "Calves", muscleKey: "calves" }
   ],
   "Shoulders": [
-    { name: "Overhead Press", category: "Shoulders", muscle: "Shoulders" },
-    { name: "Lateral Raises", category: "Shoulders", muscle: "Side Delts" },
-    { name: "Rear Delt Flyes", category: "Shoulders", muscle: "Rear Delts" },
-    { name: "Arnold Press", category: "Shoulders", muscle: "Shoulders" }
+    { name: "Overhead Press", key: "overheadPress", category: "Shoulders", muscle: "Shoulders", muscleKey: "shoulders" },
+    { name: "Lateral Raises", key: "lateralRaises", category: "Shoulders", muscle: "Side Delts", muscleKey: "sideDelts" },
+    { name: "Rear Delt Flyes", key: "rearDeltFlyes", category: "Shoulders", muscle: "Rear Delts", muscleKey: "rearDelts" },
+    { name: "Arnold Press", key: "arnoldPress", category: "Shoulders", muscle: "Shoulders", muscleKey: "shoulders" }
   ],
   "Arms": [
-    { name: "Bicep Curls", category: "Arms", muscle: "Biceps" },
-    { name: "Tricep Dips", category: "Arms", muscle: "Triceps" },
-    { name: "Hammer Curls", category: "Arms", muscle: "Biceps" },
-    { name: "Close-Grip Bench Press", category: "Arms", muscle: "Triceps" },
-    { name: "Preacher Curls", category: "Arms", muscle: "Biceps" }
+    { name: "Bicep Curls", key: "bicepCurl", category: "Arms", muscle: "Biceps", muscleKey: "biceps" },
+    { name: "Tricep Dips", key: "tricepDips", category: "Arms", muscle: "Triceps", muscleKey: "triceps" },
+    { name: "Hammer Curls", key: "hammerCurls", category: "Arms", muscle: "Biceps", muscleKey: "biceps" },
+    { name: "Close-Grip Bench Press", key: "closeGripBenchPress", category: "Arms", muscle: "Triceps", muscleKey: "triceps" },
+    { name: "Preacher Curls", key: "preacherCurls", category: "Arms", muscle: "Biceps", muscleKey: "biceps" }
   ]
 };
 
 interface Exercise {
   name: string;
+  key?: string;
   category: string;
   muscle: string;
+  muscleKey?: string;
 }
 
 interface ExerciseSelectorProps {
@@ -56,6 +61,7 @@ interface ExerciseSelectorProps {
 }
 
 export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelectorProps) => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [customExercise, setCustomExercise] = useState("");
   const [expandedGroups, setExpandedGroups] = useState<string[]>(["Chest"]);
@@ -76,10 +82,12 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
     
     const filtered: Record<string, Exercise[]> = {};
     Object.entries(EXERCISES_BY_MUSCLE).forEach(([muscleGroup, exercises]) => {
-      const matchingExercises = exercises.filter(exercise =>
-        exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        exercise.muscle.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const matchingExercises = exercises.filter(exercise => {
+        const translatedName = exercise.key ? t(`exercises.${exercise.key}`) : exercise.name;
+        const translatedMuscle = exercise.muscleKey ? t(`exercises.${exercise.muscleKey}`) : exercise.muscle;
+        return translatedName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               translatedMuscle.toLowerCase().includes(searchTerm.toLowerCase());
+      });
       if (matchingExercises.length > 0) {
         filtered[muscleGroup] = matchingExercises;
       }
@@ -106,7 +114,7 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold flex items-center gap-2">
               <Target className="h-5 w-5 text-primary" />
-              Select Exercise
+              {t('workout.selectExercise', 'Select Exercise')}
             </h2>
             <Button variant="ghost" onClick={onClose}>
               ✕
@@ -116,7 +124,7 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search exercises..."
+              placeholder={t('workout.searchExercises', 'Search exercises...')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -129,11 +137,11 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
           <div className="space-y-3">
             <h3 className="font-medium text-muted-foreground flex items-center gap-2">
               <Plus className="h-4 w-4" />
-              Add Your Own Exercise
+              {t('workout.addCustomExercise', 'Add Your Own Exercise')}
             </h3>
             <div className="flex gap-2">
               <Input
-                placeholder="Enter exercise name (e.g., Bulgarian Split Squats)..."
+                placeholder={t('workout.enterExerciseName', 'Enter exercise name (e.g., Bulgarian Split Squats)...')}
                 value={customExercise}
                 onChange={(e) => setCustomExercise(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddCustom()}
@@ -182,7 +190,7 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
                       <div className="p-1 bg-primary/10 rounded">
                         <Activity className="h-4 w-4 text-primary" />
                       </div>
-                      <span className="font-medium">{muscleGroup}</span>
+                      <span className="font-medium">{t(`exercises.${muscleGroup.toLowerCase()}`)}</span>
                       <Badge variant="secondary" className="text-xs">
                         {exercises.length}
                       </Badge>
@@ -198,12 +206,23 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
                         <Card 
                           key={index}
                           className="p-3 cursor-pointer hover:shadow-workout transition-all duration-200 border-workout-border bg-muted/20"
-                          onClick={() => onSelectExercise(exercise)}
+                          onClick={() => {
+                            const translatedExercise = {
+                              name: exercise.key ? t(`exercises.${exercise.key}`) : exercise.name,
+                              category: t(`exercises.${exercise.category.toLowerCase()}`),
+                              muscle: exercise.muscleKey ? t(`exercises.${exercise.muscleKey}`) : exercise.muscle
+                            };
+                            onSelectExercise(translatedExercise);
+                          }}
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
-                              <h4 className="font-medium text-sm">{exercise.name}</h4>
-                              <p className="text-xs text-muted-foreground">{exercise.muscle}</p>
+                              <h4 className="font-medium text-sm">
+                                {exercise.key ? t(`exercises.${exercise.key}`) : exercise.name}
+                              </h4>
+                              <p className="text-xs text-muted-foreground">
+                                {exercise.muscleKey ? t(`exercises.${exercise.muscleKey}`) : exercise.muscle}
+                              </p>
                             </div>
                             <div className="flex items-center gap-1">
                               <Dialog>
@@ -218,12 +237,14 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
                                   </Button>
                                 </DialogTrigger>
                                 <DialogContent className="max-w-md">
-                                  <DialogHeader>
-                                    <DialogTitle>{exercise.name}</DialogTitle>
+                                   <DialogHeader>
+                                     <DialogTitle>
+                                       {exercise.key ? t(`exercises.${exercise.key}`) : exercise.name}
+                                     </DialogTitle>
                                   </DialogHeader>
                                   <div className="space-y-3">
-                                    <div className="text-sm text-muted-foreground">
-                                      <strong>Target:</strong> {exercise.muscle} ({exercise.category})
+                                     <div className="text-sm text-muted-foreground">
+                                       <strong>Target:</strong> {exercise.muscleKey ? t(`exercises.${exercise.muscleKey}`) : exercise.muscle} ({t(`exercises.${exercise.category.toLowerCase()}`)})
                                     </div>
                                     <div className="text-sm">
                                       <strong>How to perform:</strong>
