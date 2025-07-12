@@ -38,17 +38,6 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
             Resume Workout
           </Button>
         )}
-        {!isWorkoutActive && (
-          <Button
-            onClick={onStartWorkout}
-            variant="secondary"
-            size="lg"
-            className="bg-white/15 hover:bg-white/25 border-white/30 text-white shadow-accent backdrop-blur-sm font-semibold"
-          >
-            <Plus className="h-5 w-5 mr-2" />
-            {hasInProgressWorkout ? 'New Workout' : 'Start Workout'}
-          </Button>
-        )}
       </div>
     </div>
   );
