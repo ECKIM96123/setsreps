@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, BarChart3, History, Target, Edit, Trash2, MoreVertical } from "lucide-react";
 import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 import { OfflineStatus } from "./OfflineStatus";
+import { useTranslation } from 'react-i18next';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -33,6 +34,7 @@ interface WorkoutLogProps {
 }
 
 export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewPrograms, onEditWorkout, onDeleteWorkout }: WorkoutLogProps) => {
+  const { t } = useTranslation();
   const [deletingWorkout, setDeletingWorkout] = useState<string | null>(null);
   const formatDate = (date: Date) => {
     const today = new Date();
@@ -43,8 +45,8 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
     const todayStr = today.toDateString();
     const yesterdayStr = yesterday.toDateString();
     
-    if (dateStr === todayStr) return 'TODAY';
-    if (dateStr === yesterdayStr) return 'YESTERDAY';
+    if (dateStr === todayStr) return t('common.today');
+    if (dateStr === yesterdayStr) return t('common.yesterday');
     
     return date.toLocaleDateString('en-US', { 
       weekday: 'short', 
@@ -95,12 +97,12 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
           <div className="text-center py-16 space-y-4">
             <Target className="h-16 w-16 mx-auto text-muted-foreground" />
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold">No workouts yet</h2>
-              <p className="text-muted-foreground">Start logging your first workout!</p>
+              <h2 className="text-xl font-semibold">{t('workout.noWorkoutsYet')}</h2>
+              <p className="text-muted-foreground">{t('workout.startLoggingFirst')}</p>
             </div>
             <Button onClick={onStartWorkout} className="bg-gradient-primary">
               <Plus className="h-4 w-4 mr-2" />
-              Start First Workout
+              {t('workout.startFirstWorkout')}
             </Button>
           </div>
         ) : (
@@ -109,8 +111,8 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
             <Card className="p-4 bg-primary/5 border-primary/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-semibold">Start New Workout</h3>
-                  <p className="text-sm text-muted-foreground">Begin a fresh workout session</p>
+                  <h3 className="font-semibold">{t('workout.startNewWorkout')}</h3>
+                  <p className="text-sm text-muted-foreground">{t('workout.beginFreshSession')}</p>
                 </div>
                 <Button 
                   onClick={onStartWorkout}
@@ -119,7 +121,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
                   className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Start
+                  {t('common.start')}
                 </Button>
               </div>
             </Card>
@@ -145,7 +147,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-lg">{getWorkoutType(workout.exercises)}</h3>
                     <Badge variant="secondary" className="text-xs">
-                      {workout.exercises.length} exercises
+                      {workout.exercises.length} {t('workout.exercises').toLowerCase()}
                     </Badge>
                   </div>
                   <div className="flex items-center gap-2">
@@ -162,19 +164,19 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => onEditWorkout(workout)}>
                           <Edit className="h-4 w-4 mr-2" />
-                          Edit Workout
+                          {t('workout.editWorkout')}
                         </DropdownMenuItem>
                         <DropdownMenuItem 
                           onClick={() => setDeletingWorkout(workout.id)}
                           className="text-destructive focus:text-destructive"
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
-                          Delete Workout
+                          {t('workout.deleteWorkout')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                     <div className="text-sm text-muted-foreground">
-                      {workout.duration} min
+                      {workout.duration} {t('workout.minutes')}
                     </div>
                   </div>
                 </div>
@@ -194,9 +196,9 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
 
                 {/* Quick Stats */}
                 <div className="flex gap-4 mt-3 pt-3 border-t text-xs text-muted-foreground">
-                  <span>{workout.totalSets} sets</span>
+                  <span>{workout.totalSets} {t('workout.sets').toLowerCase()}</span>
                   {workout.totalVolume > 0 && (
-                    <span>{workout.totalVolume.toLocaleString()}kg total</span>
+                    <span>{workout.totalVolume.toLocaleString()}{t('workout.kg')} {t('workout.totalVolume')}</span>
                   )}
                 </div>
               </Card>
@@ -222,15 +224,15 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
         <div className="flex items-center justify-around py-3">
           <Button variant="ghost" className="flex-1 flex-col h-auto py-2">
             <History className="h-5 w-5 mb-1" />
-            <span className="text-xs">Log</span>
+            <span className="text-xs">{t('navigation.log')}</span>
           </Button>
           <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onViewPrograms}>
             <Target className="h-5 w-5 mb-1" />
-            <span className="text-xs">Program</span>
+            <span className="text-xs">{t('navigation.program')}</span>
           </Button>
           <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onViewStats}>
             <BarChart3 className="h-5 w-5 mb-1" />
-            <span className="text-xs">Stats</span>
+            <span className="text-xs">{t('navigation.stats')}</span>
           </Button>
         </div>
       </div>
@@ -239,13 +241,13 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
       <AlertDialog open={!!deletingWorkout} onOpenChange={() => setDeletingWorkout(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Workout</AlertDialogTitle>
+            <AlertDialogTitle>{t('workout.deleteWorkout')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this workout? This action cannot be undone.
+              {t('workout.deleteWorkoutConfirm')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
             <AlertDialogAction 
               onClick={() => {
                 if (deletingWorkout) {
@@ -255,7 +257,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
               }}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Delete
+              {t('common.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

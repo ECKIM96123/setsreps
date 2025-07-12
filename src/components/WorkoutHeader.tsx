@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Dumbbell, Plus, Timer } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { NotificationSettings } from "./NotificationSettings";
+import { LanguageSelector } from "./LanguageSelector";
+import { useTranslation } from 'react-i18next';
 
 interface WorkoutHeaderProps {
   onStartWorkout: () => void;
@@ -11,6 +13,7 @@ interface WorkoutHeaderProps {
 }
 
 export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWorkout, onResumeWorkout }: WorkoutHeaderProps) => {
+  const { t } = useTranslation();
   return (
     <div className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4">
@@ -38,7 +41,7 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
                 className="hidden sm:flex shadow-workout"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Start Workout
+                {t('workout.startWorkout')}
               </Button>
             )}
             
@@ -54,6 +57,7 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
               </Button>
             )}
             <NotificationSettings />
+            <LanguageSelector />
             <ThemeToggle />
           </div>
         </div>
@@ -68,7 +72,7 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
               className="w-full shadow-workout"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Start Workout
+              {t('workout.startWorkout')}
             </Button>
           )}
           
