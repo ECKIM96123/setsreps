@@ -85,6 +85,54 @@ export const WorkoutApp = () => {
     setCurrentExercises(prev => prev.filter((_, i) => i !== index));
   };
 
+  const toggleSuperset = (index: number) => {
+    setCurrentExercises(prev => {
+      const updated = [...prev];
+      const exercise = updated[index];
+      
+      if (exercise.supersetGroup !== undefined) {
+        // Remove from superset
+        const groupToRemove = exercise.supersetGroup;
+        updated.forEach((ex, i) => {
+          if (ex.supersetGroup === groupToRemove) {
+            delete ex.supersetGroup;
+            delete ex.supersetWith;
+          }
+        });
+      } else {
+        // Add to superset
+        const nextExercise = updated[index + 1];
+        if (nextExercise) {
+          // Create new superset group with next exercise
+          const groupId = Date.now();
+          exercise.supersetGroup = groupId;
+          exercise.supersetWith = `${index + 1}`;
+          nextExercise.supersetGroup = groupId;
+        }
+      }
+      
+      return updated;
+    });
+  };
+
+  const getSupersetPosition = (index: number): 'first' | 'middle' | 'last' | 'single' => {
+    const exercise = currentExercises[index];
+    if (!exercise.supersetGroup) return 'single';
+    
+    const supersetExercises = currentExercises.filter(ex => ex.supersetGroup === exercise.supersetGroup);
+    if (supersetExercises.length === 1) return 'single';
+    
+    const supersetIndices = supersetExercises.map(ex => 
+      currentExercises.findIndex(e => e === ex)
+    ).sort((a, b) => a - b);
+    
+    const positionInSuperset = supersetIndices.indexOf(index);
+    
+    if (positionInSuperset === 0) return 'first';
+    if (positionInSuperset === supersetIndices.length - 1) return 'last';
+    return 'middle';
+  };
+
   const finishWorkout = () => {
     const completedExercises = currentExercises.filter(ex => 
       ex.sets.some(set => set.completed)
@@ -296,6 +344,9 @@ export const WorkoutApp = () => {
                 exercise={exercise}
                 onUpdateExercise={(updated) => updateExercise(index, updated)}
                 onDeleteExercise={() => deleteExercise(index)}
+                onToggleSuperset={() => toggleSuperset(index)}
+                isInSuperset={exercise.supersetGroup !== undefined}
+                supersetPosition={getSupersetPosition(index)}
               />
             ))}
           </div>
@@ -386,6 +437,9 @@ export const WorkoutApp = () => {
                   exercise={exercise}
                   onUpdateExercise={(updated) => updateExercise(index, updated)}
                   onDeleteExercise={() => deleteExercise(index)}
+                  onToggleSuperset={() => toggleSuperset(index)}
+                  isInSuperset={exercise.supersetGroup !== undefined}
+                  supersetPosition={getSupersetPosition(index)}
                 />
               ))}
             </div>
