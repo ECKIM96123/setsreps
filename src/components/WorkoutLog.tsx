@@ -139,7 +139,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory, onViewStat
         <Button
           onClick={onStartWorkout}
           size="lg"
-          className="h-14 w-14 bg-primary hover:bg-primary/90 shadow-lg"
+          className="h-14 w-14 rounded-full bg-primary hover:bg-primary/90 shadow-lg"
         >
           <Plus className="h-6 w-6" />
         </Button>

@@ -31,7 +31,7 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="text-center p-4 bg-card border border-workout-border">
+        <div className="text-center p-4 bg-card rounded-xl border border-workout-border">
           <div className="flex items-center justify-center gap-1 mb-1">
             <Target className="h-4 w-4 text-primary" />
             <span className="text-2xl font-bold text-primary">{completedSets}</span>
@@ -40,7 +40,7 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
           <p className="text-xs text-muted-foreground">of {totalSets} total</p>
         </div>
         
-        <div className="text-center p-4 bg-card border border-workout-border">
+        <div className="text-center p-4 bg-card rounded-xl border border-workout-border">
           <div className="flex items-center justify-center gap-1 mb-1">
             <Clock className="h-4 w-4 text-accent" />
             <span className="text-2xl font-bold text-accent">{workoutDuration}</span>
@@ -51,7 +51,7 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
       </div>
 
       {totalVolume > 0 && (
-        <div className="text-center p-4 bg-card border border-workout-border">
+        <div className="text-center p-4 bg-card rounded-xl border border-workout-border">
           <div className="flex items-center justify-center gap-1 mb-1">
             <TrendingUp className="h-4 w-4 text-success" />
             <span className="text-2xl font-bold text-success">{totalVolume.toLocaleString()}</span>
@@ -66,7 +66,7 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
           {exercises.map((exercise, index) => {
             const exerciseCompletedSets = exercise.sets.filter(set => set.completed).length;
             return (
-              <div key={index} className="flex items-center justify-between p-3 bg-card border border-workout-border">
+              <div key={index} className="flex items-center justify-between p-3 bg-card rounded-lg border border-workout-border">
                 <div className="flex-1">
                   <p className="font-medium text-sm">{exercise.name}</p>
                   <p className="text-xs text-muted-foreground">

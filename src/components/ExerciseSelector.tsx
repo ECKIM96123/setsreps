@@ -99,7 +99,7 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-end z-50 animate-slide-up">
-      <Card className="w-full max-h-[80vh] bg-card border-0 shadow-workout overflow-hidden">
+      <Card className="w-full max-h-[80vh] rounded-t-3xl bg-card border-0 shadow-workout overflow-hidden">
         <div className="p-6 border-b border-workout-border">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold flex items-center gap-2">
