@@ -1,0 +1,175 @@
+import { useState, useEffect } from 'react';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { Capacitor } from '@capacitor/core';
+
+export interface NotificationSettings {
+  workoutReminders: boolean;
+  restTimerAlerts: boolean;
+  dailyMotivation: boolean;
+  reminderTime: string; // HH:MM format
+}
+
+export const useNotifications = () => {
+  const [settings, setSettings] = useState<NotificationSettings>(() => {
+    const saved = localStorage.getItem('notificationSettings');
+    return saved ? JSON.parse(saved) : {
+      workoutReminders: true,
+      restTimerAlerts: true,
+      dailyMotivation: false,
+      reminderTime: '18:00'
+    };
+  });
+
+  const [permissionGranted, setPermissionGranted] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('notificationSettings', JSON.stringify(settings));
+  }, [settings]);
+
+  const requestPermissions = async () => {
+    if (!Capacitor.isNativePlatform()) {
+      console.log('Notifications not available on web platform');
+      return false;
+    }
+
+    try {
+      const result = await LocalNotifications.requestPermissions();
+      const granted = result.display === 'granted';
+      setPermissionGranted(granted);
+      return granted;
+    } catch (error) {
+      console.error('Error requesting notification permissions:', error);
+      return false;
+    }
+  };
+
+  const scheduleWorkoutReminder = async (title: string, body: string, scheduledTime?: Date) => {
+    if (!permissionGranted || !settings.workoutReminders) return;
+
+    try {
+      const scheduleAt = scheduledTime || getNextReminderTime();
+      
+      await LocalNotifications.schedule({
+        notifications: [{
+          title,
+          body,
+          id: Date.now(),
+          schedule: { at: scheduleAt },
+          sound: undefined,
+          attachments: undefined,
+          actionTypeId: "",
+          extra: { type: 'workout_reminder' }
+        }]
+      });
+    } catch (error) {
+      console.error('Error scheduling workout reminder:', error);
+    }
+  };
+
+  const scheduleRestTimerAlert = async (seconds: number) => {
+    if (!permissionGranted || !settings.restTimerAlerts) return;
+
+    try {
+      const scheduleAt = new Date(Date.now() + seconds * 1000);
+      
+      await LocalNotifications.schedule({
+        notifications: [{
+          title: 'Rest Timer Complete!',
+          body: 'Time to get back to your workout 💪',
+          id: Date.now(),
+          schedule: { at: scheduleAt },
+          sound: undefined,
+          attachments: undefined,
+          actionTypeId: "",
+          extra: { type: 'rest_timer' }
+        }]
+      });
+    } catch (error) {
+      console.error('Error scheduling rest timer alert:', error);
+    }
+  };
+
+  const scheduleDailyMotivation = async () => {
+    if (!permissionGranted || !settings.dailyMotivation) return;
+
+    const motivationalMessages = [
+      "Ready to crush today's workout? 💪",
+      "Your muscles are waiting for you! 🔥",
+      "Consistency beats perfection. Let's go! 🎯",
+      "Today's workout is tomorrow's strength! 💪",
+      "No excuses, just results! 🚀"
+    ];
+
+    try {
+      const tomorrow = getNextReminderTime();
+      const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+      
+      await LocalNotifications.schedule({
+        notifications: [{
+          title: 'Daily Workout Reminder',
+          body: randomMessage,
+          id: Date.now(),
+          schedule: { at: tomorrow },
+          sound: undefined,
+          attachments: undefined,
+          actionTypeId: "",
+          extra: { type: 'daily_motivation' }
+        }]
+      });
+    } catch (error) {
+      console.error('Error scheduling daily motivation:', error);
+    }
+  };
+
+  const getNextReminderTime = (): Date => {
+    const [hours, minutes] = settings.reminderTime.split(':').map(Number);
+    const now = new Date();
+    const reminderTime = new Date();
+    
+    reminderTime.setHours(hours, minutes, 0, 0);
+    
+    // If the time has passed today, schedule for tomorrow
+    if (reminderTime <= now) {
+      reminderTime.setDate(reminderTime.getDate() + 1);
+    }
+    
+    return reminderTime;
+  };
+
+  const cancelAllNotifications = async () => {
+    try {
+      await LocalNotifications.cancel({
+        notifications: (await LocalNotifications.getPending()).notifications
+      });
+    } catch (error) {
+      console.error('Error canceling notifications:', error);
+    }
+  };
+
+  const updateSettings = (newSettings: Partial<NotificationSettings>) => {
+    setSettings(prev => ({ ...prev, ...newSettings }));
+  };
+
+  // Initialize permissions on mount
+  useEffect(() => {
+    requestPermissions();
+  }, []);
+
+  // Reschedule daily motivation when settings change
+  useEffect(() => {
+    if (settings.dailyMotivation && permissionGranted) {
+      scheduleDailyMotivation();
+    }
+  }, [settings.dailyMotivation, settings.reminderTime, permissionGranted]);
+
+  return {
+    settings,
+    updateSettings,
+    permissionGranted,
+    requestPermissions,
+    scheduleWorkoutReminder,
+    scheduleRestTimerAlert,
+    scheduleDailyMotivation,
+    cancelAllNotifications
+  };
+};

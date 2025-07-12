@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Exercise } from '@/components/WorkoutExercise';
+import { useOfflineMode } from './useOfflineMode';
 
 export interface CompletedWorkout {
   id: string;
@@ -11,6 +12,7 @@ export interface CompletedWorkout {
 }
 
 export const useWorkoutStorage = () => {
+  const { saveWorkoutOffline, updateWorkoutOffline, isOnline } = useOfflineMode();
   const [workoutHistory, setWorkoutHistory] = useState<CompletedWorkout[]>([]);
 
   useEffect(() => {
@@ -58,6 +60,9 @@ export const useWorkoutStorage = () => {
       console.error('Error saving workout:', error);
     }
 
+    // Save to offline storage for sync
+    saveWorkoutOffline(workout);
+
     return workout;
   };
 
@@ -87,6 +92,12 @@ export const useWorkoutStorage = () => {
       localStorage.setItem('setsreps-workouts', JSON.stringify(updated));
     } catch (error) {
       console.error('Error updating workout:', error);
+    }
+
+    // Update offline storage for sync
+    const updatedWorkout = updated.find(w => w.id === workoutId);
+    if (updatedWorkout) {
+      updateWorkoutOffline(workoutId, updatedWorkout);
     }
   };
 

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Plus, Timer } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { NotificationSettings } from "./NotificationSettings";
 
 interface WorkoutHeaderProps {
   onStartWorkout: () => void;
@@ -52,6 +53,7 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
                 Resume Workout
               </Button>
             )}
+            <NotificationSettings />
             <ThemeToggle />
           </div>
         </div>

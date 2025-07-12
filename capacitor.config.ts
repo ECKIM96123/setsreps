@@ -13,7 +13,12 @@ const config: CapacitorConfig = {
       launchShowDuration: 1500,
       backgroundColor: '#3B82F6',
       showSpinner: false
-    }
+    },
+    LocalNotifications: {
+      smallIcon: "ic_stat_icon_config_sample",
+      iconColor: "#3B82F6",
+      sound: "beep.wav",
+    },
   }
 };
 

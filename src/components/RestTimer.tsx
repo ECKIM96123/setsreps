@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Play, Pause, RotateCcw, X } from "lucide-react";
+import { useNotifications } from "@/hooks/useNotifications";
 
 interface RestTimerProps {
   isVisible: boolean;
@@ -13,14 +14,18 @@ export const RestTimer = ({ isVisible, onClose, defaultTime = 90 }: RestTimerPro
   const [timeLeft, setTimeLeft] = useState(defaultTime);
   const [isRunning, setIsRunning] = useState(false);
   const [initialTime, setInitialTime] = useState(defaultTime);
+  const { scheduleRestTimerAlert } = useNotifications();
 
   useEffect(() => {
     if (isVisible && !isRunning) {
       setTimeLeft(defaultTime);
       setInitialTime(defaultTime);
       setIsRunning(true);
+      
+      // Schedule notification for when timer completes
+      scheduleRestTimerAlert(defaultTime);
     }
-  }, [isVisible, defaultTime]);
+  }, [isVisible, defaultTime, scheduleRestTimerAlert]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;

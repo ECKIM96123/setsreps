@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, BarChart3, History, Target, Edit } from "lucide-react";
 import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
+import { OfflineStatus } from "./OfflineStatus";
 
 interface WorkoutLogProps {
   workouts: CompletedWorkout[];
@@ -67,6 +68,9 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewProgra
     <div className="min-h-screen bg-background">
       {/* Workout Timeline */}
       <div className="p-4 space-y-4 pb-24">
+        {/* Offline Status */}
+        <OfflineStatus />
+        
         {workouts.length === 0 ? (
           <div className="text-center py-16 space-y-4">
             <Target className="h-16 w-16 mx-auto text-muted-foreground" />
