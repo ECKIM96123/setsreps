@@ -491,30 +491,12 @@ export const WorkoutApp = () => {
                 {t('workout.addExercise')}
               </Button>
               
-              {totalCompletedSets > 0 && (
-                <Button
-                  onClick={showSummary}
-                  variant="workout"
-                  className="flex-1"
-                >
-                  {t('workout.finishWorkout')}
-                </Button>
-              )}
-              
               <Button
-                onClick={saveAndExit}
-                variant="outline"
-                className="px-4"
+                onClick={totalCompletedSets > 0 ? showSummary : cancelWorkout}
+                variant={totalCompletedSets > 0 ? "workout" : "outline"}
+                className="flex-1"
               >
-                {t('workout.saveAndExit')}
-              </Button>
-              
-              <Button
-                onClick={endWorkout}
-                variant="secondary"
-                className="px-4"
-              >
-                {t('workout.end')}
+                {totalCompletedSets > 0 ? t('workout.finishWorkout') : t('workout.cancelWorkout')}
               </Button>
             </div>
 
