@@ -57,10 +57,6 @@ export const WorkoutApp = () => {
     setCurrentExercises([]);
     setWorkoutStartTime(new Date());
     setAppState('workout');
-    toast({
-      title: "Workout Started!",
-      description: "Add exercises to begin logging your sets.",
-    });
   };
 
   const addExercise = (exercise: { name: string; category: string; muscle: string }) => {
@@ -70,10 +66,6 @@ export const WorkoutApp = () => {
     };
     setCurrentExercises(prev => [...prev, newExercise]);
     setAppState('workout');
-    toast({
-      title: "Exercise Added",
-      description: `${exercise.name} has been added to your workout.`,
-    });
   };
 
   const updateExercise = (index: number, updatedExercise: Exercise) => {
@@ -83,12 +75,7 @@ export const WorkoutApp = () => {
   };
 
   const deleteExercise = (index: number) => {
-    const exerciseName = currentExercises[index].name;
     setCurrentExercises(prev => prev.filter((_, i) => i !== index));
-    toast({
-      title: "Exercise Removed",
-      description: `${exerciseName} has been removed from your workout.`,
-    });
   };
 
   const finishWorkout = () => {
@@ -97,11 +84,7 @@ export const WorkoutApp = () => {
     );
     
     if (completedExercises.length > 0) {
-      const workout = saveWorkout(currentExercises, workoutStartTime);
-      toast({
-        title: "Workout Completed!",
-        description: `Great job! You completed ${workout.totalSets} sets in ${workout.duration} minutes.`,
-      });
+      saveWorkout(currentExercises, workoutStartTime);
     }
     
     setCurrentExercises([]);
@@ -114,16 +97,7 @@ export const WorkoutApp = () => {
     );
     
     if (completedSets > 0) {
-      const workout = saveWorkout(currentExercises, workoutStartTime);
-      toast({
-        title: "Workout Saved!",
-        description: `Workout ended and saved with ${workout.totalSets} completed sets.`,
-      });
-    } else {
-      toast({
-        title: "Workout Ended",
-        description: "No sets were completed, so workout was not saved.",
-      });
+      saveWorkout(currentExercises, workoutStartTime);
     }
     
     setCurrentExercises([]);
@@ -133,29 +107,16 @@ export const WorkoutApp = () => {
   const cancelWorkout = () => {
     setCurrentExercises([]);
     setAppState('idle');
-    toast({
-      title: "Workout Cancelled",
-      description: "Your workout has been cancelled.",
-    });
   };
 
   const saveAndExit = () => {
     // Keep the workout data but return to main screen
     setAppState('idle');
-    toast({
-      title: "Workout Paused",
-      description: "Your workout has been saved. Click 'Resume Workout' to continue.",
-    });
   };
 
   const showSummary = () => {
     if (currentExercises.some(ex => ex.sets.some(set => set.completed))) {
       setAppState('summary');
-    } else {
-      toast({
-        title: "No Sets Completed",
-        description: "Complete at least one set to view the summary.",
-      });
     }
   };
 
