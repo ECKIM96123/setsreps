@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Plus, Timer } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import logo from "@/assets/logo.png";
 
 interface WorkoutHeaderProps {
   onStartWorkout: () => void;
@@ -24,7 +25,7 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
             <Dumbbell className="h-7 w-7" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Sets&Reps</h1>
+            <img src={logo} alt="Sets&Reps" className="h-16 w-auto" />
             <p className="text-primary-foreground/90 text-lg font-medium">Workout Tracker</p>
           </div>
         </div>
