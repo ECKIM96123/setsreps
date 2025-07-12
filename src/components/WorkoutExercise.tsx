@@ -48,9 +48,6 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
       
       setNewReps("");
       // Keep weight for next set
-      
-      // Show rest timer after adding a set
-      setShowRestTimer(true);
     }
   };
 
@@ -63,11 +60,6 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
       ...exercise,
       sets: updatedSets
     });
-
-    // Show rest timer when completing a set (not uncompleting)
-    if (!exercise.sets[index].completed) {
-      setShowRestTimer(true);
-    }
   };
 
   const editSet = (index: number, field: 'reps' | 'weight', value: string) => {
