@@ -140,8 +140,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
               <div className="col-span-2">Set</div>
               <div className="col-span-4">Weight</div>
               <div className="col-span-3">Reps</div>
-              <div className="col-span-1"></div>
-              <div className="col-span-2"></div>
+              <div className="col-span-3 text-right">Actions</div>
             </div>
           
             {exercise.sets.map((set, index) => (
@@ -167,34 +166,32 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                     placeholder="reps"
                   />
                 </div>
-                <div className="col-span-1 flex justify-center">
+                <div className="col-span-3 flex items-center justify-end gap-3">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => duplicateSet(index)}
-                    className="text-muted-foreground hover:text-primary p-1"
+                    className="text-muted-foreground hover:text-primary p-2 transition-colors"
                   >
                     <Copy className="h-3 w-3" />
                   </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowRestTimer(true)}
+                    className="text-primary hover:text-primary p-2 transition-colors"
+                  >
+                    <Timer className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => deleteSet(index)}
+                    className="text-muted-foreground hover:text-destructive p-2 transition-colors"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </Button>
                 </div>
-                 <div className="col-span-2 flex justify-end gap-2">
-                   <Button
-                     variant="ghost"
-                     size="sm"
-                     onClick={() => setShowRestTimer(true)}
-                     className="text-primary hover:text-primary p-1"
-                   >
-                     <Timer className="h-3 w-3" />
-                   </Button>
-                   <Button
-                     variant="ghost"
-                     size="sm"
-                     onClick={() => deleteSet(index)}
-                     className="text-muted-foreground hover:text-destructive p-1"
-                   >
-                     <Trash2 className="h-3 w-3" />
-                   </Button>
-                 </div>
               </div>
             ))}
         </div>
