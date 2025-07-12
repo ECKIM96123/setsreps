@@ -119,9 +119,17 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
 
   const editSet = (index: number, field: 'reps' | 'weight', value: string) => {
     const numValue = field === 'reps' ? parseInt(value) || 0 : parseFloat(value) || 0;
-    const updatedSets = exercise.sets.map((set, i) => 
-      i === index ? { ...set, [field]: numValue } : set
-    );
+    const updatedSets = exercise.sets.map((set, i) => {
+      if (i === index) {
+        const updatedSet = { ...set, [field]: numValue };
+        // Auto-complete set if both weight and reps are greater than 0
+        if (updatedSet.weight > 0 && updatedSet.reps > 0) {
+          updatedSet.completed = true;
+        }
+        return updatedSet;
+      }
+      return set;
+    });
     
     onUpdateExercise({
       ...exercise,
