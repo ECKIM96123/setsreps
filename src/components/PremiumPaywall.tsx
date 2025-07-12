@@ -58,7 +58,7 @@ export const PremiumPaywall = ({ feature, children }: PremiumPaywallProps) => {
             </div>
             <div className="flex justify-between items-center p-2 border rounded bg-primary/5 border-primary">
               <span>Yearly <Badge variant="secondary" className="ml-1 text-xs">Best Value</Badge></span>
-              <span className="font-semibold">$29/year</span>
+              <span className="font-semibold">$29.99/year</span>
             </div>
           </div>
         </div>
