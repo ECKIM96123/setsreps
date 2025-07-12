@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.lovable.5946d528050743c4bc5193628c82efc1',
+  appId: 'app.lovable.setsreps',
   appName: 'Sets&Reps - Workout Tracker',
   webDir: 'dist',
   server: {
