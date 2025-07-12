@@ -45,7 +45,9 @@
     "activeWorkout": "Active Workout",
     "setsCompleted": "sets completed",
     "cancelWorkout": "Cancel Workout",
-    "continueWorkout": "Continue Workout"
+    "continueWorkout": "Continue Workout",
+    "saveAndExit": "Save & Exit",
+    "end": "End"
   },
   "exercises": {
     "chest": "Chest",

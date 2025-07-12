@@ -45,7 +45,9 @@
     "activeWorkout": "Aktivt träningspass",
     "setsCompleted": "set utförda",
     "cancelWorkout": "Avbryt träningspass",
-    "continueWorkout": "Fortsätt träningspass"
+    "continueWorkout": "Fortsätt träningspass",
+    "saveAndExit": "Spara & Avsluta",
+    "end": "Avsluta"
   },
   "exercises": {
     "chest": "Bröst",

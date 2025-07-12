@@ -506,7 +506,7 @@ export const WorkoutApp = () => {
                 variant="outline"
                 className="px-4"
               >
-                Save & Exit
+                {t('workout.saveAndExit')}
               </Button>
               
               <Button
@@ -514,7 +514,7 @@ export const WorkoutApp = () => {
                 variant="secondary"
                 className="px-4"
               >
-                End
+                {t('workout.end')}
               </Button>
             </div>
 
