@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Dumbbell, Plus } from "lucide-react";
+import { Dumbbell, Plus, Timer } from "lucide-react";
 
 interface WorkoutHeaderProps {
   onStartWorkout: () => void;
   isWorkoutActive: boolean;
+  hasInProgressWorkout: boolean;
+  onResumeWorkout: () => void;
 }
 
-export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive }: WorkoutHeaderProps) => {
+export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWorkout, onResumeWorkout }: WorkoutHeaderProps) => {
   return (
     <div className="bg-gradient-primary text-primary-foreground p-8 rounded-b-3xl shadow-workout relative overflow-hidden">
       {/* Background pattern */}
@@ -25,6 +27,17 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive }: WorkoutHeader
             <p className="text-primary-foreground/90 text-lg font-medium">Workout Tracker</p>
           </div>
         </div>
+        {!isWorkoutActive && hasInProgressWorkout && (
+          <Button
+            onClick={onResumeWorkout}
+            variant="secondary"
+            size="lg"
+            className="bg-white/15 hover:bg-white/25 border-white/30 text-white shadow-accent backdrop-blur-sm font-semibold mr-2"
+          >
+            <Timer className="h-5 w-5 mr-2" />
+            Resume Workout
+          </Button>
+        )}
         {!isWorkoutActive && (
           <Button
             onClick={onStartWorkout}
@@ -33,7 +46,7 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive }: WorkoutHeader
             className="bg-white/15 hover:bg-white/25 border-white/30 text-white shadow-accent backdrop-blur-sm font-semibold"
           >
             <Plus className="h-5 w-5 mr-2" />
-            Start Workout
+            {hasInProgressWorkout ? 'New Workout' : 'Start Workout'}
           </Button>
         )}
       </div>

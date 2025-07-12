@@ -107,6 +107,15 @@ export const WorkoutApp = () => {
     });
   };
 
+  const saveAndExit = () => {
+    // Keep the workout data but return to main screen
+    setAppState('idle');
+    toast({
+      title: "Workout Paused",
+      description: "Your workout has been saved. Click 'Resume Workout' to continue.",
+    });
+  };
+
   const showSummary = () => {
     if (currentExercises.some(ex => ex.sets.some(set => set.completed))) {
       setAppState('summary');
@@ -181,6 +190,8 @@ export const WorkoutApp = () => {
       <WorkoutHeader 
         onStartWorkout={startWorkout}
         isWorkoutActive={appState === 'workout'}
+        hasInProgressWorkout={currentExercises.length > 0}
+        onResumeWorkout={() => setAppState('workout')}
       />
 
       <div className="p-4 space-y-4">
@@ -239,6 +250,14 @@ export const WorkoutApp = () => {
                   Finish Workout
                 </Button>
               )}
+              
+              <Button
+                onClick={saveAndExit}
+                variant="outline"
+                className="px-4"
+              >
+                Save & Exit
+              </Button>
               
               <Button
                 onClick={endWorkout}
