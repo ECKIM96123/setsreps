@@ -166,30 +166,30 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
                     placeholder="reps"
                   />
                 </div>
-                <div className="col-span-3 flex items-center justify-end gap-3">
+                <div className="col-span-3 flex items-center justify-end gap-1">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => duplicateSet(index)}
-                    className="text-muted-foreground hover:text-primary p-2 transition-colors"
+                    className="text-muted-foreground hover:text-primary h-8 w-8 p-0 transition-colors"
                   >
-                    <Copy className="h-3 w-3" />
+                    <Copy className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowRestTimer(true)}
-                    className="text-primary hover:text-primary p-2 transition-colors"
+                    className="text-primary hover:text-primary h-8 w-8 p-0 transition-colors"
                   >
-                    <Timer className="h-3 w-3" />
+                    <Timer className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => deleteSet(index)}
-                    className="text-muted-foreground hover:text-destructive p-2 transition-colors"
+                    className="text-muted-foreground hover:text-destructive h-8 w-8 p-0 transition-colors"
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
