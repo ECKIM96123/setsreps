@@ -136,52 +136,92 @@ export const WorkoutApp = () => {
 
   if (appState === 'exercise-selector') {
     return (
-      <ExerciseSelector
-        onSelectExercise={addExercise}
-        onClose={() => setAppState('workout')}
-      />
+      <div className="min-h-screen bg-background">
+        <WorkoutHeader 
+          onStartWorkout={startWorkout}
+          isWorkoutActive={false}
+          hasInProgressWorkout={currentExercises.length > 0}
+          onResumeWorkout={() => setAppState('workout')}
+        />
+        <ExerciseSelector
+          onSelectExercise={addExercise}
+          onClose={() => setAppState('workout')}
+        />
+      </div>
     );
   }
 
   if (appState === 'summary') {
     return (
-      <div className="min-h-screen bg-background p-4">
-        <WorkoutSummary
-          exercises={currentExercises}
-          onFinishWorkout={finishWorkout}
-          onCancelWorkout={cancelWorkout}
-          startTime={workoutStartTime}
+      <div className="min-h-screen bg-background">
+        <WorkoutHeader 
+          onStartWorkout={startWorkout}
+          isWorkoutActive={false}
+          hasInProgressWorkout={currentExercises.length > 0}
+          onResumeWorkout={() => setAppState('workout')}
         />
+        <div className="p-4">
+          <WorkoutSummary
+            exercises={currentExercises}
+            onFinishWorkout={finishWorkout}
+            onCancelWorkout={cancelWorkout}
+            startTime={workoutStartTime}
+          />
+        </div>
       </div>
     );
   }
 
   if (appState === 'history') {
     return (
-      <WorkoutHistory
-        workouts={workoutHistory}
-        onClose={() => setAppState('idle')}
-      />
+      <div className="min-h-screen bg-background">
+        <WorkoutHeader 
+          onStartWorkout={startWorkout}
+          isWorkoutActive={false}
+          hasInProgressWorkout={currentExercises.length > 0}
+          onResumeWorkout={() => setAppState('workout')}
+        />
+        <WorkoutHistory
+          workouts={workoutHistory}
+          onClose={() => setAppState('idle')}
+        />
+      </div>
     );
   }
 
   if (appState === 'stats') {
     return (
-      <WorkoutStats
-        workouts={workoutHistory}
-        onBack={() => setAppState('idle')}
-      />
+      <div className="min-h-screen bg-background">
+        <WorkoutHeader 
+          onStartWorkout={startWorkout}
+          isWorkoutActive={false}
+          hasInProgressWorkout={currentExercises.length > 0}
+          onResumeWorkout={() => setAppState('workout')}
+        />
+        <WorkoutStats
+          workouts={workoutHistory}
+          onBack={() => setAppState('idle')}
+        />
+      </div>
     );
   }
 
   if (appState === 'idle') {
     return (
-      <WorkoutLog 
-        workouts={workoutHistory}
-        onStartWorkout={startWorkout}
-        onViewHistory={() => setAppState('history')}
-        onViewStats={() => setAppState('stats')}
-      />
+      <div className="min-h-screen bg-background">
+        <WorkoutHeader 
+          onStartWorkout={startWorkout}
+          isWorkoutActive={false}
+          hasInProgressWorkout={currentExercises.length > 0}
+          onResumeWorkout={() => setAppState('workout')}
+        />
+        <WorkoutLog 
+          workouts={workoutHistory}
+          onStartWorkout={startWorkout}
+          onViewHistory={() => setAppState('history')}
+          onViewStats={() => setAppState('stats')}
+        />
+      </div>
     );
   }
 

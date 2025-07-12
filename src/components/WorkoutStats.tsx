@@ -173,38 +173,16 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
 
   if (workouts.length === 0) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="p-4 border-b">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" onClick={onBack}>
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <h1 className="text-2xl font-bold">Statistics</h1>
-          </div>
-        </div>
-        
-        <div className="p-4 text-center py-16">
-          <BarChart3 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-xl font-semibold mb-2">No Data Yet</h2>
-          <p className="text-muted-foreground">Complete some workouts to see your statistics!</p>
-        </div>
+      <div className="p-4 text-center py-16">
+        <BarChart3 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+        <h2 className="text-xl font-semibold mb-2">No Data Yet</h2>
+        <p className="text-muted-foreground">Complete some workouts to see your statistics!</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="p-4 border-b">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" onClick={onBack}>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-2xl font-bold">Statistics</h1>
-        </div>
-      </div>
-
-      <div className="p-4 space-y-6 pb-24">
+    <div className="p-4 space-y-6 pb-24">
         {/* Overview Stats */}
         <div className="grid grid-cols-2 gap-3">
           <Card className="p-4 text-center">
@@ -313,6 +291,5 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
           </div>
         </Card>
       </div>
-    </div>
-  );
-};
+    );
+  };

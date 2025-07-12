@@ -64,16 +64,6 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewHistory, onViewStat
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="p-4 border-b">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Workout Log</h1>
-          <Button variant="ghost" size="sm" onClick={onViewStats}>
-            <BarChart3 className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-
       {/* Workout Timeline */}
       <div className="p-4 space-y-4 pb-24">
         {workouts.length === 0 ? (
