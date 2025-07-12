@@ -200,12 +200,42 @@ export const WorkoutApp = () => {
   };
 
   const selectProgram = (program: WorkoutProgram) => {
-    const programExercises: Exercise[] = program.exercises.map(ex => ({
-      name: ex.name,
-      category: ex.category,
-      muscle: ex.muscle,
-      sets: []
-    }));
+    const programExercises: Exercise[] = program.exercises.map(ex => {
+      // Parse reps to get number or handle ranges/special cases
+      const parseReps = (repsString: string): number => {
+        // Handle ranges like "8-10", take the middle value
+        if (repsString.includes('-')) {
+          const [min, max] = repsString.split('-').map(num => parseInt(num.trim()));
+          return Math.floor((min + max) / 2);
+        }
+        // Handle "each leg/arm" cases - extract the number
+        if (repsString.includes('each')) {
+          const match = repsString.match(/(\d+)/);
+          return match ? parseInt(match[1]) : 10;
+        }
+        // Handle time-based or special cases
+        if (repsString.includes('sec') || repsString.includes('failure')) {
+          return 1; // For time-based or failure sets, use 1 as placeholder
+        }
+        // Extract first number from string
+        const match = repsString.match(/(\d+)/);
+        return match ? parseInt(match[1]) : 10;
+      };
+
+      // Create pre-filled sets with reps but no weight
+      const preFilleSets = Array.from({ length: ex.sets }, () => ({
+        reps: parseReps(ex.reps),
+        weight: 0,
+        completed: false
+      }));
+
+      return {
+        name: ex.name,
+        category: ex.category,
+        muscle: ex.muscle,
+        sets: preFilleSets
+      };
+    });
     
     setCurrentExercises(programExercises);
     setWorkoutStartTime(new Date());
