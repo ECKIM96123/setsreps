@@ -30,9 +30,9 @@ export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWo
         {!isWorkoutActive && hasInProgressWorkout && (
           <Button
             onClick={onResumeWorkout}
-            variant="secondary"
+            variant="workout"
             size="lg"
-            className="bg-white/15 hover:bg-white/25 border-white/30 text-white shadow-accent backdrop-blur-sm font-semibold mr-2"
+            className="mr-2"
           >
             <Timer className="h-5 w-5 mr-2" />
             Resume Workout
