@@ -210,7 +210,8 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
           <Button
             onClick={addSet}
             size="sm"
-            className="flex-1 h-8 bg-gradient-primary"
+            variant="workout"
+            className="flex-1 h-8"
             disabled={!newReps}
           >
             <Plus className="h-3 w-3" />

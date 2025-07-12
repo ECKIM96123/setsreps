@@ -66,7 +66,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				'workout-border': 'hsl(var(--workout-border))'
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-accent': 'var(--gradient-accent)'
+			},
+			boxShadow: {
+				'workout': 'var(--shadow-workout)',
+				'accent': 'var(--shadow-accent)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -233,7 +233,8 @@ export const WorkoutApp = () => {
               {totalCompletedSets > 0 && (
                 <Button
                   onClick={showSummary}
-                  className="flex-1 bg-green-600 hover:bg-green-700"
+                  variant="workout"
+                  className="flex-1"
                 >
                   Finish Workout
                 </Button>
@@ -241,7 +242,7 @@ export const WorkoutApp = () => {
               
               <Button
                 onClick={endWorkout}
-                variant="outline"
+                variant="secondary"
                 className="px-4"
               >
                 End
