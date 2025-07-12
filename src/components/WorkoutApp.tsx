@@ -5,6 +5,7 @@ import { WorkoutHeader } from "./WorkoutHeader";
 import { BackButton } from "./BackButton";
 import { ExerciseSelector } from "./ExerciseSelector";
 import { WorkoutExercise, Exercise } from "./WorkoutExercise";
+import { WorkoutPrograms, WorkoutProgram } from "./WorkoutPrograms";
 import { WorkoutSummary } from "./WorkoutSummary";
 
 import { WorkoutLog } from "./WorkoutLog";
@@ -14,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
 import { Plus, Timer, Target } from "lucide-react";
 
-type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'stats' | 'edit-workout';
+type AppState = 'idle' | 'workout' | 'exercise-selector' | 'summary' | 'stats' | 'edit-workout' | 'programs';
 
 export const WorkoutApp = () => {
   const [appState, setAppState] = useState<AppState>('idle');
@@ -34,6 +35,7 @@ export const WorkoutApp = () => {
         setAppState('workout');
         break;
       case 'stats':
+      case 'programs':
         setAppState('idle');
         break;
       case 'edit-workout':
@@ -144,6 +146,24 @@ export const WorkoutApp = () => {
     }
   };
 
+  const selectProgram = (program: WorkoutProgram) => {
+    const programExercises: Exercise[] = program.exercises.map(ex => ({
+      name: ex.name,
+      category: ex.category,
+      muscle: ex.muscle,
+      sets: []
+    }));
+    
+    setCurrentExercises(programExercises);
+    setWorkoutStartTime(new Date());
+    setAppState('workout');
+    
+    toast({
+      title: `${program.name} started`,
+      description: `Ready to begin your ${program.exercises.length} exercise workout.`,
+    });
+  };
+
   const totalCompletedSets = currentExercises.reduce((sum, ex) => 
     sum + ex.sets.filter(set => set.completed).length, 0
   );
@@ -210,6 +230,23 @@ export const WorkoutApp = () => {
           workouts={workoutHistory}
           onBack={() => setAppState('idle')}
         />
+      </div>
+    );
+  }
+
+  if (appState === 'programs') {
+    return (
+      <div ref={swipeRef} className="min-h-screen bg-background">
+        <WorkoutHeader 
+          onStartWorkout={startWorkout}
+          isWorkoutActive={false}
+          hasInProgressWorkout={currentExercises.length > 0}
+          onResumeWorkout={() => setAppState('workout')}
+        />
+        <div className="p-4 pb-2">
+          <BackButton onBack={goBack} />
+        </div>
+        <WorkoutPrograms onSelectProgram={selectProgram} />
       </div>
     );
   }
@@ -299,6 +336,7 @@ export const WorkoutApp = () => {
           workouts={workoutHistory}
           onStartWorkout={startWorkout}
           onViewStats={() => setAppState('stats')}
+          onViewPrograms={() => setAppState('programs')}
           onEditWorkout={editWorkout}
         />
       </div>

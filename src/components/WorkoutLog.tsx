@@ -8,10 +8,11 @@ interface WorkoutLogProps {
   workouts: CompletedWorkout[];
   onStartWorkout: () => void;
   onViewStats: () => void;
+  onViewPrograms: () => void;
   onEditWorkout: (workout: CompletedWorkout) => void;
 }
 
-export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onEditWorkout }: WorkoutLogProps) => {
+export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onViewPrograms, onEditWorkout }: WorkoutLogProps) => {
   const formatDate = (date: Date) => {
     const today = new Date();
     const yesterday = new Date(today);
@@ -162,7 +163,7 @@ export const WorkoutLog = ({ workouts, onStartWorkout, onViewStats, onEditWorkou
             <History className="h-5 w-5 mb-1" />
             <span className="text-xs">Log</span>
           </Button>
-          <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onStartWorkout}>
+          <Button variant="ghost" className="flex-1 flex-col h-auto py-2" onClick={onViewPrograms}>
             <Target className="h-5 w-5 mb-1" />
             <span className="text-xs">Program</span>
           </Button>
