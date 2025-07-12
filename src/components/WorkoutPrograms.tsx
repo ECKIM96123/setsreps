@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Target, Clock, Dumbbell, Play, Info, Brain, Sparkles } from "lucide-react";
+import { Target, Clock, Dumbbell, Play, Info, Brain, Sparkles, Crown } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
 
 interface WorkoutProgram {
@@ -153,12 +153,16 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
               </div>
               <Button 
                 onClick={onOpenAIGenerator}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground relative"
                 size="lg"
               >
+                <Crown className="h-4 w-4 mr-2" />
                 <Brain className="h-5 w-5 mr-2" />
                 Create My Workout
                 <Sparkles className="h-4 w-4 ml-2" />
+                <Badge className="absolute -top-2 -right-2 bg-yellow-500 text-yellow-900 text-xs px-1.5 py-0.5">
+                  PRO
+                </Badge>
               </Button>
             </div>
           </Card>

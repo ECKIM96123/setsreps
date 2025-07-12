@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Brain, Loader2, Sparkles, Target, Clock, Dumbbell } from "lucide-react";
 import { WorkoutProgram } from "./WorkoutPrograms";
+import { usePremium } from "@/contexts/PremiumContext";
+import { PremiumPaywall } from "./PremiumPaywall";
 
 
 interface WorkoutPreferences {
@@ -30,6 +32,7 @@ interface AIWorkoutGeneratorProps {
 }
 
 export const AIWorkoutGenerator = ({ onGeneratedProgram, onBack }: AIWorkoutGeneratorProps) => {
+  const { isPremium } = usePremium();
   const [step, setStep] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
   const [preferences, setPreferences] = useState<WorkoutPreferences>({
@@ -114,6 +117,50 @@ export const AIWorkoutGenerator = ({ onGeneratedProgram, onBack }: AIWorkoutGene
         return false;
     }
   };
+
+  // Show paywall if user is not premium
+  if (!isPremium) {
+    return (
+      <div className="max-w-2xl mx-auto p-4">
+        <PremiumPaywall 
+          feature="AI Workout Generator"
+          children={
+            <div className="text-center space-y-4 opacity-50">
+              <div className="flex items-center justify-center gap-2">
+                <Brain className="h-8 w-8" />
+                <h2 className="text-2xl font-bold">AI Workout Generator</h2>
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <p className="text-muted-foreground">
+                Create personalized workout programs with AI
+              </p>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="p-3 border rounded">
+                  <Target className="h-5 w-5 mx-auto mb-2" />
+                  Custom Goals
+                </div>
+                <div className="p-3 border rounded">
+                  <Clock className="h-5 w-5 mx-auto mb-2" />
+                  Your Schedule
+                </div>
+                <div className="p-3 border rounded">
+                  <Dumbbell className="h-5 w-5 mx-auto mb-2" />
+                  Available Equipment
+                </div>
+                <div className="p-3 border rounded">
+                  <Brain className="h-5 w-5 mx-auto mb-2" />
+                  AI Powered
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Button variant="ghost" onClick={onBack} className="w-full mt-4">
+          Back to Programs
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-6">
