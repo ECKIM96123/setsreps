@@ -76,6 +76,28 @@ export const WorkoutApp = () => {
     setAppState('idle');
   };
 
+  const endWorkout = () => {
+    const completedSets = currentExercises.reduce((sum, ex) => 
+      sum + ex.sets.filter(set => set.completed).length, 0
+    );
+    
+    if (completedSets > 0) {
+      const workout = saveWorkout(currentExercises, workoutStartTime);
+      toast({
+        title: "Workout Saved!",
+        description: `Workout ended and saved with ${workout.totalSets} completed sets.`,
+      });
+    } else {
+      toast({
+        title: "Workout Ended",
+        description: "No sets were completed, so workout was not saved.",
+      });
+    }
+    
+    setCurrentExercises([]);
+    setAppState('idle');
+  };
+
   const cancelWorkout = () => {
     setCurrentExercises([]);
     setAppState('idle');
@@ -218,7 +240,7 @@ export const WorkoutApp = () => {
               )}
               
               <Button
-                onClick={cancelWorkout}
+                onClick={endWorkout}
                 variant="outline"
                 className="px-4"
               >
