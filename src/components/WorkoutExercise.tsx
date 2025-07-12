@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { RestTimer } from "./RestTimer";
-import { Trash2, Plus, Check, Timer, Copy } from "lucide-react";
+import { Trash2, Plus, Check, Timer, Copy, Info } from "lucide-react";
+import { exerciseInstructions } from "@/lib/exerciseInstructions";
 
 export interface WorkoutSet {
   reps: number;
@@ -113,6 +115,29 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise }
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <h3 className="font-semibold text-lg">{exercise.name}</h3>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-muted">
+                  <Info className="h-3 w-3" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>{exercise.name}</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-3">
+                  <div className="text-sm text-muted-foreground">
+                    <strong>Target:</strong> {exercise.muscle} ({exercise.category})
+                  </div>
+                  <div className="text-sm">
+                    <strong>How to perform:</strong>
+                    <p className="mt-1 text-muted-foreground">
+                      {exerciseInstructions[exercise.name] || 'Exercise instructions not available.'}
+                    </p>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
             <Badge variant="outline" className="text-xs">
               {exercise.category}
             </Badge>

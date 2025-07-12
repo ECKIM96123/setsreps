@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Plus, Target, Activity } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Search, Plus, Target, Activity, Info } from "lucide-react";
+import { exerciseInstructions } from "@/lib/exerciseInstructions";
 
 const EXERCISES_BY_MUSCLE = {
   "Chest": [
@@ -199,11 +201,41 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
                           onClick={() => onSelectExercise(exercise)}
                         >
                           <div className="flex items-center justify-between">
-                            <div>
+                            <div className="flex-1">
                               <h4 className="font-medium text-sm">{exercise.name}</h4>
                               <p className="text-xs text-muted-foreground">{exercise.muscle}</p>
                             </div>
-                            <Plus className="h-4 w-4 text-primary" />
+                            <div className="flex items-center gap-1">
+                              <Dialog>
+                                <DialogTrigger asChild>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="sm" 
+                                    className="h-6 w-6 p-0 hover:bg-muted"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <Info className="h-3 w-3" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-md">
+                                  <DialogHeader>
+                                    <DialogTitle>{exercise.name}</DialogTitle>
+                                  </DialogHeader>
+                                  <div className="space-y-3">
+                                    <div className="text-sm text-muted-foreground">
+                                      <strong>Target:</strong> {exercise.muscle} ({exercise.category})
+                                    </div>
+                                    <div className="text-sm">
+                                      <strong>How to perform:</strong>
+                                      <p className="mt-1 text-muted-foreground">
+                                        {exerciseInstructions[exercise.name] || 'Exercise instructions not available.'}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </DialogContent>
+                              </Dialog>
+                              <Plus className="h-4 w-4 text-primary" />
+                            </div>
                           </div>
                         </Card>
                       ))}

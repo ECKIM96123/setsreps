@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Target, Clock, Dumbbell, Play, Info } from "lucide-react";
+import { exerciseInstructions } from "@/lib/exerciseInstructions";
 
 interface WorkoutProgram {
   id: string;
@@ -22,40 +23,6 @@ interface WorkoutProgram {
 interface WorkoutProgramsProps {
   onSelectProgram: (program: WorkoutProgram) => void;
 }
-
-const exerciseInstructions: { [key: string]: string } = {
-  'Bench Press': 'Lie on a bench with your eyes under the bar. Grip the bar with hands slightly wider than shoulder-width. Lower the bar to your chest, then press it back up to full arm extension.',
-  'Overhead Press': 'Stand with feet shoulder-width apart. Hold the bar at shoulder height. Press the bar straight up overhead until arms are fully extended, then lower back to start position.',
-  'Incline Dumbbell Press': 'Set bench to 30-45 degree incline. Hold dumbbells at chest level. Press weights up and slightly together, then lower with control.',
-  'Lateral Raises': 'Stand with dumbbells at sides. Keep slight bend in elbows. Raise weights out to sides until arms are parallel to floor, then lower slowly.',
-  'Tricep Dips': 'Position hands on parallel bars or bench edge. Lower body until shoulders are below elbows, then push back up to start position.',
-  'Push-ups': 'Start in plank position with hands under shoulders. Lower chest to floor while keeping body straight, then push back up.',
-  'Pull-ups': 'Hang from bar with palms facing away. Pull body up until chin clears the bar, then lower with control.',
-  'Barbell Rows': 'Bend at hips with slight knee bend. Pull bar to lower chest/upper abdomen, squeezing shoulder blades together.',
-  'Lat Pulldowns': 'Sit at lat pulldown machine. Pull bar down to upper chest while leaning slightly back, then return with control.',
-  'Bicep Curls': 'Stand with dumbbells at sides. Keep elbows stationary and curl weights up toward shoulders, then lower slowly.',
-  'Face Pulls': 'Set cable at face height. Pull handles to face while squeezing shoulder blades and opening chest.',
-  'Hammer Curls': 'Hold dumbbells with neutral grip. Curl weights up while keeping wrists straight and elbows stationary.',
-  'Squats': 'Stand with feet shoulder-width apart. Lower hips back and down as if sitting in a chair, then drive through heels to stand.',
-  'Romanian Deadlifts': 'Hold barbell with straight arms. Hinge at hips, lowering bar along legs while keeping back straight, then return to standing.',
-  'Bulgarian Split Squats': 'Place rear foot elevated behind you. Lower into lunge position on front leg, then push back up.',
-  'Leg Curls': 'Lie face down on leg curl machine. Curl heels toward glutes, then lower with control.',
-  'Calf Raises': 'Stand on balls of feet. Rise up onto toes as high as possible, then lower slowly.',
-  'Walking Lunges': 'Step forward into lunge position. Push off front foot to step into next lunge, alternating legs.',
-  'Close Grip Bench Press': 'Lie on bench with hands closer than shoulder-width. Lower bar to chest, then press up while keeping elbows close to body.',
-  'Barbell Curls': 'Stand holding barbell with underhand grip. Curl bar up toward chest while keeping elbows stationary.',
-  'Bodyweight Squats': 'Same as squats but using only body weight. Focus on proper form and controlled movement.',
-  'Assisted Pull-ups': 'Use assistance machine or resistance band. Focus on pulling motion and controlled descent.',
-  'Plank': 'Hold push-up position with forearms on ground. Keep body straight from head to heels.',
-  'Lunges': 'Step forward into lunge position. Push back to starting position, then repeat with other leg.',
-  'Shoulder Taps': 'In plank position, lift one hand to tap opposite shoulder while maintaining stability.',
-  'Burpees': 'Drop into squat, jump back to plank, do push-up, jump feet to squat, then jump up with arms overhead.',
-  'Mountain Climbers': 'In plank position, alternately drive knees toward chest in running motion.',
-  'Jump Squats': 'Perform squat, then explode up into jump. Land softly and immediately go into next rep.',
-  'High Knees': 'Run in place while driving knees up toward chest as high as possible.',
-  'Plank Jacks': 'In plank position, jump feet apart and together like jumping jacks while maintaining plank.',
-  'Russian Twists': 'Sit with knees bent, lean back slightly. Rotate torso side to side while keeping chest up.'
-};
 
 const workoutPrograms: WorkoutProgram[] = [
   {
