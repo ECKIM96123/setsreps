@@ -11,39 +11,52 @@ interface WorkoutHeaderProps {
 
 export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWorkout, onResumeWorkout }: WorkoutHeaderProps) => {
   return (
-    <div className="bg-gradient-primary text-primary-foreground p-8 shadow-workout relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-4 right-4 w-32 h-32 bg-white/5" />
-        <div className="absolute -top-8 -right-8 w-24 h-24 bg-white/5" />
-      </div>
-      
-      <div className="relative flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-white/15 backdrop-blur-sm">
-            <Dumbbell className="h-7 w-7" />
+    <header className="bg-card border-b border-border backdrop-blur-sm sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo and Title */}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 bg-primary text-primary-foreground rounded-lg shadow-sm">
+              <Dumbbell className="h-5 w-5" />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-xl font-bold tracking-tight text-foreground">Sets&Reps</h1>
+              <p className="text-sm text-muted-foreground hidden sm:block">Your workout companion</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Sets&Reps</h1>
-            <p className="text-primary-foreground/90 text-lg font-medium">Workout Tracker</p>
+          
+          {/* Actions */}
+          <div className="flex items-center gap-3">
+            {!isWorkoutActive && hasInProgressWorkout && (
+              <Button
+                onClick={onResumeWorkout}
+                variant="workout"
+                size="sm"
+                className="hidden sm:flex shadow-sm hover:shadow-workout"
+              >
+                <Timer className="h-4 w-4 mr-2" />
+                Resume Workout
+              </Button>
+            )}
+            <ThemeToggle />
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
-        </div>
-          {!isWorkoutActive && hasInProgressWorkout && (
+        {/* Mobile Resume Button */}
+        {!isWorkoutActive && hasInProgressWorkout && (
+          <div className="mt-3 sm:hidden">
             <Button
               onClick={onResumeWorkout}
-              variant="secondary"
-              size="lg"
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white shadow-lg backdrop-blur-sm font-semibold transition-all duration-300 hover:scale-105"
+              variant="workout"
+              size="sm"
+              className="w-full shadow-sm"
             >
-              <Timer className="h-5 w-5 mr-2" />
+              <Timer className="h-4 w-4 mr-2" />
               Resume Workout
             </Button>
-          )}
+          </div>
+        )}
       </div>
-    </div>
+    </header>
   );
 };
