@@ -11,20 +11,11 @@
 //
 //  Created by Nacho Soto on 8/31/22.
 
-
-
-
 import Foundation
 import StoreKit
 
-
-
-
 /// An error returned by a `RevenueCat` public API.
 public typealias PublicError = NSError
-
-
-
 
 extension PublicError {
     /// Converts the current Error to a ``ErrorCode``
@@ -32,9 +23,6 @@ extension PublicError {
         self as? ErrorCode
     }
 }
-
-
-
 
 /// An internal error representation, containing an `ErrorCode` and additional `userInfo`.
 ///
@@ -44,24 +32,12 @@ extension PublicError {
 /// being able to distinguish them from any other `NSError`.
 internal struct PurchasesError: Error {
 
-
-
-
     let error: ErrorCode
     let userInfo: [String: Any]
 
-
-
-
 }
 
-
-
-
 extension PurchasesError {
-
-
-
 
     /// Converts this error into an error that can be used in a public API.
     /// The error returned by this can be converted to ``ErrorCode``.
@@ -113,9 +89,6 @@ extension PurchasesError {
         return NSError(domain: Self.errorDomain, code: self.errorCode, userInfo: userInfoToUse)
     }
 
-
-
-
     private func rootError(from error: Error) -> Error {
         let nsError = error as NSError
         if let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? Error {
@@ -125,68 +98,32 @@ extension PurchasesError {
         }
     }
 
-
-
-
 }
-
-
-
 
 // MARK: -
 
-
-
-
 extension PurchasesError: CustomNSError {
 
-
-
-
     static let errorDomain: String = ErrorCode.errorDomain
-
-
-
 
     var errorCode: Int { return (self.error as NSError).code }
     var errorUserInfo: [String: Any] { return self.userInfo }
 
-
-
-
 }
-
-
-
 
 // MARK: -
 
-
-
-
 extension PurchasesError {
-
-
-
 
     /// Overload of the default initializer with `NSError.UserInfoKey` as user info key type.
     init(error: ErrorCode, userInfo: [NSError.UserInfoKey: Any]) {
         self.init(error: error, userInfo: userInfo as [String: Any])
     }
 
-
-
-
 }
-
-
-
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 private extension PurchasesError {
-
-
-
 
     func getStoreKitErrorInfoIfAny(error: Error) -> [String: Any]? {
         if let skError = error as? SKError {
@@ -212,9 +149,6 @@ private extension PurchasesError {
                     "systemErrorDescription": systemError.localizedDescription
                 ])
 
-
-
-
             case .unsupported:
                 return resultMap
             @unknown default:
@@ -227,8 +161,5 @@ private extension PurchasesError {
             return nil
         }
     }
-
-
-
 
 }
