@@ -36,9 +36,9 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
         // Import RevenueCat dynamically for mobile only
         const { Purchases } = await import('@revenuecat/purchases-capacitor');
         
-        // Replace with your actual RevenueCat API keys
+        // RevenueCat API keys
         const apiKey = Capacitor.getPlatform() === 'ios' 
-          ? 'your_ios_api_key_here' 
+          ? 'appl_XbhizZctlfQheNRNAPCqzttrveY' 
           : 'your_android_api_key_here';
         
         await Purchases.configure({ apiKey });
