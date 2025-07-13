@@ -28,6 +28,9 @@ export const OfflineStatus = () => {
           ) : (
             <WifiOff className="h-4 w-4 text-orange-500" />
           )}
+          <span className="font-medium">
+            {isOnline ? 'Online' : 'Offline Mode'}
+          </span>
           {pendingCount > 0 && (
             <Badge variant="secondary" className="text-xs">
               {pendingCount} pending
@@ -50,22 +53,6 @@ export const OfflineStatus = () => {
         </div>
       </div>
 
-      {/* Status Info */}
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        <div className="flex items-center gap-2">
-          <Database className="h-3 w-3 text-muted-foreground" />
-          <span className="text-muted-foreground">Local workouts:</span>
-          <span className="font-medium">{offlineWorkouts.length}</span>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <Clock className="h-3 w-3 text-muted-foreground" />
-          <span className="text-muted-foreground">Last sync:</span>
-          <span className="font-medium text-xs">
-            {formatDistanceToNow(new Date(lastSync), { addSuffix: true })}
-          </span>
-        </div>
-      </div>
 
       {/* Offline Features */}
       {!isOnline && (
