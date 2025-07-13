@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Plus, Target, Activity, Info } from "lucide-react";
 import { exerciseInstructions } from "@/lib/exerciseInstructions";
 import { useTranslation } from 'react-i18next';
@@ -132,7 +133,8 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <ScrollArea className="flex-1 h-[calc(80vh-120px)]">
+          <div className="p-6 space-y-6">
           {/* Add Custom Exercise */}
           <div className="space-y-3">
             <h3 className="font-medium text-muted-foreground flex items-center gap-2">
@@ -267,6 +269,7 @@ export const ExerciseSelector = ({ onSelectExercise, onClose }: ExerciseSelector
             )}
           </div>
         </div>
+        </ScrollArea>
       </Card>
     </div>
   );
