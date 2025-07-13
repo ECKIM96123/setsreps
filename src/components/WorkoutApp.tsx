@@ -440,7 +440,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'idle') {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
