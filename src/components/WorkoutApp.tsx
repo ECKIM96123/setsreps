@@ -263,7 +263,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'exercise-selector') {
     return (
-      <div ref={swipeRef} className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div ref={swipeRef} className="min-h-screen bg-background safe-area-top">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -283,7 +283,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'summary') {
     return (
-      <div ref={swipeRef} className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div ref={swipeRef} className="min-h-screen bg-background safe-area-top">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -306,7 +306,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'stats') {
     return (
-      <div ref={swipeRef} className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div ref={swipeRef} className="min-h-screen bg-background safe-area-top">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -326,7 +326,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'programs') {
     return (
-      <div ref={swipeRef} className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div ref={swipeRef} className="min-h-screen bg-background safe-area-top">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -346,7 +346,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'ai-generator') {
     return (
-      <div ref={swipeRef} className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div ref={swipeRef} className="min-h-screen bg-background safe-area-top">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -363,7 +363,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'edit-workout') {
     return (
-      <div ref={swipeRef} className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div ref={swipeRef} className="min-h-screen bg-background safe-area-top">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -440,7 +440,7 @@ export const WorkoutApp = () => {
 
   if (appState === 'idle') {
     return (
-      <div className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div className="min-h-screen bg-background safe-area-top">
         <WorkoutHeader 
           onStartWorkout={startWorkout}
           isWorkoutActive={false}
@@ -460,7 +460,7 @@ export const WorkoutApp = () => {
   }
 
   return (
-    <div ref={swipeRef} className="min-h-screen bg-background" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+    <div ref={swipeRef} className="min-h-screen bg-background safe-area-top">
       <WorkoutHeader 
         onStartWorkout={startWorkout}
         isWorkoutActive={appState === 'workout'}

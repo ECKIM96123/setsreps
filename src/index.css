@@ -85,3 +85,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Safe area support for iOS */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+}
