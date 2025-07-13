@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -161,7 +161,6 @@ export const AIWorkoutGenerator = ({ onGeneratedProgram, onBack }: AIWorkoutGene
       </div>
     );
   }
-
 
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-6">

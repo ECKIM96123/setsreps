@@ -36,9 +36,9 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
         // Import RevenueCat dynamically for mobile only
         const { Purchases } = await import('@revenuecat/purchases-capacitor');
         
-        // RevenueCat API keys
+        // Replace with your actual RevenueCat API keys
         const apiKey = Capacitor.getPlatform() === 'ios' 
-          ? 'appl_XbhizZctlfQheNRNAPCqzttrveY' 
+          ? 'your_ios_api_key_here' 
           : 'your_android_api_key_here';
         
         await Purchases.configure({ apiKey });
@@ -115,11 +115,10 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
     }
   };
 
-  // Show paywall using current RevenueCat offerings
-  const upgradeToPremium = async () => {
+  // Backward compatibility method
+  const upgradeToPremium = () => {
     if (Capacitor.isNativePlatform()) {
-      // Use the existing purchasePremium function which handles offerings
-      await purchasePremium();
+      purchasePremium();
     } else {
       // For web development, just toggle premium status
       setIsPremium(true);
