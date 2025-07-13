@@ -115,10 +115,11 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
     }
   };
 
-  // Backward compatibility method
-  const upgradeToPremium = () => {
+  // Show paywall using current RevenueCat offerings
+  const upgradeToPremium = async () => {
     if (Capacitor.isNativePlatform()) {
-      purchasePremium();
+      // Use the existing purchasePremium function which handles offerings
+      await purchasePremium();
     } else {
       // For web development, just toggle premium status
       setIsPremium(true);
