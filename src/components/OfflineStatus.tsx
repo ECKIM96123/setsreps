@@ -28,9 +28,6 @@ export const OfflineStatus = () => {
           ) : (
             <WifiOff className="h-4 w-4 text-orange-500" />
           )}
-          <span className="font-medium">
-            {isOnline ? 'Online' : 'Offline Mode'}
-          </span>
           {pendingCount > 0 && (
             <Badge variant="secondary" className="text-xs">
               {pendingCount} pending
