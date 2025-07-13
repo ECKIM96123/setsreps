@@ -4,10 +4,10 @@ const config: CapacitorConfig = {
   appId: 'app.lovable.setsreps',
   appName: 'Sets&Reps - Workout Tracker',
   webDir: 'dist',
-  server: {
-    url: 'https://5946d528-0507-43c4-bc51-93628c82efc1.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
+  // server: {
+  //   url: 'https://5946d528-0507-43c4-bc51-93628c82efc1.lovableproject.com?forceHideBadge=true',
+  //   cleartext: true
+  // },
   plugins: {
     SplashScreen: {
       launchShowDuration: 1500,
