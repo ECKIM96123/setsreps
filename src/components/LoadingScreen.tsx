@@ -28,7 +28,6 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
           </div>
           <div className="space-y-2">
             <h1 className="text-2xl font-bold text-foreground">Sets&Reps</h1>
-            <p className="text-muted-foreground">Workout Tracker</p>
           </div>
         </div>
       </div>
@@ -43,7 +42,6 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
         </div>
         <div className="space-y-2">
           <h1 className="text-2xl font-bold text-foreground">Sets&Reps</h1>
-          <p className="text-muted-foreground">Workout Tracker</p>
         </div>
         <div className="flex justify-center">
           <div className="flex space-x-1">
