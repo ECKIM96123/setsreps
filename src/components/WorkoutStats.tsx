@@ -96,14 +96,14 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
     
     workouts.forEach(workout => {
       // Weekday distribution
-      const weekday = workout.date.toLocaleDateString('en-US', { weekday: 'long' });
+      const weekday = workout.date.toLocaleDateString('sv-SE', { weekday: 'long' });
       weekdayDistribution[weekday] = (weekdayDistribution[weekday] || 0) + 1;
       
       // Time of day distribution
       const hour = workout.date.getHours();
-      let timeOfDay = 'Morning';
-      if (hour >= 12 && hour < 17) timeOfDay = 'Afternoon';
-      else if (hour >= 17) timeOfDay = 'Evening';
+      let timeOfDay = 'Morgon';
+      if (hour >= 12 && hour < 17) timeOfDay = 'Eftermiddag';
+      else if (hour >= 17) timeOfDay = 'Kväll';
       timeOfDayDistribution[timeOfDay] = (timeOfDayDistribution[timeOfDay] || 0) + 1;
       
       // Estimate calories (rough calculation: 5 calories per kg lifted)
@@ -255,10 +255,10 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
     const supersetUsage = (totalSupersets / totalSets) * 100;
     
     // Fitness level calculation
-    let fitnessLevel = 'Beginner';
-    if (totalWorkouts > 50 && workoutIntensity > 500) fitnessLevel = 'Intermediate';
-    if (totalWorkouts > 150 && workoutIntensity > 800) fitnessLevel = 'Advanced';
-    if (totalWorkouts > 300 && workoutIntensity > 1200) fitnessLevel = 'Elite';
+    let fitnessLevel = 'Nybörjare';
+    if (totalWorkouts > 50 && workoutIntensity > 500) fitnessLevel = 'Medel';
+    if (totalWorkouts > 150 && workoutIntensity > 800) fitnessLevel = 'Avancerad';
+    if (totalWorkouts > 300 && workoutIntensity > 1200) fitnessLevel = 'Elit';
     
     // Progression rate (volume increase over last 4 weeks vs previous 4 weeks)
     const recent4Weeks = volumeProgression.slice(-4).reduce((a, b) => a + b, 0);
@@ -266,9 +266,9 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
     const progressionRate = previous4Weeks > 0 ? ((recent4Weeks - previous4Weeks) / previous4Weeks) * 100 : 0;
     
     // Injury risk assessment
-    let injuryRisk = 'Low';
-    if (progressionRate > 25) injuryRisk = 'Medium';
-    if (progressionRate > 50 || averageRPE > 8.5) injuryRisk = 'High';
+    let injuryRisk = 'Låg';
+    if (progressionRate > 25) injuryRisk = 'Medel';
+    if (progressionRate > 50 || averageRPE > 8.5) injuryRisk = 'Hög';
 
     return {
       totalWorkouts,
@@ -305,7 +305,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
   const stats = calculateStats();
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return date.toLocaleDateString('sv-SE', { month: 'short', day: 'numeric' });
   };
 
   const topExercises = Object.entries(stats.exerciseFrequency)
@@ -321,8 +321,8 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
     return (
       <div className="p-4 text-center py-16">
         <BarChart3 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-        <h2 className="text-xl font-semibold mb-2">No Data Yet</h2>
-        <p className="text-muted-foreground">Complete some workouts to see your statistics!</p>
+        <h2 className="text-xl font-semibold mb-2">Ingen data ännu</h2>
+        <p className="text-muted-foreground">Slutför några träningar för att se din statistik!</p>
       </div>
     );
   }
@@ -333,19 +333,19 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case 'Low': return 'text-green-500';
-      case 'Medium': return 'text-yellow-500';
-      case 'High': return 'text-red-500';
+      case 'Låg': return 'text-green-500';
+      case 'Medel': return 'text-yellow-500';
+      case 'Hög': return 'text-red-500';
       default: return 'text-muted-foreground';
     }
   };
 
   const getFitnessLevelColor = (level: string) => {
     switch (level) {
-      case 'Beginner': return 'text-blue-500';
-      case 'Intermediate': return 'text-green-500';
-      case 'Advanced': return 'text-orange-500';
-      case 'Elite': return 'text-purple-500';
+      case 'Nybörjare': return 'text-blue-500';
+      case 'Medel': return 'text-green-500';
+      case 'Avancerad': return 'text-orange-500';
+      case 'Elit': return 'text-purple-500';
       default: return 'text-muted-foreground';
     }
   };
@@ -357,7 +357,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
         <Card className="p-4 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
           <div className="flex items-center justify-center gap-2">
             <Crown className="h-5 w-5 text-primary" />
-            <span className="font-semibold text-primary">Premium Analytics Unlocked</span>
+            <span className="font-semibold text-primary">Premium Analytics Upplåst</span>
             <Star className="h-4 w-4 text-primary" />
           </div>
         </Card>
@@ -368,25 +368,25 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
         <Card className="p-4 text-center">
           <Calendar className="h-5 w-5 mx-auto mb-2 text-primary" />
           <div className="text-2xl font-bold">{stats.totalWorkouts}</div>
-          <div className="text-xs text-muted-foreground">Total Workouts</div>
+          <div className="text-xs text-muted-foreground">Totala träningar</div>
         </Card>
         
         <Card className="p-4 text-center">
           <Target className="h-5 w-5 mx-auto mb-2 text-green-600" />
           <div className="text-2xl font-bold">{stats.totalSets}</div>
-          <div className="text-xs text-muted-foreground">Total Sets</div>
+          <div className="text-xs text-muted-foreground">Totala set</div>
         </Card>
         
         <Card className="p-4 text-center">
           <Dumbbell className="h-5 w-5 mx-auto mb-2 text-orange-600" />
           <div className="text-2xl font-bold">{stats.totalVolume.toLocaleString()}</div>
-          <div className="text-xs text-muted-foreground">Total Volume (kg)</div>
+          <div className="text-xs text-muted-foreground">Total volym (kg)</div>
         </Card>
         
         <Card className="p-4 text-center">
           <Clock className="h-5 w-5 mx-auto mb-2 text-blue-600" />
           <div className="text-2xl font-bold">{Math.round(stats.totalDuration / 60)}</div>
-          <div className="text-xs text-muted-foreground">Total Hours</div>
+          <div className="text-xs text-muted-foreground">Totala timmar</div>
         </Card>
       </div>
 
@@ -394,18 +394,18 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
       <Card className="p-4">
         <h3 className="font-semibold mb-4 flex items-center gap-2">
           <Brain className="h-5 w-5 text-purple-500" />
-          Fitness Overview
+          Konditionsöversikt
         </h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center p-3 bg-muted/30 rounded-lg">
             <div className={`text-xl font-bold ${getFitnessLevelColor(stats.fitnessLevel)}`}>
               {stats.fitnessLevel}
             </div>
-            <div className="text-xs text-muted-foreground">Fitness Level</div>
+            <div className="text-xs text-muted-foreground">Konditionsnivå</div>
           </div>
           <div className="text-center p-3 bg-muted/30 rounded-lg">
             <div className="text-xl font-bold">{stats.currentStreak}</div>
-            <div className="text-xs text-muted-foreground">Current Streak</div>
+            <div className="text-xs text-muted-foreground">Nuvarande serie</div>
           </div>
         </div>
       </Card>
@@ -415,7 +415,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
         <Card className="p-4">
           <h3 className="font-semibold mb-4 flex items-center gap-2">
             <Trophy className="h-5 w-5 text-yellow-500" />
-            Personal Records {!isPremium && <Badge variant="outline" className="ml-2">Limited</Badge>}
+            Personliga rekord {!isPremium && <Badge variant="outline" className="ml-2">Begränsad</Badge>}
           </h3>
           <div className="space-y-3">
             {personalRecords.slice(0, isPremium ? 8 : 3).map((pr) => (
@@ -433,7 +433,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
             {!isPremium && personalRecords.length > 3 && (
               <div className="text-center py-3 text-sm text-muted-foreground border-t border-dashed">
                 <Crown className="h-4 w-4 inline mr-1" />
-                +{personalRecords.length - 3} more records in Premium
+                +{personalRecords.length - 3} fler rekord med Premium
               </div>
             )}
           </div>
@@ -447,25 +447,25 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
           <Card className="p-4">
             <h3 className="font-semibold mb-4 flex items-center gap-2">
               <Gauge className="h-5 w-5 text-blue-500" />
-              Advanced Metrics
+              Avancerade mätvärden
               <Crown className="h-4 w-4 text-primary ml-auto" />
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-3 bg-muted/30 rounded-lg">
                 <div className="text-xl font-bold text-blue-500">{stats.workoutIntensity}</div>
-                <div className="text-xs text-muted-foreground">Intensity Score</div>
+                <div className="text-xs text-muted-foreground">Intensitetspoäng</div>
               </div>
               <div className="text-center p-3 bg-muted/30 rounded-lg">
                 <div className="text-xl font-bold text-green-500">{stats.consistencyScore}%</div>
-                <div className="text-xs text-muted-foreground">Consistency</div>
+                <div className="text-xs text-muted-foreground">Konsistens</div>
               </div>
               <div className="text-center p-3 bg-muted/30 rounded-lg">
                 <div className="text-xl font-bold text-orange-500">{stats.caloriesBurned}</div>
-                <div className="text-xs text-muted-foreground">Calories Burned</div>
+                <div className="text-xs text-muted-foreground">Kalorier förbrända</div>
               </div>
               <div className="text-center p-3 bg-muted/30 rounded-lg">
                 <div className="text-xl font-bold text-purple-500">{stats.averageRPE}/10</div>
-                <div className="text-xs text-muted-foreground">Average RPE</div>
+                <div className="text-xs text-muted-foreground">Genomsnittlig RPE</div>
               </div>
             </div>
           </Card>
@@ -474,12 +474,12 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
           <Card className="p-4">
             <h3 className="font-semibold mb-4 flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-green-500" />
-              Progress Analysis
+              Utvecklingsanalys
               <Crown className="h-4 w-4 text-primary ml-auto" />
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Progression Rate</span>
+                <span className="text-sm font-medium">Utvecklingshastighet</span>
                 <div className="flex items-center gap-2">
                   <span className={`font-bold ${stats.progressionRate >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {stats.progressionRate > 0 ? '+' : ''}{stats.progressionRate}%
@@ -489,7 +489,7 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
               <Progress value={Math.max(0, Math.min(100, stats.progressionRate + 50))} className="h-2" />
               
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Injury Risk</span>
+                <span className="text-sm font-medium">Skaderisk</span>
                 <span className={`font-bold ${getRiskColor(stats.injuryRisk)}`}>
                   {stats.injuryRisk}
                 </span>
@@ -667,24 +667,24 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
           <Card className="p-4">
             <h3 className="font-semibold mb-4 flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-green-500" />
-              Basic Metrics
+              Grundläggande mätvärden
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-3 bg-muted/30 rounded-lg">
                 <div className="text-xl font-bold">{stats.averageDuration}</div>
-                <div className="text-xs text-muted-foreground">Minutes per Workout</div>
+                <div className="text-xs text-muted-foreground">Minuter per träning</div>
               </div>
               <div className="text-center p-3 bg-muted/30 rounded-lg">
                 <div className="text-xl font-bold">{stats.longestStreak}</div>
-                <div className="text-xs text-muted-foreground">Longest Streak</div>
+                <div className="text-xs text-muted-foreground">Längsta serie</div>
               </div>
             </div>
           </Card>
 
           {/* Premium Paywalls */}
-          <PremiumPaywall feature="Advanced Analytics" />
-          <PremiumPaywall feature="Progress Tracking" />
-          <PremiumPaywall feature="Training Insights" />
+          <PremiumPaywall feature="Avancerad analys" />
+          <PremiumPaywall feature="Utvecklingsspårning" />
+          <PremiumPaywall feature="Träningsinsikter" />
         </>
       )}
     </div>

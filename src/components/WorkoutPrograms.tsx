@@ -28,92 +28,92 @@ interface WorkoutProgramsProps {
 const workoutPrograms: WorkoutProgram[] = [
   {
     id: 'push-day',
-    name: 'Push Day',
-    description: 'Focus on chest, shoulders, and triceps',
+    name: 'Push-dag',
+    description: 'Fokus på bröst, axlar och triceps',
     duration: '45-60 min',
     difficulty: 'Intermediate',
     exercises: [
-      { name: 'Bench Press', category: 'Chest', muscle: 'Chest', sets: 4, reps: '8-10' },
-      { name: 'Overhead Press', category: 'Shoulders', muscle: 'Shoulders', sets: 3, reps: '10-12' },
-      { name: 'Incline Dumbbell Press', category: 'Chest', muscle: 'Chest', sets: 3, reps: '10-12' },
-      { name: 'Lateral Raises', category: 'Shoulders', muscle: 'Shoulders', sets: 3, reps: '12-15' },
-      { name: 'Tricep Dips', category: 'Arms', muscle: 'Triceps', sets: 3, reps: '10-12' },
-      { name: 'Push-ups', category: 'Chest', muscle: 'Chest', sets: 3, reps: 'To failure' }
+      { name: 'Bänkpress', category: 'Bröst', muscle: 'Bröst', sets: 4, reps: '8-10' },
+      { name: 'Militärpress', category: 'Axlar', muscle: 'Axlar', sets: 3, reps: '10-12' },
+      { name: 'Snedpress med hantlar', category: 'Bröst', muscle: 'Bröst', sets: 3, reps: '10-12' },
+      { name: 'Sidolyft', category: 'Axlar', muscle: 'Axlar', sets: 3, reps: '12-15' },
+      { name: 'Tricepsdips', category: 'Armar', muscle: 'Triceps', sets: 3, reps: '10-12' },
+      { name: 'Armhävningar', category: 'Bröst', muscle: 'Bröst', sets: 3, reps: 'Till utmattning' }
     ]
   },
   {
     id: 'pull-day',
-    name: 'Pull Day',
-    description: 'Target back, biceps, and rear delts',
+    name: 'Pull-dag',
+    description: 'Tränar rygg, biceps och bakre deltoider',
     duration: '45-60 min',
     difficulty: 'Intermediate',
     exercises: [
-      { name: 'Pull-ups', category: 'Back', muscle: 'Lats', sets: 4, reps: '6-10' },
-      { name: 'Barbell Rows', category: 'Back', muscle: 'Back', sets: 4, reps: '8-10' },
-      { name: 'Lat Pulldowns', category: 'Back', muscle: 'Lats', sets: 3, reps: '10-12' },
-      { name: 'Bicep Curls', category: 'Arms', muscle: 'Biceps', sets: 3, reps: '12-15' },
-      { name: 'Face Pulls', category: 'Shoulders', muscle: 'Rear Delts', sets: 3, reps: '15-20' },
-      { name: 'Hammer Curls', category: 'Arms', muscle: 'Biceps', sets: 3, reps: '12-15' }
+      { name: 'Chins', category: 'Rygg', muscle: 'Lats', sets: 4, reps: '6-10' },
+      { name: 'Hantelrodd', category: 'Rygg', muscle: 'Rygg', sets: 4, reps: '8-10' },
+      { name: 'Latsdrag', category: 'Rygg', muscle: 'Lats', sets: 3, reps: '10-12' },
+      { name: 'Bicepscurls', category: 'Armar', muscle: 'Biceps', sets: 3, reps: '12-15' },
+      { name: 'Face Pulls', category: 'Axlar', muscle: 'Bakre deltoider', sets: 3, reps: '15-20' },
+      { name: 'Hammarcurls', category: 'Armar', muscle: 'Biceps', sets: 3, reps: '12-15' }
     ]
   },
   {
     id: 'leg-day',
-    name: 'Leg Day',
-    description: 'Complete lower body workout',
+    name: 'Ben-dag',
+    description: 'Komplett träning för underkroppen',
     duration: '60-75 min',
     difficulty: 'Advanced',
     exercises: [
-      { name: 'Squats', category: 'Legs', muscle: 'Quads', sets: 4, reps: '8-10' },
-      { name: 'Romanian Deadlifts', category: 'Legs', muscle: 'Hamstrings', sets: 4, reps: '8-10' },
-      { name: 'Bulgarian Split Squats', category: 'Legs', muscle: 'Quads', sets: 3, reps: '10-12 each leg' },
-      { name: 'Leg Curls', category: 'Legs', muscle: 'Hamstrings', sets: 3, reps: '12-15' },
-      { name: 'Calf Raises', category: 'Legs', muscle: 'Calves', sets: 4, reps: '15-20' },
-      { name: 'Walking Lunges', category: 'Legs', muscle: 'Quads', sets: 3, reps: '12 each leg' }
+      { name: 'Knäböj', category: 'Ben', muscle: 'Quadriceps', sets: 4, reps: '8-10' },
+      { name: 'Rumänsk marklyft', category: 'Ben', muscle: 'Hamstrings', sets: 4, reps: '8-10' },
+      { name: 'Bulgarisk knäböj', category: 'Ben', muscle: 'Quadriceps', sets: 3, reps: '10-12 varje ben' },
+      { name: 'Bencurls', category: 'Ben', muscle: 'Hamstrings', sets: 3, reps: '12-15' },
+      { name: 'Vadresningar', category: 'Ben', muscle: 'Vader', sets: 4, reps: '15-20' },
+      { name: 'Vandrande utfall', category: 'Ben', muscle: 'Quadriceps', sets: 3, reps: '12 varje ben' }
     ]
   },
   {
     id: 'upper-body',
-    name: 'Upper Body Power',
-    description: 'Full upper body strength training',
+    name: 'Överkroppsstyrka',
+    description: 'Fullständig styrketräning för överkroppen',
     duration: '50-65 min',
     difficulty: 'Advanced',
     exercises: [
-      { name: 'Bench Press', category: 'Chest', muscle: 'Chest', sets: 4, reps: '6-8' },
-      { name: 'Pull-ups', category: 'Back', muscle: 'Lats', sets: 4, reps: '8-10' },
-      { name: 'Overhead Press', category: 'Shoulders', muscle: 'Shoulders', sets: 3, reps: '8-10' },
-      { name: 'Barbell Rows', category: 'Back', muscle: 'Back', sets: 3, reps: '8-10' },
-      { name: 'Close Grip Bench Press', category: 'Arms', muscle: 'Triceps', sets: 3, reps: '10-12' },
-      { name: 'Barbell Curls', category: 'Arms', muscle: 'Biceps', sets: 3, reps: '10-12' }
+      { name: 'Bänkpress', category: 'Bröst', muscle: 'Bröst', sets: 4, reps: '6-8' },
+      { name: 'Chins', category: 'Rygg', muscle: 'Lats', sets: 4, reps: '8-10' },
+      { name: 'Militärpress', category: 'Axlar', muscle: 'Axlar', sets: 3, reps: '8-10' },
+      { name: 'Hantelrodd', category: 'Rygg', muscle: 'Rygg', sets: 3, reps: '8-10' },
+      { name: 'Smalt grepp bänkpress', category: 'Armar', muscle: 'Triceps', sets: 3, reps: '10-12' },
+      { name: 'Hantelcurls', category: 'Armar', muscle: 'Biceps', sets: 3, reps: '10-12' }
     ]
   },
   {
     id: 'full-body-beginner',
-    name: 'Full Body Starter',
-    description: 'Perfect introduction to strength training',
+    name: 'Helkroppsstart',
+    description: 'Perfekt introduktion till styrketräning',
     duration: '30-45 min',
     difficulty: 'Beginner',
     exercises: [
-      { name: 'Bodyweight Squats', category: 'Legs', muscle: 'Quads', sets: 3, reps: '10-15' },
-      { name: 'Push-ups', category: 'Chest', muscle: 'Chest', sets: 3, reps: '8-12' },
-      { name: 'Assisted Pull-ups', category: 'Back', muscle: 'Lats', sets: 3, reps: '5-8' },
-      { name: 'Plank', category: 'Core', muscle: 'Core', sets: 3, reps: '30-60 sec' },
-      { name: 'Lunges', category: 'Legs', muscle: 'Quads', sets: 2, reps: '8-10 each leg' },
-      { name: 'Shoulder Taps', category: 'Core', muscle: 'Core', sets: 2, reps: '10 each arm' }
+      { name: 'Kroppsknäböj', category: 'Ben', muscle: 'Quadriceps', sets: 3, reps: '10-15' },
+      { name: 'Armhävningar', category: 'Bröst', muscle: 'Bröst', sets: 3, reps: '8-12' },
+      { name: 'Assisterade chins', category: 'Rygg', muscle: 'Lats', sets: 3, reps: '5-8' },
+      { name: 'Planka', category: 'Core', muscle: 'Core', sets: 3, reps: '30-60 sek' },
+      { name: 'Utfall', category: 'Ben', muscle: 'Quadriceps', sets: 2, reps: '8-10 varje ben' },
+      { name: 'Axeltipp', category: 'Core', muscle: 'Core', sets: 2, reps: '10 varje arm' }
     ]
   },
   {
     id: 'hiit-cardio',
-    name: 'HIIT Cardio Blast',
-    description: 'High intensity interval training',
+    name: 'HIIT Konditionsträning',
+    description: 'Högintensiv intervallträning',
     duration: '20-30 min',
     difficulty: 'Intermediate',
     exercises: [
-      { name: 'Burpees', category: 'Cardio', muscle: 'Full Body', sets: 4, reps: '30 sec on, 30 sec rest' },
-      { name: 'Mountain Climbers', category: 'Cardio', muscle: 'Core', sets: 4, reps: '30 sec on, 30 sec rest' },
-      { name: 'Jump Squats', category: 'Cardio', muscle: 'Legs', sets: 4, reps: '30 sec on, 30 sec rest' },
-      { name: 'High Knees', category: 'Cardio', muscle: 'Legs', sets: 4, reps: '30 sec on, 30 sec rest' },
-      { name: 'Plank Jacks', category: 'Cardio', muscle: 'Core', sets: 4, reps: '30 sec on, 30 sec rest' },
-      { name: 'Russian Twists', category: 'Core', muscle: 'Core', sets: 3, reps: '20 each side' }
+      { name: 'Burpees', category: 'Kondition', muscle: 'Helkropp', sets: 4, reps: '30 sek på, 30 sek vila' },
+      { name: 'Bergsklätrare', category: 'Kondition', muscle: 'Core', sets: 4, reps: '30 sek på, 30 sek vila' },
+      { name: 'Hoppknäböj', category: 'Kondition', muscle: 'Ben', sets: 4, reps: '30 sek på, 30 sek vila' },
+      { name: 'Höga knän', category: 'Kondition', muscle: 'Ben', sets: 4, reps: '30 sek på, 30 sek vila' },
+      { name: 'Plankhopp', category: 'Kondition', muscle: 'Core', sets: 4, reps: '30 sek på, 30 sek vila' },
+      { name: 'Ryska vridningar', category: 'Core', muscle: 'Core', sets: 3, reps: '20 varje sida' }
     ]
   }
 ];
@@ -127,14 +127,23 @@ const getDifficultyColor = (difficulty: string) => {
   }
 };
 
+const getDifficultyLabel = (difficulty: string) => {
+  switch (difficulty) {
+    case 'Beginner': return 'Nybörjare';
+    case 'Intermediate': return 'Medel';
+    case 'Advanced': return 'Avancerad';
+    default: return difficulty;
+  }
+};
+
 export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutProgramsProps) => {
   return (
     <div className="min-h-screen bg-background">
       <div className="p-4 space-y-4 pb-24">
         <div className="text-center py-6">
           <Target className="h-12 w-12 mx-auto mb-4 text-primary" />
-          <h1 className="text-2xl font-bold mb-2">Workout Programs</h1>
-          <p className="text-muted-foreground">Choose a program to start your workout</p>
+          <h1 className="text-2xl font-bold mb-2">Träningsprogram</h1>
+          <p className="text-muted-foreground">Välj ett program för att starta din träning</p>
         </div>
 
         {onOpenAIGenerator && (
@@ -145,10 +154,10 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
                 <Sparkles className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">AI Workout Generator</h3>
+                <h3 className="text-xl font-semibold mb-2">AI Träningsgenerator</h3>
                 <p className="text-muted-foreground text-sm mb-4">
-                  Let AI create a personalized workout program just for you based on your goals, 
-                  equipment, and preferences.
+                  Låt AI skapa ett personligt träningsprogram bara för dig baserat på dina mål, 
+                  utrustning och preferenser.
                 </p>
               </div>
               <Button 
@@ -158,7 +167,7 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
               >
                 <Crown className="h-4 w-4 mr-2" />
                 <Brain className="h-5 w-5 mr-2" />
-                Create My Workout
+                Skapa min träning
                 <Sparkles className="h-4 w-4 ml-2" />
                 <Badge className="absolute -top-2 -right-2 bg-yellow-500 text-yellow-900 text-xs px-1.5 py-0.5">
                   PRO
@@ -169,8 +178,8 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
         )}
 
         <div className="space-y-1 mb-4">
-          <h2 className="text-lg font-semibold">Pre-built Programs</h2>
-          <p className="text-sm text-muted-foreground">Ready-to-use workout routines</p>
+          <h2 className="text-lg font-semibold">Färdiga program</h2>
+          <p className="text-sm text-muted-foreground">Redo att använda träningsrutiner</p>
         </div>
 
         <div className="space-y-4">
@@ -181,7 +190,7 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="font-semibold text-lg">{program.name}</h3>
                     <Badge className={getDifficultyColor(program.difficulty)} variant="outline">
-                      {program.difficulty}
+                      {getDifficultyLabel(program.difficulty)}
                     </Badge>
                   </div>
                   <p className="text-muted-foreground text-sm mb-3">{program.description}</p>
@@ -193,7 +202,7 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
                     </div>
                     <div className="flex items-center gap-1">
                       <Dumbbell className="h-4 w-4" />
-                      <span>{program.exercises.length} exercises</span>
+                      <span>{program.exercises.length} övningar</span>
                     </div>
                   </div>
                 </div>
@@ -204,12 +213,12 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
                   size="sm"
                 >
                   <Play className="h-4 w-4 mr-2" />
-                  Start
+                  Starta
                 </Button>
               </div>
 
               <div className="space-y-1">
-                <div className="text-xs font-medium text-muted-foreground mb-2">EXERCISES:</div>
+                <div className="text-xs font-medium text-muted-foreground mb-2">ÖVNINGAR:</div>
                 {program.exercises.slice(0, 3).map((exercise, index) => (
                   <div key={index} className="flex items-center justify-between text-sm text-muted-foreground">
                     <span>{exercise.sets}x {exercise.reps} {exercise.name}</span>
@@ -225,15 +234,15 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
                         </DialogHeader>
                         <div className="space-y-3">
                           <div className="text-sm text-muted-foreground">
-                            <strong>Target:</strong> {exercise.muscle} ({exercise.category})
+                            <strong>Målmuskel:</strong> {exercise.muscle} ({exercise.category})
                           </div>
                           <div className="text-sm text-muted-foreground">
-                            <strong>Sets × Reps:</strong> {exercise.sets} × {exercise.reps}
+                            <strong>Set × Reps:</strong> {exercise.sets} × {exercise.reps}
                           </div>
                           <div className="text-sm">
-                            <strong>How to perform:</strong>
+                            <strong>Så här utför du övningen:</strong>
                             <p className="mt-1 text-muted-foreground">
-                              {exerciseInstructions[exercise.name] || 'Exercise instructions not available.'}
+                              {exerciseInstructions[exercise.name] || 'Övningsinstruktioner inte tillgängliga.'}
                             </p>
                           </div>
                         </div>
@@ -243,7 +252,7 @@ export const WorkoutPrograms = ({ onSelectProgram, onOpenAIGenerator }: WorkoutP
                 ))}
                 {program.exercises.length > 3 && (
                   <div className="text-sm text-muted-foreground">
-                    +{program.exercises.length - 3} more exercises
+                    +{program.exercises.length - 3} fler övningar
                   </div>
                 )}
               </div>
