@@ -26,7 +26,7 @@ export const WorkoutApp = () => {
   const [currentExercises, setCurrentExercises] = useState<Exercise[]>([]);
   const [workoutStartTime, setWorkoutStartTime] = useState<Date>(new Date());
   const [editingWorkout, setEditingWorkout] = useState<CompletedWorkout | null>(null);
-  const { workoutHistory, saveWorkout, updateWorkout, deleteWorkout } = useWorkoutStorage();
+  const { workoutHistory, saveWorkout, updateWorkout, updateWorkoutTimes, deleteWorkout } = useWorkoutStorage();
   const { personalRecords, getExercisePR } = usePersonalRecords(workoutHistory);
   const { toast } = useToast();
 
@@ -138,13 +138,13 @@ export const WorkoutApp = () => {
     return 'middle';
   };
 
-  const finishWorkout = () => {
+  const finishWorkout = (startTime?: Date, endTime?: Date) => {
     const completedExercises = currentExercises.filter(ex => 
       ex.sets.some(set => set.completed)
     );
     
     if (completedExercises.length > 0) {
-      saveWorkout(currentExercises, workoutStartTime);
+      saveWorkout(currentExercises, startTime || workoutStartTime, endTime);
     }
     
     setCurrentExercises([]);

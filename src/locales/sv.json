@@ -49,7 +49,15 @@
     "saveAndExit": "Spara & Avsluta",
     "end": "Avsluta",
     "noExercisesAdded": "Inga övningar tillagda",
-    "addFirstExercise": "Lägg till din första övning för att börja logga set och reps"
+    "addFirstExercise": "Lägg till din första övning för att börja logga set och reps",
+    "endTimeAfterStart": "Sluttid måste vara efter starttid",
+    "invalidTimeFormat": "Ogiltigt tidsformat",
+    "workoutTime": "Träningstid",
+    "editWorkoutTime": "Redigera träningstid",
+    "startDate": "Startdatum",
+    "startTime": "Starttid",
+    "endDate": "Slutdatum",
+    "endTime": "Sluttid"
   },
   "exercises": {
     "chest": "Bröst",

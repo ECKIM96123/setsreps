@@ -5,6 +5,8 @@ import { useOfflineMode } from './useOfflineMode';
 export interface CompletedWorkout {
   id: string;
   date: Date;
+  startTime: Date;
+  endTime: Date;
   exercises: Exercise[];
   duration: number; // in minutes
   totalSets: number;
@@ -22,7 +24,9 @@ export const useWorkoutStorage = () => {
         const parsed = JSON.parse(saved);
         const workouts = parsed.map((w: any) => ({
           ...w,
-          date: new Date(w.date)
+          date: new Date(w.date),
+          startTime: w.startTime ? new Date(w.startTime) : new Date(w.date),
+          endTime: w.endTime ? new Date(w.endTime) : new Date(w.date)
         }));
         setWorkoutHistory(workouts);
       } catch (error) {
@@ -31,9 +35,9 @@ export const useWorkoutStorage = () => {
     }
   }, []);
 
-  const saveWorkout = (exercises: Exercise[], startTime: Date) => {
-    const endTime = new Date();
-    const duration = Math.floor((endTime.getTime() - startTime.getTime()) / 1000 / 60);
+  const saveWorkout = (exercises: Exercise[], startTime: Date, endTime?: Date) => {
+    const actualEndTime = endTime || new Date();
+    const duration = Math.floor((actualEndTime.getTime() - startTime.getTime()) / 1000 / 60);
     const totalSets = exercises.reduce((sum, ex) => sum + ex.sets.filter(set => set.completed).length, 0);
     const totalVolume = exercises.reduce((sum, ex) => 
       sum + ex.sets.filter(set => set.completed).reduce((vol, set) => vol + (set.weight * set.reps), 0), 0
@@ -41,7 +45,9 @@ export const useWorkoutStorage = () => {
 
     const workout: CompletedWorkout = {
       id: Date.now().toString(),
-      date: endTime,
+      date: actualEndTime,
+      startTime,
+      endTime: actualEndTime,
       exercises: exercises.map(ex => ({
         ...ex,
         sets: ex.sets.filter(set => set.completed)
@@ -112,6 +118,34 @@ export const useWorkoutStorage = () => {
     }
   };
 
+  const updateWorkoutTimes = (workoutId: string, startTime: Date, endTime: Date) => {
+    const updated = workoutHistory.map(workout => 
+      workout.id === workoutId 
+        ? {
+            ...workout,
+            startTime,
+            endTime,
+            duration: Math.floor((endTime.getTime() - startTime.getTime()) / 1000 / 60),
+            date: endTime // Update date to match end time
+          }
+        : workout
+    );
+    
+    setWorkoutHistory(updated);
+    
+    try {
+      localStorage.setItem('setsreps-workouts', JSON.stringify(updated));
+    } catch (error) {
+      console.error('Error updating workout times:', error);
+    }
+
+    // Update offline storage for sync
+    const updatedWorkout = updated.find(w => w.id === workoutId);
+    if (updatedWorkout) {
+      updateWorkoutOffline(workoutId, updatedWorkout);
+    }
+  };
+
   const clearHistory = () => {
     setWorkoutHistory([]);
     localStorage.removeItem('setsreps-workouts');
@@ -121,6 +155,7 @@ export const useWorkoutStorage = () => {
     workoutHistory,
     saveWorkout,
     updateWorkout,
+    updateWorkoutTimes,
     deleteWorkout,
     clearHistory
   };

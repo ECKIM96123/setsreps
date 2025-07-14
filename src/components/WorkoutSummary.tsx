@@ -1,26 +1,40 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from 'react-i18next';
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Clock, Target, TrendingUp } from "lucide-react";
 import { Exercise } from "./WorkoutExercise";
+import { TimeEditor } from "./TimeEditor";
 
 interface WorkoutSummaryProps {
   exercises: Exercise[];
-  onFinishWorkout: () => void;
+  onFinishWorkout: (startTime?: Date, endTime?: Date) => void;
   onCancelWorkout: () => void;
   startTime: Date;
 }
 
 export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, startTime }: WorkoutSummaryProps) => {
   const { t } = useTranslation();
+  const [currentStartTime, setCurrentStartTime] = useState(startTime);
+  const [currentEndTime, setCurrentEndTime] = useState(new Date());
+  
   const totalSets = exercises.reduce((sum, ex) => sum + ex.sets.length, 0);
   const completedSets = exercises.reduce((sum, ex) => sum + ex.sets.filter(set => set.completed).length, 0);
   const totalVolume = exercises.reduce((sum, ex) => 
     sum + ex.sets.filter(set => set.completed).reduce((vol, set) => vol + (set.weight * set.reps), 0), 0
   );
 
-  const workoutDuration = Math.floor((new Date().getTime() - startTime.getTime()) / 1000 / 60);
+  const workoutDuration = Math.floor((currentEndTime.getTime() - currentStartTime.getTime()) / 1000 / 60);
+
+  const handleTimeChange = (newStartTime: Date, newEndTime: Date) => {
+    setCurrentStartTime(newStartTime);
+    setCurrentEndTime(newEndTime);
+  };
+
+  const handleFinishWorkout = () => {
+    onFinishWorkout(currentStartTime, currentEndTime);
+  };
 
   return (
     <Card className="p-6 space-y-6 shadow-workout border-workout-border bg-gradient-subtle">
@@ -51,6 +65,13 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
           <p className="text-xs text-muted-foreground">{t('workout.duration')}</p>
         </div>
       </div>
+
+      {/* Time Editor */}
+      <TimeEditor 
+        startTime={currentStartTime}
+        endTime={currentEndTime}
+        onTimeChange={handleTimeChange}
+      />
 
       {totalVolume > 0 && (
         <div className="text-center p-4 bg-card rounded-xl border border-workout-border">
@@ -93,7 +114,7 @@ export const WorkoutSummary = ({ exercises, onFinishWorkout, onCancelWorkout, st
           {t('workout.cancelWorkout')}
         </Button>
         <Button
-          onClick={onFinishWorkout}
+          onClick={handleFinishWorkout}
           className="flex-1 bg-gradient-primary shadow-accent"
         >
           {t('workout.finishWorkout')}

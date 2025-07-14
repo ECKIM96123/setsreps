@@ -49,7 +49,14 @@
     "saveAndExit": "Save & Exit",
     "end": "End",
     "noExercisesAdded": "No Exercises Added",
-    "addFirstExercise": "Add your first exercise to start logging sets and reps"
+    "endTimeAfterStart": "End time must be after start time",
+    "invalidTimeFormat": "Invalid time format",
+    "workoutTime": "Workout Time",
+    "editWorkoutTime": "Edit Workout Time",
+    "startDate": "Start Date",
+    "startTime": "Start Time",
+    "endDate": "End Date",
+    "endTime": "End Time"
   },
   "exercises": {
     "chest": "Chest",
