@@ -335,7 +335,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
                     type="number"
                     value={set.weight === 0 ? '' : set.weight}
                     onChange={(e) => editSet(index, 'weight', e.target.value)}
-                    className="w-full h-8 px-2 text-sm border rounded bg-white"
+                    className="w-full h-8 px-2 text-base border rounded bg-white"
               placeholder={t('workout.kg')}
                   />
                 </div>
@@ -344,7 +344,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
                     type="number"
                     value={set.reps}
                     onChange={(e) => editSet(index, 'reps', e.target.value)}
-                    className="w-full h-8 px-2 text-sm border rounded bg-white"
+                    className="w-full h-8 px-2 text-base border rounded bg-white"
               placeholder={t('exercises.reps')}
                   />
                 </div>
@@ -386,13 +386,13 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
             </span>
           </div>
           <div className="col-span-4">
-          <Input
-            type="number"
-            placeholder={t('workout.kg')}
-            value={newWeight}
-            onChange={(e) => setNewWeight(e.target.value)}
-            className="h-8 text-sm"
-          />
+            <Input
+              type="number"
+              placeholder={t('workout.kg')}
+              value={newWeight}
+              onChange={(e) => setNewWeight(e.target.value)}
+              className="h-8 text-base"
+            />
           </div>
           <div className="col-span-3">
             <Input
@@ -401,7 +401,7 @@ export const WorkoutExercise = ({ exercise, onUpdateExercise, onDeleteExercise, 
               value={newReps}
               onChange={(e) => setNewReps(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && addSet()}
-              className="h-8 text-sm"
+              className="h-8 text-base"
             />
           </div>
           <div className="col-span-3 flex gap-1">
