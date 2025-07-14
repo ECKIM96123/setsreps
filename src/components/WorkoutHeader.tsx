@@ -15,7 +15,7 @@ interface WorkoutHeaderProps {
 export const WorkoutHeader = ({ onStartWorkout, isWorkoutActive, hasInProgressWorkout, onResumeWorkout }: WorkoutHeaderProps) => {
   const { t } = useTranslation();
   return (
-    <div className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-sm">
+    <div className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-sm safe-area-top">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo and Title */}
