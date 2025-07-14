@@ -5,10 +5,13 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import { useNotifications } from "@/hooks/useNotifications";
-import { Bell, BellOff, Settings, Timer, Trophy, Heart } from "lucide-react";
+import { Bell, BellOff, Timer, Trophy, Heart, CheckCircle2, AlertCircle } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 export const NotificationSettings = () => {
+  const { t } = useTranslation();
   const { 
     settings, 
     updateSettings, 
@@ -19,27 +22,24 @@ export const NotificationSettings = () => {
     cancelAllNotifications 
   } = useNotifications();
 
-  const [testNotification, setTestNotification] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePermissionRequest = async () => {
+    setIsLoading(true);
     const granted = await requestPermissions();
-    if (granted) {
-      // Schedule daily motivation if enabled
-      if (settings.dailyMotivation) {
-        scheduleDailyMotivation();
-      }
+    if (granted && settings.dailyMotivation) {
+      await scheduleDailyMotivation();
     }
+    setIsLoading(false);
   };
 
-  const handleTestNotification = async () => {
+  const handlePreviewNotification = async () => {
     if (permissionGranted) {
-      setTestNotification(true);
       await scheduleWorkoutReminder(
-        "Test Notification 🔔",
-        "This is how your workout reminders will look!",
-        new Date(Date.now() + 3000) // 3 seconds from now
+        "Sets&Reps 💪",
+        "Dags för din träning! Låt oss bygga styrka tillsammans.",
+        new Date(Date.now() + 2000)
       );
-      setTimeout(() => setTestNotification(false), 3000);
     }
   };
 
@@ -57,125 +57,151 @@ export const NotificationSettings = () => {
       </DialogTrigger>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Bell className="h-5 w-5" />
-            Notification Settings
+          <DialogTitle className="flex items-center gap-2 text-lg">
+            <Bell className="h-5 w-5 text-primary" />
+            Notifieringar
           </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-6">
           {/* Permission Status */}
-          <Card className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {permissionGranted ? (
-                  <Bell className="h-4 w-4 text-green-500" />
-                ) : (
-                  <BellOff className="h-4 w-4 text-muted-foreground" />
-                )}
-                <span className="text-sm font-medium">
-                  {permissionGranted ? 'Notifications Enabled' : 'Enable Notifications'}
-                </span>
-              </div>
-              {!permissionGranted && (
-                <Button size="sm" onClick={handlePermissionRequest}>
-                  Enable
-                </Button>
+          <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+            <div className="flex items-center gap-3">
+              {permissionGranted ? (
+                <CheckCircle2 className="h-5 w-5 text-green-500" />
+              ) : (
+                <AlertCircle className="h-5 w-5 text-yellow-500" />
               )}
+              <div>
+                <div className="text-sm font-medium">
+                  {permissionGranted ? 'Notifieringar aktiverade' : 'Aktivera notifieringar'}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {permissionGranted 
+                    ? 'Du får påminnelser och träningsalarm' 
+                    : 'Tillåt notifieringar för träningspåminnelser'
+                  }
+                </div>
+              </div>
             </div>
             {!permissionGranted && (
-              <p className="text-xs text-muted-foreground mt-2">
-                Allow notifications to get workout reminders and timer alerts
-              </p>
+              <Button 
+                size="sm" 
+                onClick={handlePermissionRequest}
+                disabled={isLoading}
+                className="ml-2"
+              >
+                {isLoading ? 'Aktiverar...' : 'Aktivera'}
+              </Button>
             )}
-          </Card>
+          </div>
+
+          <Separator />
 
           {/* Notification Types */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Timer className="h-4 w-4 text-primary" />
-                <div>
-                  <div className="text-sm font-medium">Rest Timer Alerts</div>
-                  <div className="text-xs text-muted-foreground">Get notified when rest time is over</div>
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-sm font-semibold mb-3 text-foreground">Träningsnotifieringar</h4>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Timer className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium">Vilopauspåminnelser</div>
+                      <div className="text-xs text-muted-foreground">Få notis när vilopausen är över</div>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={settings.restTimerAlerts}
+                    onCheckedChange={(checked) => updateSettings({ restTimerAlerts: checked })}
+                    disabled={!permissionGranted}
+                  />
                 </div>
-              </div>
-              <Switch
-                checked={settings.restTimerAlerts}
-                onCheckedChange={(checked) => updateSettings({ restTimerAlerts: checked })}
-                disabled={!permissionGranted}
-              />
-            </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Trophy className="h-4 w-4 text-primary" />
-                <div>
-                  <div className="text-sm font-medium">Workout Reminders</div>
-                  <div className="text-xs text-muted-foreground">Daily workout reminders</div>
+                <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Trophy className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium">Träningspåminnelser</div>
+                      <div className="text-xs text-muted-foreground">Dagliga påminnelser om att träna</div>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={settings.workoutReminders}
+                    onCheckedChange={(checked) => updateSettings({ workoutReminders: checked })}
+                    disabled={!permissionGranted}
+                  />
                 </div>
-              </div>
-              <Switch
-                checked={settings.workoutReminders}
-                onCheckedChange={(checked) => updateSettings({ workoutReminders: checked })}
-                disabled={!permissionGranted}
-              />
-            </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Heart className="h-4 w-4 text-primary" />
-                <div>
-                  <div className="text-sm font-medium">Daily Motivation</div>
-                  <div className="text-xs text-muted-foreground">Motivational messages to keep you going</div>
+                <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Heart className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium">Motivationsmeddelanden</div>
+                      <div className="text-xs text-muted-foreground">Inspiration för att hålla igång</div>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={settings.dailyMotivation}
+                    onCheckedChange={(checked) => updateSettings({ dailyMotivation: checked })}
+                    disabled={!permissionGranted}
+                  />
                 </div>
               </div>
-              <Switch
-                checked={settings.dailyMotivation}
-                onCheckedChange={(checked) => updateSettings({ dailyMotivation: checked })}
-                disabled={!permissionGranted}
-              />
             </div>
           </div>
 
           {/* Reminder Time */}
           {(settings.workoutReminders || settings.dailyMotivation) && (
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Reminder Time</label>
-              <Input
-                type="time"
-                value={settings.reminderTime}
-                onChange={(e) => updateSettings({ reminderTime: e.target.value })}
-                disabled={!permissionGranted}
-                className="w-full"
-              />
-              <p className="text-xs text-muted-foreground">
-                Time for daily workout reminders and motivation
-              </p>
-            </div>
+            <>
+              <Separator />
+              <div className="space-y-3">
+                <label className="text-sm font-semibold text-foreground">Påminnelsetid</label>
+                <div className="space-y-2">
+                  <Input
+                    type="time"
+                    value={settings.reminderTime}
+                    onChange={(e) => updateSettings({ reminderTime: e.target.value })}
+                    disabled={!permissionGranted}
+                    className="w-full bg-background"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Välj när du vill få dina dagliga träningspåminnelser
+                  </p>
+                </div>
+              </div>
+            </>
           )}
 
-          {/* Test Notification */}
+          {/* Action Buttons */}
           {permissionGranted && (
-            <div className="flex gap-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleTestNotification}
-                disabled={testNotification}
-                className="flex-1"
-              >
-                {testNotification ? 'Sending...' : 'Test Notification'}
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={cancelAllNotifications}
-                className="flex-1"
-              >
-                Clear All
-              </Button>
-            </div>
+            <>
+              <Separator />
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handlePreviewNotification}
+                  className="flex-1"
+                >
+                  Förhandsgranska
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={cancelAllNotifications}
+                  className="flex-1"
+                >
+                  Rensa alla
+                </Button>
+              </div>
+            </>
           )}
         </div>
       </DialogContent>

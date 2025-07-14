@@ -74,8 +74,8 @@ export const useNotifications = () => {
       
       await LocalNotifications.schedule({
         notifications: [{
-          title: 'Rest Timer Complete!',
-          body: 'Time to get back to your workout 💪',
+          title: 'Vilopausen är över! ⏰',
+          body: 'Dags att fortsätta din träning! Kör på! 💪',
           id: Date.now(),
           schedule: { at: scheduleAt },
           sound: undefined,
@@ -93,11 +93,13 @@ export const useNotifications = () => {
     if (!permissionGranted || !settings.dailyMotivation) return;
 
     const motivationalMessages = [
-      "Ready to crush today's workout? 💪",
-      "Your muscles are waiting for you! 🔥",
-      "Consistency beats perfection. Let's go! 🎯",
-      "Today's workout is tomorrow's strength! 💪",
-      "No excuses, just results! 🚀"
+      "Dags att krossa dagens träning! 💪",
+      "Dina muskler väntar på dig! 🔥", 
+      "Konsistens slår perfektion. Kör på! 🎯",
+      "Dagens träning är morgondagens styrka! 💪",
+      "Inga ursäkter, bara resultat! 🚀",
+      "Varje rep räknas. Låt oss börja! ⚡",
+      "Styrka kommer från disciplin. Tid att träna! 🏋️"
     ];
 
     try {
@@ -106,7 +108,7 @@ export const useNotifications = () => {
       
       await LocalNotifications.schedule({
         notifications: [{
-          title: 'Daily Workout Reminder',
+          title: 'Sets&Reps - Dags att träna! 💪',
           body: randomMessage,
           id: Date.now(),
           schedule: { at: tomorrow },
