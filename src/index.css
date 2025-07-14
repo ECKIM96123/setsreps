@@ -91,10 +91,4 @@
   .safe-area-top {
     padding-top: max(1rem, env(safe-area-inset-top));
   }
-  
-  /* Ensure sticky header respects safe area */
-  .sticky.safe-area-top {
-    top: env(safe-area-inset-top, 0);
-    padding-top: 1rem;
-  }
 }
