@@ -28,7 +28,7 @@ export const useNotifications = () => {
 
   const requestPermissions = async () => {
     if (!Capacitor.isNativePlatform()) {
-      console.log('Notifications not available on web platform');
+      console.log('Notifikationer inte tillgängliga på webbplattform');
       return false;
     }
 
@@ -38,7 +38,7 @@ export const useNotifications = () => {
       setPermissionGranted(granted);
       return granted;
     } catch (error) {
-      console.error('Error requesting notification permissions:', error);
+      console.error('Fel vid begäran om notifikationsbehörigheter:', error);
       return false;
     }
   };
@@ -62,7 +62,7 @@ export const useNotifications = () => {
         }]
       });
     } catch (error) {
-      console.error('Error scheduling workout reminder:', error);
+      console.error('Fel vid schemaläggning av träningspåminnelse:', error);
     }
   };
 
@@ -85,7 +85,7 @@ export const useNotifications = () => {
         }]
       });
     } catch (error) {
-      console.error('Error scheduling rest timer alert:', error);
+      console.error('Fel vid schemaläggning av vilotimer:', error);
     }
   };
 
@@ -119,7 +119,7 @@ export const useNotifications = () => {
         }]
       });
     } catch (error) {
-      console.error('Error scheduling daily motivation:', error);
+      console.error('Fel vid schemaläggning av daglig motivation:', error);
     }
   };
 
@@ -130,7 +130,7 @@ export const useNotifications = () => {
     
     reminderTime.setHours(hours, minutes, 0, 0);
     
-    // If the time has passed today, schedule for tomorrow
+    // Om tiden har passerat idag, schemalägg för imorgon
     if (reminderTime <= now) {
       reminderTime.setDate(reminderTime.getDate() + 1);
     }
@@ -144,7 +144,7 @@ export const useNotifications = () => {
         notifications: (await LocalNotifications.getPending()).notifications
       });
     } catch (error) {
-      console.error('Error canceling notifications:', error);
+      console.error('Fel vid avbokning av notifikationer:', error);
     }
   };
 
@@ -152,12 +152,12 @@ export const useNotifications = () => {
     setSettings(prev => ({ ...prev, ...newSettings }));
   };
 
-  // Initialize permissions on mount
+  // Initiera behörigheter vid start
   useEffect(() => {
     requestPermissions();
   }, []);
 
-  // Reschedule daily motivation when settings change
+  // Schemalägg om daglig motivation när inställningar ändras
   useEffect(() => {
     if (settings.dailyMotivation && permissionGranted) {
       scheduleDailyMotivation();
