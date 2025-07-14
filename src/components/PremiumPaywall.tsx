@@ -10,7 +10,7 @@ interface PremiumPaywallProps {
 }
 
 export const PremiumPaywall = ({ feature, children }: PremiumPaywallProps) => {
-  const { upgradeToPremium, restorePurchases, isLoading } = usePremium();
+  const { upgradeToPremium } = usePremium();
 
   return (
     <Card className="p-6 text-center border-2 border-dashed border-muted relative overflow-hidden">
@@ -63,25 +63,13 @@ export const PremiumPaywall = ({ feature, children }: PremiumPaywallProps) => {
           </div>
         </div>
         
-        <div className="space-y-3">
-          <Button 
-            onClick={upgradeToPremium} 
-            disabled={isLoading}
-            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
-          >
-            <Zap className="w-4 h-4 mr-2" />
-            {isLoading ? "Processing..." : "Upgrade to Premium"}
-          </Button>
-          
-          <Button 
-            onClick={restorePurchases}
-            disabled={isLoading}
-            variant="outline"
-            className="w-full"
-          >
-            Restore Purchases
-          </Button>
-        </div>
+        <Button 
+          onClick={upgradeToPremium} 
+          className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+        >
+          <Zap className="w-4 h-4 mr-2" />
+          Upgrade to Premium
+        </Button>
         
         {children && (
           <div className="mt-4 opacity-30 pointer-events-none">
