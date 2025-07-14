@@ -30,6 +30,7 @@ import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 import { usePremium } from "@/contexts/PremiumContext";
 import { PremiumPaywall } from "./PremiumPaywall";
 import { usePersonalRecords } from "@/hooks/usePersonalRecords";
+import { useTranslation } from 'react-i18next';
 
 interface WorkoutStatsProps {
   workouts: CompletedWorkout[];
@@ -39,6 +40,7 @@ interface WorkoutStatsProps {
 export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
   const { isPremium } = usePremium();
   const { personalRecords, getExercisePR } = usePersonalRecords(workouts);
+  const { t } = useTranslation();
 
   // Calculate comprehensive statistics
   const calculateStats = () => {
@@ -321,8 +323,8 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
     return (
       <div className="p-4 text-center py-16">
         <BarChart3 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-        <h2 className="text-xl font-semibold mb-2">Ingen data ännu</h2>
-        <p className="text-muted-foreground">Slutför några träningar för att se din statistik!</p>
+        <h2 className="text-xl font-semibold mb-2">{t('stats.noDataYet')}</h2>
+        <p className="text-muted-foreground">{t('stats.completeWorkouts')}</p>
       </div>
     );
   }
