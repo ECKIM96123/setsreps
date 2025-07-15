@@ -50,7 +50,8 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       } else {
         // Web fallback - mock premium status for development
         console.log('RevenueCat: Running in web mode, using mock data');
-        setIsPremium(false);
+        // For development: set to true to test premium features
+        setIsPremium(true);
       }
     } catch (err) {
       console.error('RevenueCat initialization error:', err);
@@ -123,21 +124,38 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
 
       const { Purchases } = await import('@revenuecat/purchases-capacitor');
       
-      // Get specific offering
+      // Get all offerings
       const offerings = await Purchases.getOfferings();
-      // Try to get specific offering first, fallback to current
-      const specificOffering = offerings.all['ofrng47f13c884d'];
-      const currentOffering = specificOffering || offerings.current;
+      console.log('Available offerings:', Object.keys(offerings.all));
+      console.log('Current offering:', offerings.current?.identifier);
       
-      if (!currentOffering || currentOffering.availablePackages.length === 0) {
-        throw new Error('No subscription offerings available. Please try again later.');
+      // Try multiple fallbacks for offering
+      let targetOffering = offerings.current;
+      
+      // If no current offering, try to get any available offering
+      if (!targetOffering || targetOffering.availablePackages.length === 0) {
+        const availableOfferingKeys = Object.keys(offerings.all);
+        console.log('No current offering, trying available offerings:', availableOfferingKeys);
+        
+        for (const key of availableOfferingKeys) {
+          const offering = offerings.all[key];
+          if (offering && offering.availablePackages.length > 0) {
+            targetOffering = offering;
+            console.log('Using offering:', key);
+            break;
+          }
+        }
+      }
+      
+      if (!targetOffering || targetOffering.availablePackages.length === 0) {
+        console.error('No offerings found. Available offerings:', offerings);
+        throw new Error('No subscription offerings available. Please check your RevenueCat configuration.');
       }
 
-      // For now, use the first available package (you can modify this logic)
-      // RevenueCat Capacitor doesn't have native paywall UI yet, so we trigger purchase directly
-      const packageToPurchase = currentOffering.availablePackages[0];
-      
-      console.log('Showing offering with packages:', currentOffering.availablePackages.map(p => p.identifier));
+      // Use the first available package
+      const packageToPurchase = targetOffering.availablePackages[0];
+      console.log('Using package:', packageToPurchase.identifier);
+      console.log('Package details:', packageToPurchase);
       
       // This will trigger the native purchase flow
       const purchaseResult = await Purchases.purchasePackage({ aPackage: packageToPurchase });
