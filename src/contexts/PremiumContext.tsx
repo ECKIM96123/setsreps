@@ -95,15 +95,30 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       const offerings = await Purchases.getOfferings();
       console.log('Available offerings:', Object.keys(offerings.all));
       
-      // Look specifically for "Sets & Reps" offering
-      const setsRepsOffering = offerings.all['Sets & Reps'];
+      // Look for offering with the user's specific products (MONSUB, 3MONSUB, YEARLYSUB)
       let currentOffering = null;
       
-      if (setsRepsOffering && setsRepsOffering.availablePackages && setsRepsOffering.availablePackages.length > 0) {
-        currentOffering = setsRepsOffering;
-        console.log('Using Sets & Reps offering');
-      } else {
-        // Fallback to any other offering that isn't Default
+      // First, try to find an offering that contains our specific product IDs
+      for (const [key, offering] of Object.entries(offerings.all)) {
+        if (offering && offering.availablePackages && offering.availablePackages.length > 0) {
+          // Check if this offering contains any of our target products
+          const hasTargetProducts = offering.availablePackages.some(pkg => 
+            pkg.identifier.includes('MONSUB') || 
+            pkg.identifier.includes('3MONSUB') || 
+            pkg.identifier.includes('YEARLYSUB')
+          );
+          
+          if (hasTargetProducts) {
+            currentOffering = offering;
+            console.log('Found offering with target products:', key);
+            console.log('Available packages:', offering.availablePackages.map(p => p.identifier));
+            break;
+          }
+        }
+      }
+      
+      // If no offering with target products found, use any non-Default offering
+      if (!currentOffering) {
         for (const [key, offering] of Object.entries(offerings.all)) {
           if (offering && offering.availablePackages && offering.availablePackages.length > 0 && key !== 'Default') {
             currentOffering = offering;
