@@ -95,39 +95,45 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       const offerings = await Purchases.getOfferings();
       console.log('Available offerings:', Object.keys(offerings.all));
       
-      // Look for offering with the working products
+      // Look for the specific offering ID: ofrng47f13c884d
       let currentOffering = null;
+      const targetOfferingId = 'ofrng47f13c884d';
       
       console.log('All available offerings:', Object.keys(offerings.all));
-      for (const [key, offering] of Object.entries(offerings.all)) {
-        console.log(`Offering "${key}":`, offering?.availablePackages?.map(p => ({
-          id: p.identifier,
-          title: 'Package title not available'
-        })));
+      
+      // First, try to find the specific offering by ID
+      if (offerings.all[targetOfferingId]) {
+        const targetOffering = offerings.all[targetOfferingId];
+        if (targetOffering && targetOffering.availablePackages && targetOffering.availablePackages.length > 0) {
+          currentOffering = targetOffering;
+          console.log('Found target offering:', targetOfferingId);
+          console.log('Available packages:', targetOffering.availablePackages.map(p => p.identifier));
+        }
       }
       
-      // First, try to find an offering that contains MONSUB (which seems to work)
-      for (const [key, offering] of Object.entries(offerings.all)) {
-        if (offering && offering.availablePackages && offering.availablePackages.length > 0) {
-          // Look for MONSUB specifically since it seems to be working
-          const hasMonthlyProduct = offering.availablePackages.some(pkg => 
-            pkg.identifier === 'MONSUB'
-          );
-          
-          if (hasMonthlyProduct) {
-            currentOffering = offering;
-            console.log('Found offering with MONSUB:', key);
-            console.log('Available packages in this offering:', offering.availablePackages.map(p => ({
-              id: p.identifier,
-              title: 'Package info not available',
-              price: 'Price info not available'
-            })));
-            break;
+      // If target offering not found, look for offerings with our expected products
+      if (!currentOffering) {
+        console.log('Target offering not found, searching for products: MONSUB, 3MONSUB, YEARLYSUB');
+        for (const [key, offering] of Object.entries(offerings.all)) {
+          if (offering && offering.availablePackages && offering.availablePackages.length > 0) {
+            // Check if this offering contains any of our expected products
+            const hasExpectedProducts = offering.availablePackages.some(pkg => 
+              pkg.identifier === 'MONSUB' || 
+              pkg.identifier === '3MONSUB' || 
+              pkg.identifier === 'YEARLYSUB'
+            );
+            
+            if (hasExpectedProducts) {
+              currentOffering = offering;
+              console.log('Found offering with expected products:', key);
+              console.log('Available packages:', offering.availablePackages.map(p => p.identifier));
+              break;
+            }
           }
         }
       }
       
-      // If no offering with MONSUB found, use any non-Default offering with packages
+      // Final fallback: any non-Default offering
       if (!currentOffering) {
         for (const [key, offering] of Object.entries(offerings.all)) {
           if (offering && offering.availablePackages && offering.availablePackages.length > 0 && key !== 'Default') {
