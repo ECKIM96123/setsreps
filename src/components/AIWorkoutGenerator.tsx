@@ -77,17 +77,28 @@ export const AIWorkoutGenerator = ({ onGeneratedProgram, onBack }: AIWorkoutGene
   const generateWorkout = async () => {
     setIsGenerating(true);
     try {
-      // Show a message that AI generation requires Supabase setup
-      toast({
-        title: "Feature Coming Soon!",
-        description: "AI workout generation requires Supabase setup. Please configure your environment variables.",
-        variant: "destructive",
+      const { supabase } = await import('@/integrations/supabase/client');
+      
+      const { data, error } = await supabase.functions.invoke('generate-workout', {
+        body: preferences
       });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        toast({
+          title: "Workout Generated!",
+          description: "Your personalized workout has been created successfully.",
+        });
+        onGeneratedProgram(data);
+      }
     } catch (error) {
       console.error('Error generating workout:', error);
       toast({
         title: "Generation Failed",
-        description: "Failed to generate workout. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to generate workout. Please try again.",
         variant: "destructive",
       });
     } finally {
