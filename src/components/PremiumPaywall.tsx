@@ -47,15 +47,31 @@ export const PremiumPaywall = ({ feature, children }: PremiumPaywallProps) => {
         </div>
         
         <div className="space-y-3 mb-6">
-          <div className="text-sm text-muted-foreground">Premium Subscription:</div>
+          <div className="text-sm text-muted-foreground">Choose your plan:</div>
           <div className="grid gap-2 text-xs">
+            <div className="flex justify-between items-center p-2 border rounded">
+              <div className="flex flex-col">
+                <span className="font-semibold">Monthly Premium</span>
+                <span className="text-xs text-muted-foreground">Auto-renewing subscription</span>
+              </div>
+              <span className="font-semibold">$4.49/month</span>
+            </div>
+            <div className="flex justify-between items-center p-2 border rounded">
+              <div className="flex flex-col">
+                <span className="font-semibold">3 Months Premium</span>
+                <span className="text-xs text-muted-foreground">Auto-renewing subscription</span>
+              </div>
+              <span className="font-semibold">$12.99</span>
+            </div>
             <div className="flex justify-between items-center p-2 border rounded bg-primary/5 border-primary">
               <div className="flex flex-col">
-                <span className="font-semibold">Premium Monthly</span>
+                <span className="font-semibold">Yearly Premium</span>
                 <span className="text-xs text-muted-foreground">Auto-renewing subscription</span>
-                <span className="text-xs text-muted-foreground">$4.49/month</span>
               </div>
-              <Badge variant="secondary" className="text-xs">Best Value</Badge>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">$29.99/year</span>
+                <Badge variant="secondary" className="text-xs">Best Value</Badge>
+              </div>
             </div>
           </div>
         </div>
