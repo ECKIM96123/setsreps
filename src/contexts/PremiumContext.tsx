@@ -71,7 +71,9 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       setError(null);
       
       if (!Capacitor.isNativePlatform()) {
-        throw new Error('Purchases are only available on mobile devices');
+        // For web development, show a message about mobile requirement
+        setError('Premium subscriptions require the mobile app. Download from App Store.');
+        return;
       }
 
       const { Purchases } = await import('@revenuecat/purchases-capacitor');
@@ -80,16 +82,28 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       const offerings = await Purchases.getOfferings();
       const currentOffering = offerings.current;
       
-      if (currentOffering && currentOffering.availablePackages.length > 0) {
-        const packageToPurchase = currentOffering.availablePackages[0];
-        const purchaseResult = await Purchases.purchasePackage({ aPackage: packageToPurchase });
-        setIsPremium(checkPremiumStatus(purchaseResult.customerInfo));
-      } else {
-        throw new Error('No packages available for purchase');
+      if (!currentOffering || currentOffering.availablePackages.length === 0) {
+        throw new Error('No subscription packages available. Please try again later.');
       }
+
+      // Find the monthly package or use the first available
+      const monthlyPackage = currentOffering.availablePackages.find(
+        pkg => pkg.identifier.includes('monthly') || pkg.identifier.includes('month')
+      ) || currentOffering.availablePackages[0];
+      
+      console.log('Attempting to purchase package:', monthlyPackage.identifier);
+      const purchaseResult = await Purchases.purchasePackage({ aPackage: monthlyPackage });
+      
+      console.log('Purchase successful:', purchaseResult);
+      setIsPremium(checkPremiumStatus(purchaseResult.customerInfo));
+      
     } catch (err) {
       console.error('Purchase error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to complete purchase');
+      if (err instanceof Error && err.message.includes('user cancelled')) {
+        setError('Purchase was cancelled');
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to complete purchase');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -115,14 +129,9 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
     }
   };
 
-  // Backward compatibility method
+  // Backward compatibility method - now properly calls purchasePremium
   const upgradeToPremium = () => {
-    if (Capacitor.isNativePlatform()) {
-      purchasePremium();
-    } else {
-      // For web development, just toggle premium status
-      setIsPremium(true);
-    }
+    purchasePremium();
   };
 
   useEffect(() => {
