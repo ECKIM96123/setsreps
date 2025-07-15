@@ -93,9 +93,25 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       
       // Get available offerings
       const offerings = await Purchases.getOfferings();
-      // Try to get specific offering first, fallback to current
-      const specificOffering = offerings.all['ofrng47f13c884d'];
-      const currentOffering = specificOffering || offerings.current;
+      console.log('Available offerings:', Object.keys(offerings.all));
+      
+      // Find any offering that has available packages (skip default if it has issues)
+      let targetOffering = null;
+      
+      // Look for any valid offering that isn't the problematic default
+      for (const [key, offering] of Object.entries(offerings.all)) {
+        if (offering && offering.availablePackages && offering.availablePackages.length > 0) {
+          // Skip 'Default' offering if it causes issues
+          if (key.toLowerCase() !== 'default') {
+            targetOffering = offering;
+            console.log('Using offering:', key);
+            break;
+          }
+        }
+      }
+      
+      // If no good offering found, use current as last resort
+      const currentOffering = targetOffering || offerings.current;
       
       if (!currentOffering || currentOffering.availablePackages.length === 0) {
         throw new Error('No subscription packages available. Please try again later.');
