@@ -42,10 +42,21 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
           ? 'appl_XbhizZctlfQheNRNAPCqzttrveY' 
           : 'your_android_api_key_here';
         
+        console.log('RevenueCat: Configuring with API key for platform:', Capacitor.getPlatform());
         await Purchases.configure({ apiKey });
         
         // Get current customer info
+        console.log('RevenueCat: Getting customer info...');
         const info = await Purchases.getCustomerInfo();
+        console.log('RevenueCat: Customer info:', info);
+        
+        // Also check offerings at initialization
+        console.log('RevenueCat: Checking offerings...');
+        const offerings = await Purchases.getOfferings();
+        console.log('RevenueCat: Available offerings:', Object.keys(offerings.all));
+        console.log('RevenueCat: Current offering:', offerings.current?.identifier);
+        console.log('RevenueCat: All offerings details:', offerings.all);
+        
         setIsPremium(checkPremiumStatus(info));
       } else {
         // Web fallback - mock premium status for development
