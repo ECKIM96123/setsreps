@@ -95,34 +95,45 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       const offerings = await Purchases.getOfferings();
       console.log('Available offerings:', Object.keys(offerings.all));
       
-      // Look for offering with the user's specific products (MONSUB, 3MONSUB, YEARLYSUB)
+      // Look for offering with the working products
       let currentOffering = null;
       
-      // First, try to find an offering that contains our specific product IDs
+      console.log('All available offerings:', Object.keys(offerings.all));
+      for (const [key, offering] of Object.entries(offerings.all)) {
+        console.log(`Offering "${key}":`, offering?.availablePackages?.map(p => ({
+          id: p.identifier,
+          title: 'Package title not available'
+        })));
+      }
+      
+      // First, try to find an offering that contains MONSUB (which seems to work)
       for (const [key, offering] of Object.entries(offerings.all)) {
         if (offering && offering.availablePackages && offering.availablePackages.length > 0) {
-          // Check if this offering contains any of our target products
-          const hasTargetProducts = offering.availablePackages.some(pkg => 
-            pkg.identifier.includes('MONSUB') || 
-            pkg.identifier.includes('3MONSUB') || 
-            pkg.identifier.includes('YEARLYSUB')
+          // Look for MONSUB specifically since it seems to be working
+          const hasMonthlyProduct = offering.availablePackages.some(pkg => 
+            pkg.identifier === 'MONSUB'
           );
           
-          if (hasTargetProducts) {
+          if (hasMonthlyProduct) {
             currentOffering = offering;
-            console.log('Found offering with target products:', key);
-            console.log('Available packages:', offering.availablePackages.map(p => p.identifier));
+            console.log('Found offering with MONSUB:', key);
+            console.log('Available packages in this offering:', offering.availablePackages.map(p => ({
+              id: p.identifier,
+              title: 'Package info not available',
+              price: 'Price info not available'
+            })));
             break;
           }
         }
       }
       
-      // If no offering with target products found, use any non-Default offering
+      // If no offering with MONSUB found, use any non-Default offering with packages
       if (!currentOffering) {
         for (const [key, offering] of Object.entries(offerings.all)) {
           if (offering && offering.availablePackages && offering.availablePackages.length > 0 && key !== 'Default') {
             currentOffering = offering;
             console.log('Using fallback offering:', key);
+            console.log('Packages:', offering.availablePackages.map(p => p.identifier));
             break;
           }
         }
