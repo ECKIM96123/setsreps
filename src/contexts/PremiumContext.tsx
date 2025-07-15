@@ -101,47 +101,13 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       
       console.log('All available offerings:', Object.keys(offerings.all));
       
-      // First, try to find the specific offering by ID
+      // Only search for the specific offering by ID
       if (offerings.all[targetOfferingId]) {
         const targetOffering = offerings.all[targetOfferingId];
         if (targetOffering && targetOffering.availablePackages && targetOffering.availablePackages.length > 0) {
           currentOffering = targetOffering;
           console.log('Found target offering:', targetOfferingId);
           console.log('Available packages:', targetOffering.availablePackages.map(p => p.identifier));
-        }
-      }
-      
-      // If target offering not found, look for offerings with our expected products
-      if (!currentOffering) {
-        console.log('Target offering not found, searching for products: MONSUB, 3MONSUB, YEARLYSUB');
-        for (const [key, offering] of Object.entries(offerings.all)) {
-          if (offering && offering.availablePackages && offering.availablePackages.length > 0) {
-            // Check if this offering contains any of our expected products
-            const hasExpectedProducts = offering.availablePackages.some(pkg => 
-              pkg.identifier === 'MONSUB' || 
-              pkg.identifier === '3MONSUB' || 
-              pkg.identifier === 'YEARLYSUB'
-            );
-            
-            if (hasExpectedProducts) {
-              currentOffering = offering;
-              console.log('Found offering with expected products:', key);
-              console.log('Available packages:', offering.availablePackages.map(p => p.identifier));
-              break;
-            }
-          }
-        }
-      }
-      
-      // Final fallback: any non-Default offering
-      if (!currentOffering) {
-        for (const [key, offering] of Object.entries(offerings.all)) {
-          if (offering && offering.availablePackages && offering.availablePackages.length > 0 && key !== 'Default') {
-            currentOffering = offering;
-            console.log('Using fallback offering:', key);
-            console.log('Packages:', offering.availablePackages.map(p => p.identifier));
-            break;
-          }
         }
       }
       
