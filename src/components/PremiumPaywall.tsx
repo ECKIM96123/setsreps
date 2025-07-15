@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Crown, Star, Zap, TrendingUp, BarChart3, Target } from "lucide-react";
 import { usePremium } from "@/contexts/PremiumContext";
+import { LegalLinks } from "./LegalLinks";
 
 interface PremiumPaywallProps {
   feature?: string;
@@ -46,30 +47,28 @@ export const PremiumPaywall = ({ feature, children }: PremiumPaywallProps) => {
         </div>
         
         <div className="space-y-3 mb-6">
-          <div className="text-sm text-muted-foreground">Choose your plan:</div>
+          <div className="text-sm text-muted-foreground">Premium Subscription:</div>
           <div className="grid gap-2 text-xs">
-            <div className="flex justify-between items-center p-2 border rounded">
-              <span>Monthly</span>
-              <span className="font-semibold">$4.49/month</span>
-            </div>
-            <div className="flex justify-between items-center p-2 border rounded">
-              <span>3 Months</span>
-              <span className="font-semibold">$12.99</span>
-            </div>
             <div className="flex justify-between items-center p-2 border rounded bg-primary/5 border-primary">
-              <span>Yearly <Badge variant="secondary" className="ml-1 text-xs">Best Value</Badge></span>
-              <span className="font-semibold">$29.99/year</span>
+              <div className="flex flex-col">
+                <span className="font-semibold">Premium Monthly</span>
+                <span className="text-xs text-muted-foreground">Auto-renewing subscription</span>
+                <span className="text-xs text-muted-foreground">$4.49/month</span>
+              </div>
+              <Badge variant="secondary" className="text-xs">Best Value</Badge>
             </div>
           </div>
         </div>
         
         <Button 
           onClick={upgradeToPremium} 
-          className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+          className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 mb-4"
         >
           <Zap className="w-4 h-4 mr-2" />
           Upgrade to Premium
         </Button>
+        
+        <LegalLinks />
         
         {children && (
           <div className="mt-4 opacity-30 pointer-events-none">
