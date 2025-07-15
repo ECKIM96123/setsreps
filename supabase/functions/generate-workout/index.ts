@@ -110,7 +110,7 @@ Return the response in this exact JSON format:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4-turbo-preview',
+        model: 'gpt-4.1-2025-04-14',
         messages: [
           {
             role: 'system',
@@ -126,8 +126,13 @@ Return the response in this exact JSON format:
       }),
     })
 
+    console.log('OpenAI API response status:', response.status)
+    console.log('OpenAI API response headers:', Object.fromEntries(response.headers.entries()))
+
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`)
+      const errorText = await response.text()
+      console.error('OpenAI API error response:', errorText)
+      throw new Error(`OpenAI API error: ${response.status} - ${errorText}`)
     }
 
     const data = await response.json()
