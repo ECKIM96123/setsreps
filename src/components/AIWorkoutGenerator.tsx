@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Brain, Loader2, Sparkles, Target, Clock, Dumbbell } from "lucide-react";
 import { WorkoutProgram } from "./WorkoutPrograms";
 import { usePremium } from "@/contexts/PremiumContext";
-import { PremiumPaywall } from "./PremiumPaywall";
+import { PremiumUpgrade } from "./PremiumUpgrade";
 
 
 interface WorkoutPreferences {
@@ -122,7 +122,7 @@ export const AIWorkoutGenerator = ({ onGeneratedProgram, onBack }: AIWorkoutGene
   if (!isPremium) {
     return (
       <div className="max-w-2xl mx-auto p-4">
-        <PremiumPaywall 
+        <PremiumUpgrade 
           feature="AI Workout Generator"
           children={
             <div className="text-center space-y-4 opacity-50">

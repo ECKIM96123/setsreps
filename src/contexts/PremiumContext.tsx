@@ -7,6 +7,7 @@ interface PremiumContextType {
   initializeRevenueCat: () => Promise<void>;
   purchasePremium: () => Promise<void>;
   restorePurchases: () => Promise<void>;
+  showPaywall: () => Promise<void>; // RevenueCat's native paywall
   upgradeToPremium: () => void; // Keep for backward compatibility
   error: string | null;
 }
@@ -109,6 +110,43 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
     }
   };
 
+  const showPaywall = async () => {
+    try {
+      setError(null);
+      
+      if (!Capacitor.isNativePlatform()) {
+        setError('Premium subscriptions require the mobile app. Download from App Store.');
+        return;
+      }
+
+      const { Purchases } = await import('@revenuecat/purchases-capacitor');
+      
+      // Get current offering
+      const offerings = await Purchases.getOfferings();
+      const currentOffering = offerings.current;
+      
+      if (!currentOffering || currentOffering.availablePackages.length === 0) {
+        throw new Error('No subscription offerings available. Please try again later.');
+      }
+
+      // For now, use the first available package (you can modify this logic)
+      // RevenueCat Capacitor doesn't have native paywall UI yet, so we trigger purchase directly
+      const packageToPurchase = currentOffering.availablePackages[0];
+      
+      console.log('Showing offering with packages:', currentOffering.availablePackages.map(p => p.identifier));
+      
+      // This will trigger the native purchase flow
+      const purchaseResult = await Purchases.purchasePackage({ aPackage: packageToPurchase });
+      setIsPremium(checkPremiumStatus(purchaseResult.customerInfo));
+      
+    } catch (err) {
+      console.error('Paywall error:', err);
+      if (err instanceof Error && !err.message.includes('user cancelled')) {
+        setError(err.message);
+      }
+    }
+  };
+
   const restorePurchases = async () => {
     try {
       setIsLoading(true);
@@ -129,9 +167,9 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
     }
   };
 
-  // Backward compatibility method - now properly calls purchasePremium
+  // Backward compatibility method - now calls showPaywall for native RevenueCat experience
   const upgradeToPremium = () => {
-    purchasePremium();
+    showPaywall();
   };
 
   useEffect(() => {
@@ -145,6 +183,7 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       initializeRevenueCat, 
       purchasePremium, 
       restorePurchases,
+      showPaywall,
       upgradeToPremium,
       error 
     }}>

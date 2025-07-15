@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import { CompletedWorkout } from "@/hooks/useWorkoutStorage";
 import { usePremium } from "@/contexts/PremiumContext";
-import { PremiumPaywall } from "./PremiumPaywall";
+import { PremiumUpgrade } from "./PremiumUpgrade";
 import { usePersonalRecords } from "@/hooks/usePersonalRecords";
 import { useTranslation } from 'react-i18next';
 
@@ -683,10 +683,10 @@ export const WorkoutStats = ({ workouts, onBack }: WorkoutStatsProps) => {
             </div>
           </Card>
 
-          {/* Premium Paywalls */}
-          <PremiumPaywall feature="Avancerad analys" />
-          <PremiumPaywall feature="Utvecklingsspårning" />
-          <PremiumPaywall feature="Träningsinsikter" />
+          {/* Premium Upgrades */}
+          <PremiumUpgrade feature="Avancerad analys" />
+          <PremiumUpgrade feature="Utvecklingsspårning" />
+          <PremiumUpgrade feature="Träningsinsikter" />
         </>
       )}
     </div>
