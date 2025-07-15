@@ -81,7 +81,9 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       
       // Get available offerings
       const offerings = await Purchases.getOfferings();
-      const currentOffering = offerings.current;
+      // Try to get specific offering first, fallback to current
+      const specificOffering = offerings.all['ofrng47f13c884d'];
+      const currentOffering = specificOffering || offerings.current;
       
       if (!currentOffering || currentOffering.availablePackages.length === 0) {
         throw new Error('No subscription packages available. Please try again later.');
@@ -121,9 +123,11 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
 
       const { Purchases } = await import('@revenuecat/purchases-capacitor');
       
-      // Get current offering
+      // Get specific offering
       const offerings = await Purchases.getOfferings();
-      const currentOffering = offerings.current;
+      // Try to get specific offering first, fallback to current
+      const specificOffering = offerings.all['ofrng47f13c884d'];
+      const currentOffering = specificOffering || offerings.current;
       
       if (!currentOffering || currentOffering.availablePackages.length === 0) {
         throw new Error('No subscription offerings available. Please try again later.');
