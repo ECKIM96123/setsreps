@@ -248,5 +248,18 @@
     "repsRequiredDesc": "Please enter a valid number of reps (greater than 0)",
     "weightRequired": "Weight Required", 
     "weightRequiredDesc": "Please enter a valid weight (greater than 0)"
+  },
+  "premium": {
+    "unlock": "Unlock",
+    "premiumFeatures": "Premium Features",
+    "upgradeDescription": "Upgrade to premium to access this feature and unlock your full potential.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "bestValue": "Best Value",
+    "upgradeToPremium": "Upgrade to Premium",
+    "autoRenewal": "Subscription renews automatically every month until you cancel.",
+    "cancelAnytime": "You can cancel anytime via App Store settings.",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
   }
 }

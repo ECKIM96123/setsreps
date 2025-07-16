@@ -249,5 +249,18 @@
     "repsRequiredDesc": "Vänligen ange ett giltigt antal reps (större än 0)",
     "weightRequired": "Vikt krävs",
     "weightRequiredDesc": "Vänligen ange en giltig vikt (större än 0)"
+  },
+  "premium": {
+    "unlock": "Lås upp",
+    "premiumFeatures": "Premiumfunktioner",
+    "upgradeDescription": "Uppgradera till premium för att få tillgång till denna funktion och låsa upp din fulla potential.",
+    "monthly": "Månatlig",
+    "yearly": "Årlig",
+    "bestValue": "Bästa värdet",
+    "upgradeToPremium": "Uppgradera till Premium",
+    "autoRenewal": "Prenumerationen förnyas automatiskt varje månad tills du säger upp den.",
+    "cancelAnytime": "Du kan säga upp när som helst via inställningarna i App Store.",
+    "termsOfService": "Användarvillkor",
+    "privacyPolicy": "Integritetspolicy"
   }
 }
