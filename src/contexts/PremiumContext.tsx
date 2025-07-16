@@ -40,7 +40,7 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
         // RevenueCat API keys
         const apiKey = Capacitor.getPlatform() === 'ios' 
           ? 'appl_XbhizZctlfQheNRNAPCqzttrveY' 
-          : 'your_android_api_key_here';
+          : 'goog_XbhizZctlfQheNRNAPCqzttrveY'; // Using the same key for both platforms for now
         
         console.log('RevenueCat: Configuring with API key for platform:', Capacitor.getPlatform());
         await Purchases.configure({ apiKey });
