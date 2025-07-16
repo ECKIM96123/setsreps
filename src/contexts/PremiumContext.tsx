@@ -149,7 +149,9 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
 
       const { Purchases } = await import('@revenuecat/purchases-capacitor');
       
-      // Get all offerings
+      console.log('RevenueCat: Attempting to show paywall...');
+      
+      // Get offerings first to ensure they're available
       const offerings = await Purchases.getOfferings();
       console.log('Available offerings:', Object.keys(offerings.all));
       console.log('Current offering:', offerings.current?.identifier);
@@ -177,14 +179,15 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
         throw new Error('No subscription offerings available. Please check your RevenueCat configuration.');
       }
 
-      // Use the first available package
+      // Use the first available package - this will trigger the native iOS/Android purchase UI
       const packageToPurchase = targetOffering.availablePackages[0];
       console.log('Using package:', packageToPurchase.identifier);
       console.log('Package details:', packageToPurchase);
       
-      // This will trigger the native purchase flow
+      // This will trigger the native purchase flow (Apple's subscription UI)
       const purchaseResult = await Purchases.purchasePackage({ aPackage: packageToPurchase });
       setIsPremium(checkPremiumStatus(purchaseResult.customerInfo));
+      console.log('Purchase completed successfully');
       
     } catch (err) {
       console.error('Paywall error:', err);
