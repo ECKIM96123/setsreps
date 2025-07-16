@@ -2,7 +2,6 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import './lib/i18n'
-import { PremiumProvider } from './contexts/PremiumContext'
 import { ThemeProvider } from "next-themes"
 
 // Register service worker for offline functionality
@@ -18,8 +17,6 @@ if ('serviceWorker' in navigator) {
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-    <PremiumProvider>
-      <App />
-    </PremiumProvider>
+    <App />
   </ThemeProvider>
 );
