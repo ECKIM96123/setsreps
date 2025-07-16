@@ -97,7 +97,7 @@ export const PremiumProvider = ({ children }: PremiumProviderProps) => {
       
       // Look for the specific offering ID: ofrng47f13c884d
       let currentOffering = null;
-      const targetOfferingId = 'ofrng47f13c884d';
+      const targetOfferingId = 'ofrngbcb8809957';
       
       console.log('All available offerings:', Object.keys(offerings.all));
       
