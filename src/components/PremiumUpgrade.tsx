@@ -9,7 +9,7 @@ interface PremiumUpgradeProps {
 }
 
 export const PremiumUpgrade = ({ feature, children }: PremiumUpgradeProps) => {
-  const { upgradeToPremium, error } = usePremium();
+  const { showPaywall, error } = usePremium();
 
   return (
     <Card className="p-6 text-center border-2 border-dashed border-muted relative overflow-hidden">
@@ -29,7 +29,7 @@ export const PremiumUpgrade = ({ feature, children }: PremiumUpgradeProps) => {
         )}
         
         <Button 
-          onClick={upgradeToPremium} 
+          onClick={showPaywall} 
           className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 mb-4"
         >
           <Sparkles className="w-4 h-4 mr-2" />
