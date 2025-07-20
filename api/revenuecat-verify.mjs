@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -11,8 +11,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing receipt" });
   }
 
-  // Byt ut mot din RevenueCat REST API key (Secret key, börja med 'sk_...')
-  Hconst REVENUECAT_API_KEY = process.env.REVENUECAT_API_KEY;
+  const REVENUECAT_API_KEY = process.env.REVENUECAT_API_KEY;
 
   const response = await fetch("https://api.revenuecat.com/v1/receipts", {
     method: "POST",
