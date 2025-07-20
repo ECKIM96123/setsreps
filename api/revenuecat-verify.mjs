@@ -21,8 +21,7 @@ export default async function handler(req, res) {
     },
     body: JSON.stringify({
       app_user_id: userId || undefined,
-      fetch_token: receipt,
-      platform: "ios"
+      fetch_token: receipt
     })
   });
 
